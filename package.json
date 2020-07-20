@@ -25,7 +25,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.4"
+    "@actions/core": "^1.2.4",
+    "repolinter": "github:prototypicalpro/repolinter#master"
   },
   "devDependencies": {
     "@types/jest": "^26.0.5",
