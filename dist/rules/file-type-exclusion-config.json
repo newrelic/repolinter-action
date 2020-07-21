@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/prototypicalpro/repolinter/master/rules/file-type-exclusion-config.json",
+    "type": "object",
+    "properties": {
+        "type": { "const": "file-type-exclusion" },
+        "options": {
+            "type": "object",
+            "properties": {
+                "type": { 
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "required": ["type"]
+        }
+    },
+    "required": ["type", "options"],
+    "additionalProperties": false
+}
