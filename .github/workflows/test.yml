@@ -1,0 +1,17 @@
+name: toolkit-unit-tests
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  repolint:
+    name: repolint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Do the thing
+        run: ls -lah
+      - name: Linter
+        uses: ./
+      
