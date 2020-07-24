@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {lint} from 'repolinter'
+import {lint, resultFormatter} from 'repolinter'
 import getConfig from './getConfig'
 
 const INPUT_CONFIG_URL = 'config-url'
@@ -20,6 +20,8 @@ async function run(): Promise<void> {
   try {
     const result = await lint('.', undefined, true, config)
     core.debug(JSON.stringify(result))
+    // print the formatted result
+    core.info(resultFormatter.formatOutput(result, true))
   } catch (error) {
     core.setFailed(error.message)
   }
