@@ -1,11 +1,13 @@
 name: 'Repolinter Action'
-description: 'Provide a description here'
+description: 'Runs Repolinter against a repository, then uses the results to open an issue.'
 author: 'New Relic Opensource'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  config-file: # change this
+    required: false
+    description: 'The filename of the Repolinter configuration to use, relative to the repository this action is being run on. Mutually exclusive with configUrl.'
+  config-url:
+    required: false
+    description: 'The URL to pull the Repolinter configuration from. The URL must be publicly accessible. Mutually exclusive with configFile.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
