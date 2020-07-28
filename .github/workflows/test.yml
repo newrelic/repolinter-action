@@ -16,4 +16,5 @@ jobs:
         uses: ./
         with:
           config-url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json
+          token: ${{ secrets.PERSONAL_TOKEN }}
       
