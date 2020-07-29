@@ -27,6 +27,8 @@ async function run(): Promise<void> {
     core.startGroup('Repolinter Output')
     core.info(resultFormatter.formatOutput(result, true))
     core.endGroup()
+    if (result.errored)
+      throw new Error(`Repolinter failed with error: ${result.errMsg}`)
     // if the result is not a pass or an error, open an issue
     // TODO: what to do if the run errors
     // TODO: automatically create the repolinter label
