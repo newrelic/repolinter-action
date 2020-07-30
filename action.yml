@@ -16,6 +16,10 @@ inputs:
     required: false
     description: 'Repository name with owner. For example, actions/checkout'
     default: ${{ github.repository }}
+  output-type:
+    required: false
+    description: 'Where to push the results from the Repolinter output. Can be "off" (console only) or "issue" (create a github issue).'
+    default: 'off'
 runs:
   using: 'node12'
   main: 'dist/index.js'
