@@ -1,0 +1,49 @@
+{
+  "name": "repolinter-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GitHub action to automatically enforce open source policies using Repolinter",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts __tests__/**/*.ts --fix",
+    "package": "rm -rf dist && ncc build --source-map -m",
+    "test": "jest",
+    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actions/typescript-action.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "Noah Koontz (nkoontz@newrelic.com)",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^4.0.0",
+    "@types/node-fetch": "^2.5.7",
+    "node-fetch": "^2.6.0",
+    "repolinter": "github:prototypicalpro/repolinter#master"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.7",
+    "@types/node": "^14.0.27",
+    "@typescript-eslint/parser": "^3.7.1",
+    "@zeit/ncc": "^0.22.3",
+    "eslint": "^7.5.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^23.20.0",
+    "jest": "^26.2.1",
+    "jest-circus": "^26.2.1",
+    "js-yaml": "^3.14.0",
+    "prettier": "2.0.5",
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
+  }
+}
