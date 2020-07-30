@@ -2,12 +2,24 @@ name: 'Repolinter Action'
 description: 'Runs Repolinter against a repository, then uses the results to open an issue.'
 author: 'New Relic Opensource'
 inputs:
-  config-file: # change this
+  config-file:
     required: false
     description: 'The filename of the Repolinter configuration to use, relative to the repository this action is being run on. Mutually exclusive with configUrl.'
   config-url:
     required: false
     description: 'The URL to pull the Repolinter configuration from. The URL must be publicly accessible. Mutually exclusive with configFile.'
+  token:
+    required: false
+    description: 'GitHub token to use when creating an issue on the current repository'
+    default: ${{ github.token }}
+  repository:
+    required: false
+    description: 'Repository name with owner. For example, actions/checkout'
+    default: ${{ github.repository }}
+  output-type:
+    required: false
+    description: 'Where to push the results from the Repolinter output. Can be "off" (console only) or "issue" (create a github issue).'
+    default: 'off'
 runs:
   using: 'node12'
   main: 'dist/index.js'
