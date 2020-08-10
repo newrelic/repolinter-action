@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import Octokit from './getOctokit'
 import {Inputs} from './inputs'
 import {lint, resultFormatter, markdownFormatter} from 'repolinter'
 import getConfig from './getConfig'
@@ -8,9 +8,11 @@ function getInputs(): {[key: string]: string} {
   return {
     CONFIG_URL: core.getInput(Inputs.CONFIG_URL),
     CONFIG_FILE: core.getInput(Inputs.CONFIG_FILE),
-    TOKEN: core.getInput(Inputs.TOKEN, {required: true}),
     REPO: core.getInput(Inputs.REPO, {required: true}),
-    OUTPUT_TYPE: core.getInput(Inputs.OUTPUT_TYPE, {required: true})
+    OUTPUT_TYPE: core.getInput(Inputs.OUTPUT_TYPE, {required: true}),
+    OUTPUT_NAME: core.getInput(Inputs.OUTPUT_NAME, {required: true}),
+    LABEL_NAME: core.getInput(Inputs.LABEL_NAME, {required: true}),
+    LABEL_COLOR: core.getInput(Inputs.LABEL_COLOR, {required: true})
   }
 }
 
@@ -18,10 +20,23 @@ async function run(): Promise<void> {
   // load the configuration from file or url, depending on which one is configured
   try {
     // get all inputs
-    const {CONFIG_FILE, CONFIG_URL, TOKEN, REPO, OUTPUT_TYPE} = getInputs()
+    const {
+      CONFIG_FILE,
+      CONFIG_URL,
+      REPO,
+      OUTPUT_TYPE,
+      LABEL_NAME,
+      LABEL_COLOR
+    } = getInputs()
     // verify the output type is correct
     if (OUTPUT_TYPE !== 'off' && OUTPUT_TYPE !== 'issue')
       return core.setFailed(`Invalid output paramter value ${OUTPUT_TYPE}`)
+    // verify the label name is a string
+    if (!LABEL_NAME)
+      return core.setFailed(`Invalid label name value ${LABEL_NAME}`)
+    // verify the label color is a color
+    if (!/[0-9a-fA-F]{6}/.test(LABEL_COLOR))
+      return core.setFailed(`Invalid label color ${LABEL_COLOR}`)
     // get the config
     const config = await getConfig({
       configFile: CONFIG_FILE,
@@ -40,7 +55,7 @@ async function run(): Promise<void> {
     // TODO: what to do if the run errors
     // TODO: automatically create the repolinter label
     if (!result.passed && OUTPUT_TYPE === 'issue') {
-      const octokit = github.getOctokit(TOKEN)
+      const octokit = new Octokit()
       const [owner, repo] = REPO.split('/')
 
       await octokit.issues.create({

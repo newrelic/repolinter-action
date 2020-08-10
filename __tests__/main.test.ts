@@ -34,24 +34,26 @@ describe('main', () => {
   beforeEach(() => {
     process.env[getInputName(Inputs.REPO)] = 'newrelic/repolinter-action'
     process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'off'
+    process.env[getInputName(Inputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
+    process.env[getInputName(Inputs.LABEL_NAME)] = 'repolinter'
+    process.env[getInputName(Inputs.LABEL_COLOR)] = 'fbca04'
+    process.env['GITHUB_ACTION'] = 'true'
     delete process.env[getInputName(Inputs.CONFIG_FILE)]
     delete process.env[getInputName(Inputs.CONFIG_URL)]
+    delete process.env['GITHUB_TOKEN']
+    delete process.env['INPUT_GITHUB_TOKEN']
   })
 
-  test('throws when no token is supplied', async () => {
-    delete process.env[getInputName(Inputs.TOKEN)]
-
-    const {out, code} = await runAction(process.env)
+  test('throws when no token is supplied and output-type is not off', async () => {
+    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+    const {code} = await runAction(process.env)
 
     // console.debug(out)
     expect(code).not.toEqual(0)
-    expect(out).toContain(
-      `::error::Input required and not supplied: ${Inputs.TOKEN}`
-    )
   })
 
   test('throws when an invalid token is supplied and output-type is not off', async () => {
-    process.env[getInputName(Inputs.TOKEN)] = '2'
+    process.env['GITHUB_TOKEN'] = '2'
     process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
 
     const {out, code} = await runAction(process.env)
@@ -81,6 +83,17 @@ describe('main', () => {
     expect(out).toContain('string-cheese')
   })
 
+  test('throws when no output-name is supplied', async () => {
+    delete process.env[getInputName(Inputs.OUTPUT_NAME)]
+
+    const {out, code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    expect(out).toContain(
+      `::error::Input required and not supplied: ${Inputs.OUTPUT_NAME}`
+    )
+  })
+
   test('throws when no repository is supplied', async () => {
     delete process.env[getInputName(Inputs.REPO)]
 
@@ -103,13 +116,58 @@ describe('main', () => {
     // console.debug(out)
   })
 
-  test('throws when an invalid config-file is specified', async () => {
-    process.env[getInputName(Inputs.CONFIG_FILE)] = 'notafile'
+  test('throws when no label name is specified', async () => {
+    delete process.env[getInputName(Inputs.LABEL_NAME)]
 
     const {out, code} = await runAction(process.env)
 
     expect(code).not.toEqual(0)
-    expect(out).toContain('notafile')
+    expect(out).toContain(
+      `::error::Input required and not supplied: ${Inputs.LABEL_NAME}`
+    )
+    // console.debug(out)
+  })
+
+  test('throws when an invalid label name is specified', async () => {
+    process.env[getInputName(Inputs.LABEL_NAME)] = ''
+
+    const {code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    // console.debug(out)
+  })
+
+  test('throws when no label color is specified', async () => {
+    delete process.env[getInputName(Inputs.LABEL_COLOR)]
+
+    const {out, code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    expect(out).toContain(
+      `::error::Input required and not supplied: ${Inputs.LABEL_COLOR}`
+    )
+    // console.debug(out)
+  })
+
+  test('throws when an invalid label color is specified', async () => {
+    process.env[getInputName(Inputs.LABEL_COLOR)] = 'notacolor'
+
+    const {out, code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    expect(out).toContain('notacolor')
+    // console.debug(out)
+  })
+
+  test('throws when no repository is supplied', async () => {
+    delete process.env[getInputName(Inputs.REPO)]
+
+    const {out, code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    expect(out).toContain(
+      `::error::Input required and not supplied: ${Inputs.REPO}`
+    )
     // console.debug(out)
   })
 
