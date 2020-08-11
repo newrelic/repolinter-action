@@ -16,6 +16,7 @@ jobs:
       - run: npm run package
       - run: npm run test
   coverage:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: codecov/codecov-action@v1
