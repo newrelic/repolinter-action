@@ -1,4 +1,5 @@
 export const enum Inputs {
+  TOKEN = 'token',
   CONFIG_URL = 'config-url',
   CONFIG_FILE = 'config-file',
   REPO = 'repository',

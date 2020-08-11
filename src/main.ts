@@ -7,6 +7,7 @@ import createOrUpdateIssue from './createorUpdateIssue'
 
 function getInputs(): {[key: string]: string} {
   return {
+    TOKEN: core.getInput(Inputs.TOKEN),
     CONFIG_URL: core.getInput(Inputs.CONFIG_URL),
     CONFIG_FILE: core.getInput(Inputs.CONFIG_FILE),
     REPO: core.getInput(Inputs.REPO, {required: true}),
@@ -22,6 +23,7 @@ async function run(): Promise<void> {
   try {
     // get all inputs
     const {
+      TOKEN,
       CONFIG_FILE,
       CONFIG_URL,
       REPO,
@@ -39,6 +41,11 @@ async function run(): Promise<void> {
     // verify the label color is a color
     if (!/[0-9a-fA-F]{6}/.test(LABEL_COLOR))
       return core.setFailed(`Invalid label color ${LABEL_COLOR}`)
+    // override GITHUB_TOKEN and INPUT_GITHUB_TOKEN if TOKEN is present
+    if (TOKEN) {
+      delete process.env['INPUT_GITHUB_TOKEN']
+      process.env['GITHUB_TOKEN'] = TOKEN
+    }
     // get the config
     const config = await getConfig({
       configFile: CONFIG_FILE,
@@ -60,7 +67,8 @@ async function run(): Promise<void> {
       const octokit = new Octokit()
       const [owner, repo] = REPO.split('/')
       const issueContent = markdownFormatter.formatOutput(result, true)
-
+      // create an issue!
+      core.startGroup('Creating/Updating Issue')
       await createOrUpdateIssue(octokit, {
         owner,
         repo,
@@ -70,6 +78,7 @@ async function run(): Promise<void> {
         labelColor: LABEL_COLOR,
         shouldClose: result.passed === true
       })
+      core.endGroup()
     }
   } catch (error) {
     core.setFailed(error.message)

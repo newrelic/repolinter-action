@@ -2,6 +2,9 @@ name: 'Repolinter Action'
 description: 'Runs Repolinter against a repository, then uses the results to open an issue.'
 author: 'New Relic Opensource'
 inputs:
+  token:
+    required: false
+    description: 'Override the token used by GITHUB_TOKEN for octokit.'
   config-file:
     required: false
     description: 'The filename of the Repolinter configuration to use, relative to the repository this action is being run on. Mutually exclusive with configUrl.'

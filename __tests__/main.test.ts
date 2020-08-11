@@ -42,6 +42,7 @@ describe('main', () => {
     delete process.env[getInputName(Inputs.CONFIG_URL)]
     delete process.env['GITHUB_TOKEN']
     delete process.env['INPUT_GITHUB_TOKEN']
+    delete process.env[getInputName(Inputs.TOKEN)]
   })
 
   test('throws when no token is supplied and output-type is not off', async () => {
@@ -54,6 +55,17 @@ describe('main', () => {
 
   test('throws when an invalid token is supplied and output-type is not off', async () => {
     process.env['GITHUB_TOKEN'] = '2'
+    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+
+    const {out, code} = await runAction(process.env)
+
+    expect(code).not.toEqual(0)
+    expect(out).toContain('Bad credentials')
+    // console.debug(out)
+  })
+
+  test('throws when an invalid is supplied in TOKEN and output-type is not off', async () => {
+    process.env[getInputName(Inputs.TOKEN)] = '2'
     process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
 
     const {out, code} = await runAction(process.env)
