@@ -28,8 +28,10 @@
     "@actions/core": "^1.2.4",
     "@octokit/action": "^3.0.5",
     "@octokit/plugin-retry": "^3.0.3",
+    "@octokit/rest": "^18.0.3",
     "@octokit/types": "^5.4.0",
     "@types/node-fetch": "^2.5.7",
+    "nock": "^13.0.3",
     "node-fetch": "^2.6.0",
     "repolinter": "github:prototypicalpro/repolinter#master"
   },

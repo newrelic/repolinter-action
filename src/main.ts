@@ -3,6 +3,7 @@ import Octokit from './getOctokit'
 import {Inputs} from './inputs'
 import {lint, resultFormatter, markdownFormatter} from 'repolinter'
 import getConfig from './getConfig'
+import createOrUpdateIssue from './createorUpdateIssue'
 
 function getInputs(): {[key: string]: string} {
   return {
@@ -25,6 +26,7 @@ async function run(): Promise<void> {
       CONFIG_URL,
       REPO,
       OUTPUT_TYPE,
+      OUTPUT_NAME,
       LABEL_NAME,
       LABEL_COLOR
     } = getInputs()
@@ -54,16 +56,19 @@ async function run(): Promise<void> {
     // if the result is not a pass or an error, open an issue
     // TODO: what to do if the run errors
     // TODO: automatically create the repolinter label
-    if (!result.passed && OUTPUT_TYPE === 'issue') {
+    if (OUTPUT_TYPE === 'issue') {
       const octokit = new Octokit()
       const [owner, repo] = REPO.split('/')
+      const issueContent = markdownFormatter.formatOutput(result, true)
 
-      await octokit.issues.create({
+      await createOrUpdateIssue(octokit, {
         owner,
         repo,
-        title: 'Open Source Policy Issues',
-        body: markdownFormatter.formatOutput(result, true),
-        labels: ['repolinter']
+        issueName: OUTPUT_NAME,
+        issueContent,
+        labelName: LABEL_NAME,
+        labelColor: LABEL_COLOR,
+        shouldClose: result.passed === true
       })
     }
   } catch (error) {

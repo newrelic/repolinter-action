@@ -7,7 +7,7 @@ import {
 } from '@octokit/types'
 import Octokit from './getOctokit'
 
-export interface CreateIssueOpts {
+export interface CreateOrUpdateIssueOpts {
   owner: string
   repo: string
   issueName: string
@@ -51,7 +51,7 @@ type Octo = InstanceType<typeof Octokit>
  */
 export default async function createOrUpdateIssue(
   client: Octo,
-  options: CreateIssueOpts
+  options: CreateOrUpdateIssueOpts
 ): Promise<number | null> {
   // error check
   if (options.forceCreateIssue && options.shouldClose)
@@ -61,7 +61,7 @@ export default async function createOrUpdateIssue(
   // attempt to find an issue created by Repolinter
   const issue = await findRepolinterIssue(
     client,
-    Object.assign(options, {selfUsername: context.data.name})
+    Object.assign({}, options, {selfUsername: context.data.login})
   )
   // if no issue exists and we should close the issue, exit and do nothing
   if (!issue && options.shouldClose) {
@@ -85,7 +85,7 @@ export default async function createOrUpdateIssue(
     // update the existing issue
     res = await updateRepolinterIssue(
       client,
-      Object.assign(options, {issueNumber: issue.number})
+      Object.assign({}, options, {issueNumber: issue.number})
     )
     core.info(
       options.shouldClose
@@ -96,7 +96,7 @@ export default async function createOrUpdateIssue(
   return res.number
 }
 
-interface FindRepolinterIssueOpts {
+export interface FindRepolinterIssueOpts {
   owner: string
   repo: string
   labelName: string
@@ -116,7 +116,7 @@ interface FindRepolinterIssueOpts {
  * Only issues created by this username will be enumerated.
  * @returns The issue data found, or null if no issue was found.
  */
-async function findRepolinterIssue(
+export async function findRepolinterIssue(
   client: Octo,
   options: FindRepolinterIssueOpts
 ): Promise<IssuesListForRepoResponseData[number] | null> {
@@ -143,7 +143,7 @@ async function findRepolinterIssue(
   return issues.data[0]
 }
 
-interface CreateRepolinterIssueOpts {
+export interface CreateRepolinterIssueOpts {
   owner: string
   repo: string
   issueName: string
@@ -157,7 +157,6 @@ interface CreateRepolinterIssueOpts {
  * Creates a label if one doesn't exists, then creates an issue
  * with that label and the specified content, assignee, and so on.
  *
- *
  * @param client The authenticated octokit client to use
  * @param options.owner The owner of the repository the the issue will be created on
  * @param options.repo The name of the repository that the issue will be created on
@@ -168,7 +167,7 @@ interface CreateRepolinterIssueOpts {
  * @param options.labelColor The color to use when creating the label. This value will be ignored
  * if the label already exists.
  */
-async function createRepolinterIssue(
+export async function createRepolinterIssue(
   client: Octo,
   options: CreateRepolinterIssueOpts
 ): Promise<IssuesCreateResponseData> {
@@ -188,7 +187,7 @@ async function createRepolinterIssue(
         name: options.labelName,
         color: options.labelColor
       })
-    }
+    } else throw err
   }
   core.debug(`Creating issue "${options.issueName}"...`)
   // create the issue
@@ -198,13 +197,14 @@ async function createRepolinterIssue(
     title: options.issueName,
     body: options.issueContent,
     labels: [options.labelName],
-    assignee: options.issueAssignee
+    assignees:
+      options.issueAssignee !== undefined ? [options.issueAssignee] : undefined
   })
   core.debug(`Successfully created issue #${issue.data.number}`)
   return issue.data
 }
 
-interface UpdateReplolinterIssueOpts {
+export interface UpdateReplolinterIssueOpts {
   repo: string
   owner: string
   issueNumber: number
@@ -220,11 +220,12 @@ interface UpdateReplolinterIssueOpts {
  * @param options.owner The owner of the repository to update the issue on
  * @param options.repo The name of the repository to update the issue on
  * @param options.issueNumber The issue number to update (ex. #2, different from the ID)
- * @param options.issueContent The body to update the issue with, formatted as markdown
+ * @param options.issueContent The body to update the issue with, formatted as markdown. This will be ignored if the issue is being closed.
  * @param options.shouldClose Set this to true to close the issue, otherwise the issue
  * state will remain unchanged.
+ * @returns The data returned by the REST API.
  */
-async function updateRepolinterIssue(
+export async function updateRepolinterIssue(
   client: Octo,
   options: UpdateReplolinterIssueOpts
 ): Promise<IssuesUpdateResponseData> {
@@ -234,7 +235,7 @@ async function updateRepolinterIssue(
     owner: options.owner,
     repo: options.repo,
     issue_number: options.issueNumber,
-    body: options.issueContent,
+    body: options.shouldClose ? undefined : options.issueContent,
     state: options.shouldClose ? 'closed' : undefined
   })
   return res.data
