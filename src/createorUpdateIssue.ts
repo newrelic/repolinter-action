@@ -229,6 +229,9 @@ export async function updateRepolinterIssue(
   client: Octo,
   options: UpdateReplolinterIssueOpts
 ): Promise<IssuesUpdateResponseData> {
+  core.debug(`Updating issue ${options.issueNumber}`)
+  if (options.shouldClose) core.debug(`Closing it!`)
+  else core.debug(`Updating it with content "${options.issueContent}"`)
   // replace the issue body with the new one
   // we may choose to add a comment later but we can just update the body for now
   const res = await client.issues.update({
