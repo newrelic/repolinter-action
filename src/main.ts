@@ -1,7 +1,12 @@
 import * as core from '@actions/core'
 import Octokit from './getOctokit'
-import {Inputs} from './inputs'
-import {lint, resultFormatter, markdownFormatter} from 'repolinter'
+import {Inputs, Outputs} from './inputs'
+import {
+  lint,
+  resultFormatter,
+  markdownFormatter,
+  jsonFormatter
+} from 'repolinter'
 import getConfig from './getConfig'
 import createOrUpdateIssue from './createorUpdateIssue'
 
@@ -18,7 +23,7 @@ function getInputs(): {[key: string]: string} {
   }
 }
 
-async function run(): Promise<void> {
+export default async function run(disableRetry?: boolean): Promise<void> {
   // load the configuration from file or url, depending on which one is configured
   try {
     // get all inputs
@@ -33,14 +38,13 @@ async function run(): Promise<void> {
       LABEL_COLOR
     } = getInputs()
     // verify the output type is correct
-    if (OUTPUT_TYPE !== 'off' && OUTPUT_TYPE !== 'issue')
-      return core.setFailed(`Invalid output paramter value ${OUTPUT_TYPE}`)
+    if (OUTPUT_TYPE !== 'exit-code' && OUTPUT_TYPE !== 'issue')
+      throw new Error(`Invalid output paramter value ${OUTPUT_TYPE}`)
     // verify the label name is a string
-    if (!LABEL_NAME)
-      return core.setFailed(`Invalid label name value ${LABEL_NAME}`)
+    if (!LABEL_NAME) throw new Error(`Invalid label name value ${LABEL_NAME}`)
     // verify the label color is a color
     if (!/[0-9a-fA-F]{6}/.test(LABEL_COLOR))
-      return core.setFailed(`Invalid label color ${LABEL_COLOR}`)
+      throw new Error(`Invalid label color ${LABEL_COLOR}`)
     // override GITHUB_TOKEN and INPUT_GITHUB_TOKEN if TOKEN is present
     if (TOKEN) {
       delete process.env['INPUT_GITHUB_TOKEN']
@@ -58,13 +62,18 @@ async function run(): Promise<void> {
     core.startGroup('Repolinter Output')
     core.info(resultFormatter.formatOutput(result, true))
     core.endGroup()
+    // if repolinter errored, set failed
     if (result.errored)
-      throw new Error(`Repolinter failed with error: ${result.errMsg}`)
-    // if the result is not a pass or an error, open an issue
-    // TODO: what to do if the run errors
-    // TODO: automatically create the repolinter label
-    if (OUTPUT_TYPE === 'issue') {
-      const octokit = new Octokit()
+      core.setFailed(`Repolinter failed with error: ${result.errMsg}`)
+    else if (OUTPUT_TYPE === 'exit-code') {
+      // else output the exit code
+      if (!result.passed) core.setFailed('Repolinter ruleset did not pass.')
+      else process.exitCode = 0
+    } else if (OUTPUT_TYPE === 'issue') {
+      // else output an issue, and don't set the exit code
+      const octokit = new Octokit({
+        request: disableRetry ? {retries: 0} : undefined
+      })
       const [owner, repo] = REPO.split('/')
       const issueContent = markdownFormatter.formatOutput(result, true)
       // create an issue!
@@ -79,10 +88,20 @@ async function run(): Promise<void> {
         shouldClose: result.passed === true
       })
       core.endGroup()
+      process.exitCode = 0
     }
+    // set the outputs for this action
+    core.setOutput(Outputs.ERRORED, false)
+    core.setOutput(Outputs.PASSED, result.passed)
+    core.setOutput(
+      Outputs.JSON_OUTPUT,
+      jsonFormatter.formatOutput(result, true)
+    )
   } catch (error) {
+    core.error('A fatal error was thrown.')
+    // set the outputs for this action
+    core.setOutput(Outputs.ERRORED, true)
+    core.setOutput(Outputs.PASSED, false)
     core.setFailed(error.message)
   }
 }
-
-run()

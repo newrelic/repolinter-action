@@ -8,3 +8,9 @@ export const enum Inputs {
   LABEL_NAME = 'label-name',
   LABEL_COLOR = 'label-color'
 }
+
+export const enum Outputs {
+  PASSED = 'passed',
+  ERRORED = 'errored',
+  JSON_OUTPUT = 'json-output'
+}

@@ -17,8 +17,8 @@ inputs:
     default: ${{ github.repository }}
   output-type:
     required: false
-    description: 'Where to push the results from the Repolinter output. Can be "off" (console only) or "issue" (create a github issue).'
-    default: 'off'
+    description: 'Where to push the results from the Repolinter output. Can be "exit-code" (console only) or "issue" (create a github issue). If this option is set to anything other than "exit-code", repolinter-action will always exit 0.'
+    default: 'exit-code'
   output-name:
     required: false
     description: 'The name to use for the issue/PR being created by this action.'
@@ -31,6 +31,13 @@ inputs:
     required: false
     description: 'What color to use for the issue/PR label (default is yellow). Must be a hex string (ex "f29513").'
     default: 'fbca04'
+outputs:
+  passed:
+    description: 'A boolean indicating whether or not the Repolinter run passed or failed.'
+  errored:
+    description: 'A boolean indicating whether or not the Repolinter threw any errors.'
+  json-output:
+    description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
