@@ -2,6 +2,8 @@
 
 # Repolinter Action v1
 
+![Build/Test](https://github.com/newrelic/repolinter-action/workflows/Build/Test/badge.svg) [![codecov](https://codecov.io/gh/newrelic/repolinter-action/branch/main/graph/badge.svg?token=EWYZ7C6RSL)](https://codecov.io/gh/newrelic/repolinter-action)
+
 This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
 
 Currently this action uses the [prototypicalpro/repolinter](https://github.com/prototypicalpro/repolinter) fork, which includes a number of changes needed for issue creation support.
