@@ -14,9 +14,9 @@ Currently this action uses the [prototypicalpro/repolinter](https://github.com/p
     # A path to the JSON Repolinter ruleset to use, relative to the workflow
     # working directory (i.e. under `$GITHUB_WORKSPACE`).
     # 
-    # This option is mutually exclusive with config-url. If this option and 
-    # config-url are not specified, Repolinter's default ruleset will be used.
-    config-file: ''
+    # This option is mutually exclusive with config_url. If this option and 
+    # config_url are not specified, Repolinter's default ruleset will be used.
+    config_file: ''
 
     # A URL to pull the JSON Repolinter ruleset from. This URL must be accessible
     # by the actions runner and return raw JSON file on GET.
@@ -24,9 +24,9 @@ Currently this action uses the [prototypicalpro/repolinter](https://github.com/p
     # This option can be used to pull a ruleset from GitHub using the
     # raw.githubusercontent.com URL (ex. https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json).
     #
-    # This option is mutually exclusive with config-file. If this option and 
-    # config-file are not specified, Repolinter's default ruleset will be used.
-    config-url: ''
+    # This option is mutually exclusive with config_file. If this option and 
+    # config_file are not specified, Repolinter's default ruleset will be used.
+    config_url: ''
 
     # Where repolinter-action should put the linting results. There are two
     # options available:
@@ -39,38 +39,38 @@ Currently this action uses the [prototypicalpro/repolinter](https://github.com/p
     #   non-intrusive notification.
     # 
     # Default: "exit-code"
-    output-type: ''
+    output_type: ''
 
     # The title to use for the issue created by repolinter-action. This title 
     # should indicate the purpose of the issue, as well as that it was created by
     # a bot.
     #
-    # This option will be ignored if output-type != "issue".
+    # This option will be ignored if output_type != "issue".
     #
     # Default: "[Repolinter] Open Source Policy Issues"
-    output-name: ''
+    output_name: ''
 
     # The name to use for the issue label created by repolinter-action. This name
     # should be unique to repolinter-action (i.e. not used by any other issue) to
     # prevent repolinter-action from getting confused.
     #
-    # This option will be ignored if output-type != "issue".
+    # This option will be ignored if output_type != "issue".
     #
     # Default: "repolinter"
-    label-name: ''
+    label_name: ''
 
     # The color to use for the issue label created by repolinter-action. The value
     # for this option should be an unprefixed RRGGBB hex string (ex. ff568a).
     # The default value is a shade of yellow.
     #
-    # This option will be ignored if output-type != "issue".
+    # This option will be ignored if output_type != "issue".
     #
     # Default: "fbca04"
-    label-color: ''
+    label_color: ''
 
     # Personal access token (PAT) used to create an issue on this repository.
     # This token is optional and only required if this actions is configured to
-    # output an issue (see `output-type`). This token must have the `public_repo`
+    # output an issue (see `output_type`). This token must have the `public_repo`
     # scope for the current repository in order to work properly.
     #
     # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
@@ -94,7 +94,7 @@ Currently this action uses the [prototypicalpro/repolinter](https://github.com/p
 | ------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
 | `passed`      | boolean | A boolean indicating whether or not the ruleset passed, equivalent to `LintResult#passed`.                    |
 | `errored`     | boolean | A boolean indicating whether or or not any errors occurred when running repolinter-action                     |
-| `json-output` | string? | The JSON-ified repolinter output from `repolinter.jsonFormatter`. Will only be present if `errored` is false. |
+| `json_output` | string? | The JSON-ified repolinter output from `repolinter.jsonFormatter`. Will only be present if `errored` is false. |
 
 ## Usage
 
@@ -144,7 +144,7 @@ jobs:
       - name: 'Run Repolinter'
         uses: newrelic/repolinter-action@v1
         with:
-          config-url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
+          config_url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
 
 ```
 
@@ -170,18 +170,17 @@ jobs:
       - name: 'Run Repolinter'
         uses: newrelic/repolinter-action@v1
         with:
-          config-url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
-          output-type
-          output-type: issue
+          config_url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
+          output_type: issue
           # Optionally you can customize the issue and label repolinter-action will create
-          output-name: '[Bot] My Issue Title'
-          label-name: 'my-repolinter-label'
-          label-color: 'ffffff'
+          output_name: '[Bot] My Issue Title'
+          label_name: 'my-repolinter-label'
+          label_color: 'ffffff'
 ```
 
 ## Issue Creation Behavior
 
-If `output-type` is set to `issue`, repolinter-action will create a GitHub issue with the Repolinter output on the current repository. An example issue can be found here: https://github.com/aperture-science-incorporated/companion-cube/issues/44. 
+If `output_type` is set to `issue`, repolinter-action will create a GitHub issue with the Repolinter output on the current repository. An example issue can be found here: https://github.com/aperture-science-incorporated/companion-cube/issues/44. 
 
 To prevent unnecessary noise, repolinter-action will first attempt to edit an existing open issue before creating a new one. This check is performed every workflow run, and can be emulated using the following [GitHub search](https://docs.github.com/en/github/searching-for-information-on-github) query:
 ```

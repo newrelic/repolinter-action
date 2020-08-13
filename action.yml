@@ -7,19 +7,19 @@ inputs:
     description: >
       Personal access token (PAT) used to create an issue on this repository.
       This token is optional and only required if this actions is configured to
-      output an issue (see output-type). This token must have the `public_repo`
+      output an issue (see output_type). This token must have the `public_repo`
       scope for the current repository in order to work properly.
     
       [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
-  config-file:
+  config_file:
     required: false
     description: >
       A path to the JSON Repolinter ruleset to use, relative to the workflow
       working directory (i.e. under `$GITHUB_WORKSPACE`). 
       
-      This option is mutually exclusive with config-url. If this option and 
+      This option is mutually exclusive with config_url. If this option and 
       config-url are not specified, Repolinter's default ruleset will be used.
-  config-url:
+  config_url:
     required: false
     description: >
       A URL to pull the JSON Repolinter ruleset from. This URL must be accessible
@@ -28,7 +28,7 @@ inputs:
       This option can be used to pull a ruleset from GitHub using the
       raw.githubusercontent.com URL (ex. https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json).
 
-      This option is mutually exclusive with config-url. If this option and 
+      This option is mutually exclusive with config_url. If this option and 
       config-url are not specified, Repolinter's default ruleset will be used.
   repository:
     required: false
@@ -39,7 +39,7 @@ inputs:
 
       It is recommended that this option is left as the default value.
     default: ${{ github.repository }}
-  output-type:
+  output_type:
     required: false
     description: >
       Where repolinter-action should put the linting results. There are two
@@ -52,39 +52,39 @@ inputs:
         more details on issue outputting behavior. This output type is ideal for 
         non-intrusive notification.
     default: 'exit-code'
-  output-name:
+  output_name:
     required: false
     description: >
       The title to use for the issue created by repolinter-action. This title 
       should indicate the purpose of the issue, as well as that it was created by
       a bot.
 
-      This option will be ignored if output-type != "issue".
+      This option will be ignored if output_type != "issue".
     default: '[Repolinter] Open Source Policy Issues'
-  label-name:
+  label_name:
     required: false
     description: >
       The name to use for the issue label created by repolinter-action. This name
       should be unique to repolinter-action (i.e. not used by any other issue) to
       prevent repolinter-action from getting confused.
 
-      This option will be ignored if output-type != "issue".
+      This option will be ignored if output_type != "issue".
     default: 'repolinter'
-  label-color:
+  label_color:
     required: false
     description: >
       The color to use for the issue label created by repolinter-action. The value
       for this option should be an unprefixed RRGGBB hex string (ex. ff568a).
       The default value is a shade of yellow.
 
-      This option will be ignored if output-type != "issue".
+      This option will be ignored if output_type != "issue".
     default: 'fbca04'
 outputs:
   passed:
     description: 'A boolean indicating whether or not the Repolinter run passed or failed.'
   errored:
     description: 'A boolean indicating whether or not the action threw any errors.'
-  json-output:
+  json_output:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
   using: 'node12'
