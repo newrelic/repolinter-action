@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/newrelic/repolinter-action/compare/v1.0.1...v1.0.2) (2020-08-13)
+
+
+### Bug Fixes
+
+* add missing default value to token input ([af56e1f](https://github.com/newrelic/repolinter-action/commit/af56e1f54e63cb1d20f97af55d14277eef001693))
+
 ## [1.0.1](https://github.com/newrelic/repolinter-action/compare/v1.0.0...v1.0.1) (2020-08-13)
 
 
