@@ -1,0 +1,6 @@
+path_classifiers:
+  test:
+    - __tests__/*.test.ts
+  generated:
+    - dist/**
+    - lib/**
