@@ -265,7 +265,6 @@ describe('main', () => {
     await run()
     const outputs = getOutputs(spooledStdout)
 
-    // console.debug(out)
     expect(outputs[Outputs.ERRORED]).toEqual('false')
     expect(outputs[Outputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)

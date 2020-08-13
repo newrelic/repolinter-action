@@ -2,7 +2,6 @@ import * as cp from 'child_process'
 import * as path from 'path'
 import * as process from 'process'
 import {Inputs} from '../src/inputs'
-import * as core from '@actions/core'
 
 async function execAsync(
   command: string,
@@ -54,9 +53,8 @@ describe('integration', () => {
       'testconfig.json'
     )
 
-    const {out, code} = await runAction(baseEnv)
+    const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
 
-    core.debug(out)
     expect(code).not.toEqual(0)
     // TODO: outputs
     expect(out).toContain('testconfig.json')
@@ -70,7 +68,6 @@ describe('integration', () => {
 
     const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
 
-    core.debug(out)
     expect(code).not.toEqual(0)
     expect(out).toContain(
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
@@ -82,7 +79,6 @@ describe('integration', () => {
     const baseEnv = getBaseEnv()
     const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
 
-    core.debug(out)
     expect(code).not.toEqual(0)
     expect(out).toContain('default')
     expect(out).not.toContain('undefined')
@@ -97,7 +93,6 @@ describe('integration', () => {
 
     const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
 
-    core.debug(out)
     expect(code).toEqual(0)
     expect(out).toContain('passingtestconfig.json')
     expect(out).not.toContain('undefined')

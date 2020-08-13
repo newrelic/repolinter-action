@@ -24,7 +24,6 @@ function getInputs(): {[key: string]: string} {
 }
 
 export default async function run(disableRetry?: boolean): Promise<void> {
-  core.debug(JSON.stringify(process.env))
   // load the configuration from file or url, depending on which one is configured
   try {
     // get all inputs
