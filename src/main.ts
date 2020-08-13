@@ -80,6 +80,10 @@ export default async function run(disableRetry?: boolean): Promise<void> {
           error: core.error
         }
       })
+      octokit.hook.before('request', options =>
+        core.debug(`${options.method} ${options.url}`)
+      )
+
       const [owner, repo] = REPO.split('/')
       const issueContent = markdownFormatter.formatOutput(result, true)
       // create an issue!
