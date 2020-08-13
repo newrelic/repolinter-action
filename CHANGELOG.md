@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/newrelic/repolinter-action/compare/v1.0.5...v1.0.6) (2020-08-13)
+
+
+### Bug Fixes
+
+* add debug logging ([b146162](https://github.com/newrelic/repolinter-action/commit/b146162096d0a76ad5e6222e87875a67fd7a6cc2))
+
 ## [1.0.5](https://github.com/newrelic/repolinter-action/compare/v1.0.4...v1.0.5) (2020-08-13)
 
 
