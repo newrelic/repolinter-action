@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Thu Aug 13 2020 20:39:34 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Thu Aug 13 2020 20:47:29 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
@@ -97,6 +97,32 @@
     }
   },
   "devDependencies": {
+    "@semantic-release/changelog@5.0.1": {
+      "name": "@semantic-release/changelog",
+      "version": "5.0.1",
+      "range": "^5.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/changelog",
+      "versionedRepoUrl": "https://github.com/semantic-release/changelog/tree/v5.0.1",
+      "licenseFile": "node_modules/@semantic-release/changelog/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/changelog/blob/v5.0.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
+    "@semantic-release/git@9.0.0": {
+      "name": "@semantic-release/git",
+      "version": "9.0.0",
+      "range": "^9.0.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/git",
+      "versionedRepoUrl": "https://github.com/semantic-release/git/tree/v9.0.0",
+      "licenseFile": "node_modules/@semantic-release/git/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/git/blob/v9.0.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
     "@types/jest@26.0.9": {
       "name": "@types/jest",
       "version": "26.0.9",
@@ -226,6 +252,20 @@
       "licenseUrl": "https://github.com/prettier/prettier/blob/v2.0.5/LICENSE",
       "licenseTextSource": "file",
       "publisher": "James Long"
+    },
+    "semantic-release@17.1.1": {
+      "name": "semantic-release",
+      "version": "17.1.1",
+      "range": "^17.1.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/semantic-release",
+      "versionedRepoUrl": "https://github.com/semantic-release/semantic-release/tree/v17.1.1",
+      "licenseFile": "node_modules/semantic-release/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/semantic-release/blob/v17.1.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Stephan Bönnemann",
+      "email": "stephan@boennemann.me",
+      "url": "http://boennemann.me"
     },
     "ts-jest@26.2.0": {
       "name": "ts-jest",
