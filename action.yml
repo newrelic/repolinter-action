@@ -11,6 +11,7 @@ inputs:
       scope for the current repository in order to work properly.
     
       [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+    default: ${{ github.token }}
   config_file:
     required: false
     description: >
