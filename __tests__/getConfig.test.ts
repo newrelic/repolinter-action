@@ -1,7 +1,7 @@
 import getConfig from '../src/getConfig'
 import * as path from 'path'
 import * as fs from 'fs'
-import fetch from 'node-fetch'
+import nock from 'nock'
 
 describe('getConfig', () => {
   test('getConfig returns a config from a JSON file', async () => {
@@ -16,10 +16,17 @@ describe('getConfig', () => {
     // TODO: change this to point to the new relic repo when it goes public
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
-    const expected = await (await fetch(url)).json()
+    const filepath = path.resolve(__dirname, 'testconfig.json')
+    const expected = JSON.parse(await fs.promises.readFile(filepath, 'utf8'))
+    const scope = nock('https://raw.githubusercontent.com')
+      .get('/aperture-science-incorporated/.github/master/repolinter.json')
+      .replyWithFile(200, filepath)
+
     const res = await getConfig({configUrl: url})
 
     expect(res).toMatchObject(expected)
+
+    scope.done()
   })
 
   test('getConfig fails with an invalid file', async () => {
