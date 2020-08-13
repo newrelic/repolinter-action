@@ -4,38 +4,86 @@ author: 'New Relic Opensource'
 inputs:
   token:
     required: false
-    description: 'Override the token used by GITHUB_TOKEN for octokit.'
+    description: >
+      Personal access token (PAT) used to create an issue on this repository.
+      This token is optional and only required if this actions is configured to
+      output an issue (see output-type). This token must have the `public_repo`
+      scope for the current repository in order to work properly.
+    
+      [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
   config-file:
     required: false
-    description: 'The filename of the Repolinter configuration to use, relative to the repository this action is being run on. Mutually exclusive with configUrl.'
+    description: >
+      A path to the JSON Repolinter ruleset to use, relative to the workflow
+      working directory (i.e. under `$GITHUB_WORKSPACE`). 
+      
+      This option is mutually exclusive with config-url. If this option and 
+      config-url are not specified, Repolinter's default ruleset will be used.
   config-url:
     required: false
-    description: 'The URL to pull the Repolinter configuration from. The URL must be publicly accessible. Mutually exclusive with configFile.'
+    description: >
+      A URL to pull the JSON Repolinter ruleset from. This URL must be accessible
+      by the actions runner and return raw JSON file on GET.
+
+      This option can be used to pull a ruleset from GitHub using the
+      raw.githubusercontent.com URL (ex. https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json).
+
+      This option is mutually exclusive with config-url. If this option and 
+      config-url are not specified, Repolinter's default ruleset will be used.
   repository:
     required: false
-    description: 'Repository name with owner. For example, actions/checkout'
+    description: >
+      The repository name and owner, formatted like so: `owner/repository`.
+      This input determines which repository repolinter-action will create
+      an issue on, if that functionality is enabled.
+
+      It is recommended that this option is left as the default value.
     default: ${{ github.repository }}
   output-type:
     required: false
-    description: 'Where to push the results from the Repolinter output. Can be "exit-code" (console only) or "issue" (create a github issue). If this option is set to anything other than "exit-code", repolinter-action will always exit 0.'
+    description: >
+      Where repolinter-action should put the linting results. There are two
+      options available:
+      * "exit-code": repolinter-action will print the lint output to the console
+        and set the exit code to result.passed. This output type is most useful for
+        PR status checks.
+      * "issue": repolinter-action will create a GitHub issue on the current
+        repository with the repolinter output and always exit 0. See the README for
+        more details on issue outputting behavior. This output type is ideal for 
+        non-intrusive notification.
     default: 'exit-code'
   output-name:
     required: false
-    description: 'The name to use for the issue/PR being created by this action.'
-    default: 'Open Source Policy Issues'
+    description: >
+      The title to use for the issue created by repolinter-action. This title 
+      should indicate the purpose of the issue, as well as that it was created by
+      a bot.
+
+      This option will be ignored if output-type != "issue".
+    default: '[Repolinter] Open Source Policy Issues'
   label-name:
     required: false
-    description: "What issue label Repolinter should use to mark it's issue/PRs. This label must be unique to repolinter (i.e. no other issues under that label) in order for it's issue management engine to work correctly."
+    description: >
+      The name to use for the issue label created by repolinter-action. This name
+      should be unique to repolinter-action (i.e. not used by any other issue) to
+      prevent repolinter-action from getting confused.
+
+      This option will be ignored if output-type != "issue".
     default: 'repolinter'
   label-color:
     required: false
-    description: 'What color to use for the issue/PR label (default is yellow). Must be a hex string (ex "f29513").'
+    description: >
+      The color to use for the issue label created by repolinter-action. The value
+      for this option should be an unprefixed RRGGBB hex string (ex. ff568a).
+      The default value is a shade of yellow.
+
+      This option will be ignored if output-type != "issue".
     default: 'fbca04'
 outputs:
   passed:
     description: 'A boolean indicating whether or not the Repolinter run passed or failed.'
   errored:
-    description: 'A boolean indicating whether or not the Repolinter threw any errors.'
+    description: 'A boolean indicating whether or not the action threw any errors.'
   json-output:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
