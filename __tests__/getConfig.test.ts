@@ -2,7 +2,6 @@ import getConfig from '../src/getConfig'
 import * as path from 'path'
 import * as fs from 'fs'
 import nock from 'nock'
-import fetch from 'node-fetch'
 
 describe('getConfig', () => {
   test('getConfig returns a config from a JSON file', async () => {

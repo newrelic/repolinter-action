@@ -108,6 +108,12 @@ export interface FindRepolinterIssueOpts {
  * such an issue exists. If more than one issue matching the criteria
  * is found, the issue that was created soonest will be returned.
  *
+ * This function uses the GitHub REST API to perform a search
+ * that can be described with the following search query:
+ * ```
+ * type:issue repo:<the current repo> state:open creator:<the current authenticated user> label:<label-name> sort:author-date-desc\
+ * ```
+ *
  * @param client The authenticated octokit client to use
  * @param options.owner The owner of the repository to search
  * @param options.repo The name of the repository to search
