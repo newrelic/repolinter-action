@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/newrelic/repolinter-action/compare/v1.0.2...v1.0.3) (2020-08-13)
+
+
+### Bug Fixes
+
+* update releaserc to generate v1 branch ([c05349d](https://github.com/newrelic/repolinter-action/commit/c05349d9c91270486334b3a5f228766a543595f3))
+
 ## [1.0.2](https://github.com/newrelic/repolinter-action/compare/v1.0.1...v1.0.2) (2020-08-13)
 
 
