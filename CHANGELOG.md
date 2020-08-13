@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/newrelic/repolinter-action/compare/v1.0.4...v1.0.5) (2020-08-13)
+
+
+### Bug Fixes
+
+* update error handling ([39f88dc](https://github.com/newrelic/repolinter-action/commit/39f88dc190adb312723d957fc53f4226cd57c3e8))
+
 ## [1.0.4](https://github.com/newrelic/repolinter-action/compare/v1.0.3...v1.0.4) (2020-08-13)
 
 
