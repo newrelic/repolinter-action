@@ -190,7 +190,7 @@ This product includes source derived from [@types/node-fetch](https://github.com
 
 ### nock
 
-This product includes source derived from [nock](https://github.com/nock/nock) ([v13.0.3](https://github.com/nock/nock/tree/v13.0.3)), distributed under the [MIT License](https://github.com/nock/nock/blob/v13.0.3/LICENSE):
+This product includes source derived from [nock](https://github.com/nock/nock) ([v13.0.4](https://github.com/nock/nock/tree/v13.0.4)), distributed under the [MIT License](https://github.com/nock/nock/blob/v13.0.4/LICENSE):
 
 ```
 MIT License
@@ -310,7 +310,7 @@ This product includes source derived from [@types/node](https://github.com/Defin
 
 ### @typescript-eslint/parser
 
-This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v3.8.0](https://github.com/typescript-eslint/typescript-eslint/tree/v3.8.0)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v3.8.0/LICENSE):
+This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v3.9.0](https://github.com/typescript-eslint/typescript-eslint/tree/v3.9.0)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v3.9.0/LICENSE):
 
 ```
 TypeScript ESLint Parser
@@ -438,7 +438,7 @@ THE SOFTWARE.
 
 ### jest-circus
 
-This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.2.2](https://github.com/facebook/jest/tree/v26.2.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.2.2/LICENSE):
+This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.4.0](https://github.com/facebook/jest/tree/v26.4.0)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.0/LICENSE):
 
 ```
 MIT License
@@ -467,7 +467,7 @@ SOFTWARE.
 
 ### jest
 
-This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.2.2](https://github.com/facebook/jest/tree/v26.2.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.2.2/LICENSE):
+This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.4.0](https://github.com/facebook/jest/tree/v26.4.0)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.0/LICENSE):
 
 ```
 MIT License
@@ -540,7 +540,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### ts-jest
 
-This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.1.4](https://github.com/kulshekhar/ts-jest/tree/v26.1.4)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.1.4/LICENSE.md):
+This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.2.0](https://github.com/kulshekhar/ts-jest/tree/v26.2.0)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.2.0/LICENSE.md):
 
 ```
 MIT License

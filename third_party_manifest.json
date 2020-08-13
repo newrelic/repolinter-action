@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Thu Aug 13 2020 09:45:20 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Thu Aug 13 2020 20:33:44 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
@@ -70,15 +70,15 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v2.5.7/LICENSE",
       "licenseTextSource": "file"
     },
-    "nock@13.0.3": {
+    "nock@13.0.4": {
       "name": "nock",
-      "version": "13.0.3",
-      "range": "^13.0.3",
+      "version": "13.0.4",
+      "range": "^13.0.4",
       "licenses": "MIT",
       "repoUrl": "https://github.com/nock/nock",
-      "versionedRepoUrl": "https://github.com/nock/nock/tree/v13.0.3",
+      "versionedRepoUrl": "https://github.com/nock/nock/tree/v13.0.4",
       "licenseFile": "node_modules/nock/LICENSE",
-      "licenseUrl": "https://github.com/nock/nock/blob/v13.0.3/LICENSE",
+      "licenseUrl": "https://github.com/nock/nock/blob/v13.0.4/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Pedro Teixeira",
       "email": "pedro.teixeira@gmail.com"
@@ -119,15 +119,15 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.0.27/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/parser@3.8.0": {
+    "@typescript-eslint/parser@3.9.0": {
       "name": "@typescript-eslint/parser",
-      "version": "3.8.0",
-      "range": "^3.8.0",
+      "version": "3.9.0",
+      "range": "^3.9.0",
       "licenses": "BSD-2-Clause",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v3.8.0",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v3.9.0",
       "licenseFile": "node_modules/@typescript-eslint/parser/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v3.8.0/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v3.9.0/LICENSE",
       "licenseTextSource": "file"
     },
     "@zeit/ncc@0.22.3": {
@@ -180,26 +180,26 @@
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"
     },
-    "jest-circus@26.2.2": {
+    "jest-circus@26.4.0": {
       "name": "jest-circus",
-      "version": "26.2.2",
-      "range": "^26.2.2",
+      "version": "26.4.0",
+      "range": "^26.4.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/jest",
-      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.2.2",
+      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.4.0",
       "licenseFile": "node_modules/jest-circus/LICENSE",
-      "licenseUrl": "https://github.com/facebook/jest/blob/v26.2.2/LICENSE",
+      "licenseUrl": "https://github.com/facebook/jest/blob/v26.4.0/LICENSE",
       "licenseTextSource": "file"
     },
-    "jest@26.2.2": {
+    "jest@26.4.0": {
       "name": "jest",
-      "version": "26.2.2",
-      "range": "^26.2.2",
+      "version": "26.4.0",
+      "range": "^26.4.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/jest",
-      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.2.2",
+      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.4.0",
       "licenseFile": "node_modules/jest/LICENSE",
-      "licenseUrl": "https://github.com/facebook/jest/blob/v26.2.2/LICENSE",
+      "licenseUrl": "https://github.com/facebook/jest/blob/v26.4.0/LICENSE",
       "licenseTextSource": "file"
     },
     "js-yaml@3.14.0": {
@@ -227,15 +227,15 @@
       "licenseTextSource": "file",
       "publisher": "James Long"
     },
-    "ts-jest@26.1.4": {
+    "ts-jest@26.2.0": {
       "name": "ts-jest",
-      "version": "26.1.4",
-      "range": "^26.1.4",
+      "version": "26.2.0",
+      "range": "^26.2.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/kulshekhar/ts-jest",
-      "versionedRepoUrl": "https://github.com/kulshekhar/ts-jest/tree/v26.1.4",
+      "versionedRepoUrl": "https://github.com/kulshekhar/ts-jest/tree/v26.2.0",
       "licenseFile": "node_modules/ts-jest/LICENSE.md",
-      "licenseUrl": "https://github.com/kulshekhar/ts-jest/blob/v26.1.4/LICENSE.md",
+      "licenseUrl": "https://github.com/kulshekhar/ts-jest/blob/v26.2.0/LICENSE.md",
       "licenseTextSource": "file",
       "publisher": "Kulshekhar Kabra",
       "email": "kulshekhar@users.noreply.github.com",
