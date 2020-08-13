@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/newrelic/repolinter-action/compare/v1.0.3...v1.0.4) (2020-08-13)
+
+
+### Bug Fixes
+
+* switch semantic-release to dedicated action ([2c7df1f](https://github.com/newrelic/repolinter-action/commit/2c7df1f73ec1677aad45d8d918ec26fae2f754ae))
+
 ## [1.0.3](https://github.com/newrelic/repolinter-action/compare/v1.0.2...v1.0.3) (2020-08-13)
 
 
