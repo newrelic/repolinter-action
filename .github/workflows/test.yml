@@ -10,6 +10,7 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '12'
+      - uses: bahmutov/npm-install@v1
       - run: node --version
       - run: npm run lint
       - run: npm run build
