@@ -98,10 +98,11 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       jsonFormatter.formatOutput(result, true)
     )
   } catch (error) {
-    core.error('A fatal error was thrown.')
     // set the outputs for this action
     core.setOutput(Outputs.ERRORED, true)
     core.setOutput(Outputs.PASSED, false)
-    core.setFailed(error.message)
+    core.setFailed('A fatal error was thrown.')
+    core.error(error as Error)
+    if (error.stack) core.error(error.stack)
   }
 }
