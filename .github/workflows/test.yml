@@ -49,7 +49,7 @@ jobs:
         id: repolinter
         uses: ./.github/actions/repolinter-action
         with:
-          config-file: ./.github/workflows/repolinter-test.json
+          config_file: ./.github/workflows/repolinter-test.json
       - name: Verify Outputs
         env:
           DID_ERROR: ${{ steps.repolinter.outputs.errored }}
