@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/newrelic/repolinter-action/compare/v1.0.0...v1.0.1) (2020-08-13)
+
+
+### Bug Fixes
+
+* add branding to action metadata ([3e46b72](https://github.com/newrelic/repolinter-action/commit/3e46b72152bd91429642fe0c162fc5de01d7c3bf))
+
 # 1.0.0 (2020-08-13)
 
 
