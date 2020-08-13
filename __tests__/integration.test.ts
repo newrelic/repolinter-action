@@ -54,7 +54,7 @@ describe('integration', () => {
       'testconfig.json'
     )
 
-    const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
+    const {out, code} = await runAction(baseEnv)
 
     core.debug(out)
     expect(code).not.toEqual(0)
