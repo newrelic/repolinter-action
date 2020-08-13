@@ -4,6 +4,8 @@
 
 This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
 
+Currently this action uses the [prototypicalpro/repolinter](https://github.com/prototypicalpro/repolinter) fork, which includes a number of changes needed for issue creation support.
+
 ## Inputs
 
 ```yaml
