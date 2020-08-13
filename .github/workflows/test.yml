@@ -43,11 +43,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with: 
-          path: .github/actions/repolinter-action
       - name: Run Action
         id: repolinter
-        uses: ./.github/actions/repolinter-action
+        uses: ./
         with:
           config_file: ./.github/workflows/repolinter-test.json
       - name: Verify Outputs
