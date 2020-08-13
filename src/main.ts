@@ -72,7 +72,13 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     } else if (OUTPUT_TYPE === 'issue') {
       // else output an issue, and don't set the exit code
       const octokit = new Octokit({
-        request: disableRetry ? {retries: 0} : undefined
+        request: disableRetry ? {retries: 0} : undefined,
+        log: {
+          debug: core.debug,
+          info: core.info,
+          warn: core.warning,
+          error: core.error
+        }
       })
       const [owner, repo] = REPO.split('/')
       const issueContent = markdownFormatter.formatOutput(result, true)
