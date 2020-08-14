@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/newrelic/repolinter-action/compare/v1.0.7...v1.1.0) (2020-08-14)
+
+
+### Features
+
+* add username input key to remove dependency on GitHub /user API ([f284c99](https://github.com/newrelic/repolinter-action/commit/f284c994fb50e4968c077abb0e30fd0048371939))
+
 ## [1.0.7](https://github.com/newrelic/repolinter-action/compare/v1.0.6...v1.0.7) (2020-08-14)
 
 
