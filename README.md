@@ -195,7 +195,7 @@ If `output_type` is set to `issue`, repolinter-action will create a GitHub issue
 
 To prevent unnecessary noise, repolinter-action will first attempt to edit an existing open issue before creating a new one. This check is performed every workflow run, and can be emulated using the following [GitHub search](https://docs.github.com/en/github/searching-for-information-on-github) query:
 ```
-type:issue repo:<the current repo> state:open creator:<the current authenticated user> label:<label-name> sort:author-date-desc
+type:issue repo:<the current repo> state:open creator:<username> label:<label-name> sort:author-date-desc
 ```
 If no issues are returned by this query, repolinter-action will create a new one. If more than one issue is returned by this query, repolinter-action will edit the first one (most recently created) and close the others.
 

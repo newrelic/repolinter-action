@@ -111,7 +111,7 @@ export interface FindRepolinterIssueOpts {
  * This function uses the GitHub REST API to perform a search
  * that can be described with the following search query:
  * ```
- * type:issue repo:<the current repo> state:open creator:<the current authenticated user> label:<label-name> sort:author-date-desc\
+ * type:issue repo:<the current repo> state:open creator:<username> label:<label-name> sort:author-date-desc\
  * ```
  *
  * @param client The authenticated octokit client to use
