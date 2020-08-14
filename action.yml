@@ -18,10 +18,14 @@ inputs:
   username:
     required: false
     description: >
-      The username associated with the `token` field. Repolinter-action uses this value
-      to determine which issues have been created by itself. Defaults to the username
-      associated with the `GITHUB_TOKEN` provided by Github Actions.
-    default: github-actions
+      The username associated with the `token` field. Repolinter-action uses 
+      this value to determine which issues have been created by itself. Prefix
+      this value with `app/` if `token` is generated from a GitHub app instead
+      of a normal user (see https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-author).
+      
+      Defaults to the username associated with the `GITHUB_TOKEN` provided by Github
+      Actions.
+    default: app/github-actions
   config_file:
     required: false
     description: >
