@@ -35,6 +35,7 @@ describe('main', () => {
     process.env[getInputName(Inputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
     process.env[getInputName(Inputs.LABEL_NAME)] = 'repolinter'
     process.env[getInputName(Inputs.LABEL_COLOR)] = 'fbca04'
+    process.env[getInputName(Inputs.USERNAME)] = 'my-user'
     process.env['GITHUB_ACTION'] = 'true'
     // disable STDOUT printing for now
     spooledStdout = []
@@ -74,6 +75,20 @@ describe('main', () => {
   test('throws when an invalid is supplied in TOKEN and output-type is not off', async () => {
     process.env[getInputName(Inputs.TOKEN)] = '2'
     process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    // console.debug(out)
+    expect(outputs[Outputs.ERRORED]).toEqual('true')
+    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
+  })
+
+  test('throws when no username is supplied', async () => {
+    process.env[getInputName(Inputs.TOKEN)] = '2'
+    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+    delete process.env[getInputName(Inputs.USERNAME)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
@@ -315,9 +330,6 @@ describe('main', () => {
       repo: 'repolinter-action'
     }
     // mock stolen from createOrUpdateIssue.ts
-    const userScope = nock('https://api.github.com')
-      .get('/user')
-      .reply(200, {login: 'myuser'})
     const findIssueScope = nock('https://api.github.com')
       .get(`/repos/${config.owner}/${config.repo}/issues`)
       .query(true)
@@ -352,7 +364,6 @@ describe('main', () => {
     )
     expect(process.exitCode).toEqual(0)
 
-    userScope.done()
     findIssueScope.done()
     updateIssueScope.done()
   })

@@ -295,6 +295,7 @@ describe('createOrUpdateIssue', () => {
     const config: toolkit.CreateOrUpdateIssueOpts = {
       owner: 'a-repo-owner',
       repo: 'a-repo',
+      username: 'my-user',
       issueName: 'Repolinter Issue',
       issueContent: 'Some markdown content here',
       labelName: 'repolinter',
@@ -302,12 +303,9 @@ describe('createOrUpdateIssue', () => {
     }
 
     test('creates a new issue and a label under our username', async () => {
-      const userScope = nock('https://api.github.com')
-        .get('/user')
-        .reply(200, {login: 'myuser'})
       const findIssueScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/issues`)
-        .query(atLeastObject({creator: 'myuser'}))
+        .query(atLeastObject({creator: 'my-user'}))
         .reply(200, [])
       const getLabelScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/labels/${config.labelName}`)
@@ -336,7 +334,6 @@ describe('createOrUpdateIssue', () => {
 
       expect(res).toBe(8)
 
-      userScope.done()
       findIssueScope.done()
       createLabelScope.done()
       getLabelScope.done()
@@ -344,12 +341,9 @@ describe('createOrUpdateIssue', () => {
     })
 
     test('updates an existing issue under our username', async () => {
-      const userScope = nock('https://api.github.com')
-        .get('/user')
-        .reply(200, {login: 'myuser'})
       const findIssueScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/issues`)
-        .query(atLeastObject({creator: 'myuser'}))
+        .query(atLeastObject({creator: 'my-user'}))
         .reply(200, [{number: 7}])
       const updateIssueScope = nock('https://api.github.com')
         .patch(`/repos/${config.owner}/${config.repo}/issues/7`, {
@@ -360,18 +354,14 @@ describe('createOrUpdateIssue', () => {
 
       expect(res).toBe(7)
 
-      userScope.done()
       findIssueScope.done()
       updateIssueScope.done()
     })
 
     test('creates a new issue and a label under our username and close the existing one if options.forceCreateIssue is set', async () => {
-      const userScope = nock('https://api.github.com')
-        .get('/user')
-        .reply(200, {login: 'myuser'})
       const findIssueScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/issues`)
-        .query(atLeastObject({creator: 'myuser'}))
+        .query(atLeastObject({creator: 'my-user'}))
         .reply(200, [{number: 7}])
       const closeIssueScope = nock('https://api.github.com')
         .patch(
@@ -411,7 +401,6 @@ describe('createOrUpdateIssue', () => {
 
       expect(res).toBe(8)
 
-      userScope.done()
       findIssueScope.done()
       closeIssueScope.done()
       createLabelScope.done()
@@ -420,12 +409,9 @@ describe('createOrUpdateIssue', () => {
     })
 
     test("doesn't do anything if options.shouldClose is set and there is no issue", async () => {
-      const userScope = nock('https://api.github.com')
-        .get('/user')
-        .reply(200, {login: 'myuser'})
       const findIssueScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/issues`)
-        .query(atLeastObject({creator: 'myuser'}))
+        .query(atLeastObject({creator: 'my-user'}))
         .reply(200, [])
 
       const res = await createOrUpdateIssue(
@@ -435,17 +421,13 @@ describe('createOrUpdateIssue', () => {
 
       expect(res).toBe(null)
 
-      userScope.done()
       findIssueScope.done()
     })
 
     test('closes the issue if config.shouldClose is set', async () => {
-      const userScope = nock('https://api.github.com')
-        .get('/user')
-        .reply(200, {login: 'myuser'})
       const findIssueScope = nock('https://api.github.com')
         .get(`/repos/${config.owner}/${config.repo}/issues`)
-        .query(atLeastObject({creator: 'myuser'}))
+        .query(atLeastObject({creator: 'my-user'}))
         .reply(200, [{number: 7}])
       const closeIssueScope = nock('https://api.github.com')
         .patch(
@@ -463,7 +445,6 @@ describe('createOrUpdateIssue', () => {
 
       expect(res).toBe(7)
 
-      userScope.done()
       findIssueScope.done()
       closeIssueScope.done()
     })

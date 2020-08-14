@@ -38,6 +38,7 @@ function getBaseEnv(): NodeJS.ProcessEnv {
   ret[getInputName(Inputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
   ret[getInputName(Inputs.LABEL_NAME)] = 'repolinter'
   ret[getInputName(Inputs.LABEL_COLOR)] = 'fbca04'
+  ret[getInputName(Inputs.USERNAME)] = 'github-actions'
   ret['GITHUB_ACTION'] = 'true'
   return ret
 }
