@@ -199,7 +199,7 @@ To prevent unnecessary noise, repolinter-action will first attempt to edit an ex
 ```
 type:issue repo:<the current repo> state:open creator:<username> label:<label-name> sort:author-date-desc
 ```
-If no issues are returned by this query, repolinter-action will create a new one. If more than one issue is returned by this query, repolinter-action will edit the first one (most recently created) and close the others.
+If no issues are returned by this query, repolinter-action will create a new one. If more than one issue is returned by this query, repolinter-action will edit the first one (most recently created) and ignore the others.
 
 ## Contributing
 
