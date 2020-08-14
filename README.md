@@ -80,13 +80,15 @@ Currently this action uses the [prototypicalpro/repolinter](https://github.com/p
     # Default: ${{ github.token }}
     token: ''
 
-    # The username associated with the PAT given by the`token` field. Repolinter-action 
-    # uses this value to determine which issues have been created by itself.
-    # 
-    # Defaults to the username associated with the `GITHUB_TOKEN` provided by Github
+    # The username associated with the `token` field. Repolinter-action uses 
+    # this value to determine which issues have been created by itself. Prefix
+    # this value with `app/` if `token` is generated from a GitHub app instead
+    # of a normal user (see https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-author).
+    #  
+    # Defaults to the username associated with the `GITHUB_TOKEN` provided by Github 
     # Actions.
     #
-    # Default: github-actions
+    # Default: app/github-actions
     username: ''
 
     # The repository name and owner, formatted like so: `owner/repository`.
