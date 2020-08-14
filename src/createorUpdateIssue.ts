@@ -10,6 +10,7 @@ import Octokit from './getOctokit'
 export interface CreateOrUpdateIssueOpts {
   owner: string
   repo: string
+  username: string
   issueName: string
   issueContent?: string
   issueAssignee?: string
@@ -37,6 +38,7 @@ type Octo = InstanceType<typeof Octokit>
  *
  * @param options.owner The owner of the repository to create an issue on
  * @param options.repo The repository to create the issue on
+ * @param options.username The username associated with the octokit instance
  * @param options.issueContent The text content to use for the issue body (ex. the markdown output of repolinter).
  * @param options.issueName The name to use for this issue
  * @param options.issueAssignee The username to assign this issue to, falsey for no one.
@@ -56,12 +58,10 @@ export default async function createOrUpdateIssue(
   // error check
   if (options.forceCreateIssue && options.shouldClose)
     throw new Error(`Both forceCreateIssue and shouldClose cannot be set!`)
-  // get the current username
-  const context = await client.users.getAuthenticated()
   // attempt to find an issue created by Repolinter
   const issue = await findRepolinterIssue(
     client,
-    Object.assign({}, options, {selfUsername: context.data.login})
+    Object.assign({}, options, {selfUsername: options.username})
   )
   // if no issue exists and we should close the issue, exit and do nothing
   if (!issue && options.shouldClose) {

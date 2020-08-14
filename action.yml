@@ -9,9 +9,19 @@ inputs:
       This token is optional and only required if this actions is configured to
       output an issue (see output_type). This token must have the `public_repo`
       scope for the current repository in order to work properly.
+
+      If you set this field to a custom token, you will also need to change
+      `username` to the username associated with the token provided.
     
       [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     default: ${{ github.token }}
+  username:
+    required: false
+    description: >
+      The username associated with the `token` field. Repolinter-action uses this value
+      to determine which issues have been created by itself. Defaults to the username
+      associated with the `GITHUB_TOKEN` provided by Github Actions.
+    default: github-actions
   config_file:
     required: false
     description: >

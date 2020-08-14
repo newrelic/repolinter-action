@@ -13,6 +13,7 @@ import createOrUpdateIssue from './createorUpdateIssue'
 function getInputs(): {[key: string]: string} {
   return {
     TOKEN: core.getInput(Inputs.TOKEN),
+    USERNAME: core.getInput(Inputs.USERNAME, {required: true}),
     CONFIG_URL: core.getInput(Inputs.CONFIG_URL),
     CONFIG_FILE: core.getInput(Inputs.CONFIG_FILE),
     REPO: core.getInput(Inputs.REPO, {required: true}),
@@ -29,6 +30,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     // get all inputs
     const {
       TOKEN,
+      USERNAME,
       CONFIG_FILE,
       CONFIG_URL,
       REPO,
@@ -91,6 +93,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       await createOrUpdateIssue(octokit, {
         owner,
         repo,
+        username: USERNAME,
         issueName: OUTPUT_NAME,
         issueContent,
         labelName: LABEL_NAME,

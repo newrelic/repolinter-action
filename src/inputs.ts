@@ -1,5 +1,6 @@
 export const enum Inputs {
   TOKEN = 'token',
+  USERNAME = 'username',
   CONFIG_URL = 'config_url',
   CONFIG_FILE = 'config_file',
   REPO = 'repository',
