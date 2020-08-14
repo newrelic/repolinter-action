@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/newrelic/repolinter-action/compare/v1.1.0...v1.1.1) (2020-08-14)
+
+
+### Bug Fixes
+
+* update default username to include app/ prefix ([f02300a](https://github.com/newrelic/repolinter-action/commit/f02300adc4f82d04c42acca3b56c0555b73e980a))
+
 # [1.1.0](https://github.com/newrelic/repolinter-action/compare/v1.0.7...v1.1.0) (2020-08-14)
 
 
