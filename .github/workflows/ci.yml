@@ -8,6 +8,7 @@ env:
 jobs:
   job-test-unit:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - windows-latest
@@ -45,6 +46,7 @@ jobs:
   
   job-test-system:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - windows-latest
