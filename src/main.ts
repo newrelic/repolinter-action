@@ -104,7 +104,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       process.exitCode = 0
     }
     // set the outputs for this action
-    core.setOutput(Outputs.ERRORED, false)
+    core.setOutput(Outputs.ERRORED, result.errored)
     core.setOutput(Outputs.PASSED, result.passed)
     core.setOutput(
       Outputs.JSON_OUTPUT,

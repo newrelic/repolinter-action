@@ -297,13 +297,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const node_fetch_1 = __importDefault(__webpack_require__(467));
 const fs = __importStar(__webpack_require__(5747));
 const core = __importStar(__webpack_require__(2186));
+const yaml = __importStar(__webpack_require__(1917));
 const repolinter_1 = __webpack_require__(430);
 /**
  * Load a repolinter configuration from either a file or URL,
  * return the validated deserialized configuration.
  * @param where.configFile The file path to the config, relative to the current working directory. Mutually exclusive with where.configUrl.
  * @param where.configUrl The URL to load fhe config from. Mutually exclusive with where.configFile
- * @returns A deserialized JSON configuration object if one was found. If the configuration does not exist or does not pass validation this function will throw an error.
+ * @returns A deserialized JSON or YAML configuration object if one was found. If the configuration does not exist or does not pass validation this function will throw an error.
  */
 function getConfig(where) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -338,13 +339,27 @@ function getConfig(where) {
             core.debug('Using default config');
             return null;
         }
-        // parse it
-        let ret;
+        // attempt to parse both JSON and YAML
+        let ret = null;
+        let jsonError;
+        let yamlError;
         try {
             ret = JSON.parse(contents);
         }
         catch (e) {
-            throw new Error(`Unable to parse JSON from file ${where.configFile} with error ${e.toString()}`);
+            jsonError = e;
+        }
+        if (!ret) {
+            try {
+                ret = yaml.safeLoad(contents);
+            }
+            catch (e) {
+                yamlError = e;
+            }
+        }
+        // throw if neither worked
+        if (!ret) {
+            throw new Error(`Unable to parse JSON/YAML from file ${where.configFile} with error JSON error "${jsonError && jsonError.toString()}" and YAML error "${yamlError && yamlError.toString()}"`);
         }
         // validate the config using repolinters validator
         const validationResult = yield repolinter_1.validateConfig(ret);
@@ -508,7 +523,7 @@ function run(disableRetry) {
                 process.exitCode = 0;
             }
             // set the outputs for this action
-            core.setOutput("errored" /* ERRORED */, false);
+            core.setOutput("errored" /* ERRORED */, result.errored);
             core.setOutput("passed" /* PASSED */, result.passed);
             core.setOutput("json_output" /* JSON_OUTPUT */, repolinter_1.jsonFormatter.formatOutput(result, true));
         }

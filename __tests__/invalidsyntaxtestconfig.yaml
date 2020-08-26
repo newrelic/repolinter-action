@@ -1,0 +1,41 @@
+---
+asdasd
+"$schema": https://raw.githubusercontent.com/prototypicalpro/repolinter/master/rulesets/schema.json
+version: 2
+axioms:
+  linguist: language
+  licensee: license
+  packagers: packager
+the-rules:
+  code-of-conduct-file-up-to-date:
+    level: error
+    rule:
+      type: file-hash
+      options:
+        globsAny:
+        - "{docs/,.github/,}CODEOFCONDUCT*"
+        - "{docs/,.github/,}CODE-OF-CONDUCT*"
+        - "{docs/,.github/,}CODE_OF_CONDUCT*"
+        nocase: true
+        hash: c0b76cd474db37b060a909aba86a85f60381bbdd46ce1575dde2f6e86e319c63
+    fix:
+      type: file-create
+      options:
+        file: CODE_OF_CONDUCT.md
+        replace: true
+        text:
+          url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/CODE_OF_CONDUCT.md
+  community-header-present:
+    level: error
+    rule:
+      type: file-starts-with
+      options:
+        globsAll:
+        - README*
+        nocase: true
+        lineCount: 1
+        patterns:
+        - "\\[\\s*\\!\\[[a-z0-9\\s]+\\]\\(\\s*[\\/\\.a-z0-9\\-\\_\\~:]+\\s*\\)\\s*]\\(\\s*https:\\/\\/opensource\\.newrelic\\.com\\/oss-category\\/#([\\/\\.a-z0-9\\-\\_\\~]+)\\s*\\)"
+        human-readable-pattern: Open source category header (see https://opensource.newrelic.com/oss-category)
+        flags: i
+        succeed-on-non-existent: false

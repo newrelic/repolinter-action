@@ -29,7 +29,7 @@ inputs:
   config_file:
     required: false
     description: >
-      A path to the JSON Repolinter ruleset to use, relative to the workflow
+      A path to the JSON or YAML Repolinter ruleset to use, relative to the workflow
       working directory (i.e. under `$GITHUB_WORKSPACE`). 
       
       This option is mutually exclusive with config_url. If this option and 
@@ -37,7 +37,7 @@ inputs:
   config_url:
     required: false
     description: >
-      A URL to pull the JSON Repolinter ruleset from. This URL must be accessible
+      A URL to pull the JSON or YAML Repolinter ruleset from. This URL must be accessible
       by the actions runner and return raw JSON file on GET.
 
       This option can be used to pull a ruleset from GitHub using the

@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import * as fs from 'fs'
 import * as core from '@actions/core'
+import * as yaml from 'js-yaml'
 import {validateConfig} from 'repolinter'
 
 /**
@@ -8,7 +9,7 @@ import {validateConfig} from 'repolinter'
  * return the validated deserialized configuration.
  * @param where.configFile The file path to the config, relative to the current working directory. Mutually exclusive with where.configUrl.
  * @param where.configUrl The URL to load fhe config from. Mutually exclusive with where.configFile
- * @returns A deserialized JSON configuration object if one was found. If the configuration does not exist or does not pass validation this function will throw an error.
+ * @returns A deserialized JSON or YAML configuration object if one was found. If the configuration does not exist or does not pass validation this function will throw an error.
  */
 export default async function getConfig(where: {
   configFile?: string
@@ -48,15 +49,30 @@ export default async function getConfig(where: {
     core.debug('Using default config')
     return null
   }
-  // parse it
-  let ret
+  // attempt to parse both JSON and YAML
+  let ret = null
+  let jsonError
+  let yamlError
   try {
     ret = JSON.parse(contents)
   } catch (e) {
+    jsonError = e
+  }
+  if (!ret) {
+    try {
+      ret = yaml.safeLoad(contents)
+    } catch (e) {
+      yamlError = e
+    }
+  }
+  // throw if neither worked
+  if (!ret) {
     throw new Error(
-      `Unable to parse JSON from file ${
+      `Unable to parse JSON/YAML from file ${
         where.configFile
-      } with error ${e.toString()}`
+      } with error JSON error "${
+        jsonError && jsonError.toString()
+      }" and YAML error "${yamlError && yamlError.toString()}"`
     )
   }
   // validate the config using repolinters validator
