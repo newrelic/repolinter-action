@@ -20,7 +20,6 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 * [@octokit/rest](#octokitrest)
 * [@octokit/types](#octokittypes)
 * [@types/node-fetch](#typesnode-fetch)
-* [nock](#nock)
 * [node-fetch](#node-fetch)
 
 **[devDependencies](#devDependencies)**
@@ -28,13 +27,14 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 * [@types/jest](#typesjest)
 * [@types/node](#typesnode)
 * [@typescript-eslint/parser](#typescript-eslintparser)
-* [@zeit/ncc](#zeitncc)
+* [@vercel/ncc](#vercelncc)
 * [eslint-plugin-github](#eslint-plugin-github)
 * [eslint-plugin-jest](#eslint-plugin-jest)
 * [eslint](#eslint)
 * [jest-circus](#jest-circus)
 * [jest](#jest)
 * [js-yaml](#js-yaml)
+* [nock](#nock)
 * [prettier](#prettier)
 * [ts-jest](#ts-jest)
 * [typescript](#typescript)
@@ -44,21 +44,23 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 
 ### @actions/core
 
-This product includes source derived from [@actions/core](https://github.com/actions/toolkit) ([v1.2.4](https://github.com/actions/toolkit/tree/v1.2.4)), distributed under the [MIT License](https://github.com/actions/toolkit/blob/v1.2.4/README.md):
+This product includes source derived from [@actions/core](https://github.com/actions/toolkit) ([v1.2.5](https://github.com/actions/toolkit/tree/v1.2.5)), distributed under the [MIT License](https://github.com/actions/toolkit/blob/v1.2.5/LICENSE.md):
 
 ```
-MIT License Copyright (c) <year> <copyright holders>
+The MIT License (MIT)
+
+Copyright 2019 GitHub
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 ### @octokit/action
 
-This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.0.5](https://github.com/octokit/action.js/tree/v3.0.5)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.0.5/LICENSE):
+This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.0.6](https://github.com/octokit/action.js/tree/v3.0.6)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.0.6/LICENSE):
 
 ```
 MIT License
@@ -116,7 +118,7 @@ SOFTWARE.
 
 ### @octokit/rest
 
-This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.3](https://github.com/octokit/rest.js/tree/v18.0.3)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.3/LICENSE):
+This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.4](https://github.com/octokit/rest.js/tree/v18.0.4)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.4/LICENSE):
 
 ```
 The MIT License
@@ -146,7 +148,7 @@ THE SOFTWARE.
 
 ### @octokit/types
 
-This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v5.4.0](https://github.com/octokit/types.ts/tree/v5.4.0)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v5.4.0/LICENSE):
+This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v5.4.1](https://github.com/octokit/types.ts/tree/v5.4.1)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v5.4.1/LICENSE):
 
 ```
 MIT License Copyright (c) 2019 Octokit contributors
@@ -188,35 +190,6 @@ This product includes source derived from [@types/node-fetch](https://github.com
 
 ```
 
-### nock
-
-This product includes source derived from [nock](https://github.com/nock/nock) ([v13.0.4](https://github.com/nock/nock/tree/v13.0.4)), distributed under the [MIT License](https://github.com/nock/nock/blob/v13.0.4/LICENSE):
-
-```
-MIT License
-
-Copyright (c) 2011-2019 Pedro Teixeira and other contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-```
-
 ### node-fetch
 
 This product includes source derived from [node-fetch](https://github.com/bitinn/node-fetch) ([v2.6.0](https://github.com/bitinn/node-fetch/tree/v2.6.0)), distributed under the [MIT License](https://github.com/bitinn/node-fetch/blob/v2.6.0/LICENSE.md):
@@ -252,7 +225,7 @@ SOFTWARE.
 
 ### @types/jest
 
-This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.9](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.9)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.9/LICENSE):
+This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.10](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.10)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.10/LICENSE):
 
 ```
     MIT License
@@ -281,7 +254,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.0.27](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.0.27)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.0.27/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.0](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.0)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.0/LICENSE):
 
 ```
     MIT License
@@ -310,7 +283,7 @@ This product includes source derived from [@types/node](https://github.com/Defin
 
 ### @typescript-eslint/parser
 
-This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v3.9.0](https://github.com/typescript-eslint/typescript-eslint/tree/v3.9.0)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v3.9.0/LICENSE):
+This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v3.10.1](https://github.com/typescript-eslint/typescript-eslint/tree/v3.10.1)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v3.10.1/LICENSE):
 
 ```
 TypeScript ESLint Parser
@@ -338,9 +311,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-### @zeit/ncc
+### @vercel/ncc
 
-This product includes source derived from [@zeit/ncc](https://github.com/zeit/ncc) ([v0.22.3](https://github.com/zeit/ncc/tree/v0.22.3)), distributed under the [MIT License](https://github.com/zeit/ncc/blob/v0.22.3/LICENSE):
+This product includes source derived from [@vercel/ncc](https://github.com/vercel/ncc) ([v0.24.0](https://github.com/vercel/ncc/tree/v0.24.0)), distributed under the [MIT License](https://github.com/vercel/ncc/blob/v0.24.0/LICENSE):
 
 ```
 Copyright 2018 ZEIT, Inc.
@@ -411,7 +384,7 @@ SOFTWARE.
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.6.0](https://github.com/eslint/eslint/tree/v7.6.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.6.0/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.7.0](https://github.com/eslint/eslint/tree/v7.7.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.7.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
@@ -438,7 +411,7 @@ THE SOFTWARE.
 
 ### jest-circus
 
-This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.4.0](https://github.com/facebook/jest/tree/v26.4.0)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.0/LICENSE):
+This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.4.2](https://github.com/facebook/jest/tree/v26.4.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.2/LICENSE):
 
 ```
 MIT License
@@ -467,7 +440,7 @@ SOFTWARE.
 
 ### jest
 
-This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.4.0](https://github.com/facebook/jest/tree/v26.4.0)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.0/LICENSE):
+This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.4.2](https://github.com/facebook/jest/tree/v26.4.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.2/LICENSE):
 
 ```
 MIT License
@@ -523,9 +496,38 @@ THE SOFTWARE.
 
 ```
 
+### nock
+
+This product includes source derived from [nock](https://github.com/nock/nock) ([v13.0.4](https://github.com/nock/nock/tree/v13.0.4)), distributed under the [MIT License](https://github.com/nock/nock/blob/v13.0.4/LICENSE):
+
+```
+MIT License
+
+Copyright (c) 2011-2019 Pedro Teixeira and other contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
 ### prettier
 
-This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v2.0.5](https://github.com/prettier/prettier/tree/v2.0.5)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v2.0.5/LICENSE):
+This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v2.1.1](https://github.com/prettier/prettier/tree/v2.1.1)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v2.1.1/LICENSE):
 
 ```
 Copyright © James Long and contributors
@@ -540,7 +542,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### ts-jest
 
-This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.2.0](https://github.com/kulshekhar/ts-jest/tree/v26.2.0)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.2.0/LICENSE.md):
+This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.3.0](https://github.com/kulshekhar/ts-jest/tree/v26.3.0)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.3.0/LICENSE.md):
 
 ```
 MIT License
