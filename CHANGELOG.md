@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/newrelic/repolinter-action/compare/v1.2.0...v1.3.0) (2020-08-26)
+
+
+### Features
+
+* add YAML support for configurations ([10fd1c3](https://github.com/newrelic/repolinter-action/commit/10fd1c3adc7f6807e7ffed4cfd26bb92b2c185df))
+
 # [1.2.0](https://github.com/newrelic/repolinter-action/compare/v1.1.1...v1.2.0) (2020-08-26)
 
 
