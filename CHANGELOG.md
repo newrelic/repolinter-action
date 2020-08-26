@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/newrelic/repolinter-action/compare/v1.1.1...v1.2.0) (2020-08-26)
+
+
+### Features
+
+* switch repolinter to newrelic-forks/repolinter ([bb1be3a](https://github.com/newrelic/repolinter-action/commit/bb1be3aa1919067827bfff8142b0927baa07d523))
+
 ## [1.1.1](https://github.com/newrelic/repolinter-action/compare/v1.1.0...v1.1.1) (2020-08-14)
 
 
