@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Wed Aug 26 2020 22:59:49 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Thu Aug 27 2020 15:53:53 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
@@ -106,15 +106,15 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.10/LICENSE",
       "licenseTextSource": "file"
     },
-    "@types/node@14.6.0": {
+    "@types/node@14.6.1": {
       "name": "@types/node",
-      "version": "14.6.0",
-      "range": "^14.6.0",
+      "version": "14.6.1",
+      "range": "^14.6.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.0",
+      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.1",
       "licenseFile": "node_modules/@types/node/LICENSE",
-      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.0/LICENSE",
+      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.1/LICENSE",
       "licenseTextSource": "file"
     },
     "@typescript-eslint/parser@3.10.1": {

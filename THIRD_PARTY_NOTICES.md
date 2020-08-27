@@ -284,7 +284,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.0](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.0)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.0/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.1](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.1)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.1/LICENSE):
 
 ```
     MIT License
