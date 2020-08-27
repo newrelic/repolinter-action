@@ -228,8 +228,8 @@ describe('main', () => {
         await lint(
           '.',
           undefined,
-          true,
-          JSON.parse(await fs.promises.readFile(configPath, 'utf8'))
+          JSON.parse(await fs.promises.readFile(configPath, 'utf8')),
+          true
         ),
         true
       )
@@ -258,8 +258,8 @@ describe('main', () => {
       await lint(
         '.',
         undefined,
-        true,
-        JSON.parse(await fs.promises.readFile(configPath, 'utf8'))
+        JSON.parse(await fs.promises.readFile(configPath, 'utf8')),
+        true
       ),
       true
     )
@@ -309,8 +309,8 @@ describe('main', () => {
       await lint(
         '.',
         undefined,
-        true,
-        JSON.parse(await fs.promises.readFile(configPath, 'utf8'))
+        JSON.parse(await fs.promises.readFile(configPath, 'utf8')),
+        true
       ),
       true
     )
@@ -347,8 +347,8 @@ describe('main', () => {
       await lint(
         '.',
         undefined,
-        true,
-        JSON.parse(await fs.promises.readFile(configPath, 'utf8'))
+        JSON.parse(await fs.promises.readFile(configPath, 'utf8')),
+        true
       ),
       true
     )

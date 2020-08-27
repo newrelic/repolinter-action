@@ -58,7 +58,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       configUrl: CONFIG_URL
     })
     // run the linter!
-    const result = await lint('.', undefined, true, config)
+    const result = await lint('.', undefined, config, true)
     core.debug(JSON.stringify(result))
     // print the formatted result
     core.startGroup('Repolinter Output')
