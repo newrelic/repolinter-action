@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/newrelic/repolinter-action/compare/v1.3.0...v1.3.1) (2020-08-27)
+
+
+### Bug Fixes
+
+* upgrade repolinter ([8a028c3](https://github.com/newrelic/repolinter-action/commit/8a028c3adcde11967e0a15498be8cb63d96822c7))
+
 # [1.3.0](https://github.com/newrelic/repolinter-action/compare/v1.2.0...v1.3.0) (2020-08-26)
 
 
