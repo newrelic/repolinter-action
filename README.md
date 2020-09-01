@@ -6,7 +6,7 @@
 
 This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
 
-Currently this action uses the [newrelic-forks/repolinter](https://github.com/newrelic-forks/repolinter) fork, which includes a number of changes needed for issue creation support. A [PR to merge this fork into Repolinter](https://github.com/todogroup/repolinter/pull/174) is underway.
+Currently this action uses the [newrelic-forks/repolinter](https://github.com/newrelic-forks/repolinter) fork, which includes a number of changes needed for issue creation support. A [PR](https://github.com/todogroup/repolinter/pull/174) to merge this fork into Repolinter is underway.
 
 ## Inputs
 
