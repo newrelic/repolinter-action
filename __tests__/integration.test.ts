@@ -44,9 +44,7 @@ function getBaseEnv(): NodeJS.ProcessEnv {
 }
 
 describe('integration', () => {
-  beforeEach(() => jest.setTimeout(10000))
-  // TODO: fix tests to reflect new exit code logic
-  // TODO: add tests for outputs
+  jest.setTimeout(30000)
 
   test('runs a failing test config', async () => {
     const baseEnv = getBaseEnv()
