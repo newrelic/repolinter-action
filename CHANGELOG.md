@@ -1,3 +1,14 @@
+## [1.3.2](https://github.com/newrelic/repolinter-action/compare/v1.3.1...v1.3.2) (2020-09-03)
+
+
+### Bug Fixes
+
+* add better error reporting ([2e60d13](https://github.com/newrelic/repolinter-action/commit/2e60d13b8226ae27344ed436824aa51a42b88212))
+* add error message to issue creation 410 ([9eadd13](https://github.com/newrelic/repolinter-action/commit/9eadd1306052e7719761cca59a26cc6d4457bbfd))
+* add some error reporting for testing ([b73c261](https://github.com/newrelic/repolinter-action/commit/b73c261cfca662640f2a7c2d1b7f49b52b6f8395))
+* minor error clarity improvements ([63d878b](https://github.com/newrelic/repolinter-action/commit/63d878b578b272fe2882786e3ad157823e6e60a8))
+* some formatting issues when printing errors ([f1c341e](https://github.com/newrelic/repolinter-action/commit/f1c341e506a650603139c9dbaf9d7d864ad94b41))
+
 ## [1.3.1](https://github.com/newrelic/repolinter-action/compare/v1.3.0...v1.3.1) (2020-08-27)
 
 
