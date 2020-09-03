@@ -215,6 +215,10 @@ export async function createRepolinterIssue(
       throw new Error(
         'Creating an issue returned a 404! Did you setup a token with the correct permissions?'
       )
+    else if (e.status === 410)
+      throw new Error(
+        "Creating an issue returned status 410. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)"
+      )
     else if ((e as RequestError).status === 410)
       throw new Error(
         'Creating an issue returned 410, are issues enabled on the repository?'
