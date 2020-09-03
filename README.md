@@ -191,6 +191,36 @@ jobs:
           label_color: 'ffffff'
 ```
 
+### Run against another repository
+
+The following will run repolinter with the default ruleset against [aperture-science-incorporated/companion-cube](https://github.com/aperture-science-incorporated/companion-cube) on every push to master of the current repository; if the ruleset does not pass, repolinter-action will open a GitHub issue on companion-cube. Note that a custom personal access token (`MY_TOKEN`) and PAT username (`my-token-username`) must be specified, as `GITHUB_TOKEN` [does not have write permission for repositories other than the current one](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret).
+
+```yaml
+name: Apply Repolinter
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  apply-repolinter:
+    name: Apply Repolinter Somewhere Else
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          repository: aperture-science-incorporated/companion-cube
+      
+      - name: Run Repolinter
+        uses: newrelic/repolinter-action@develop
+        with:
+          output_type: issue
+          repository: aperture-science-incorporated/companion-cube
+          username: my-token-username
+          token: ${{ secrets.MY_TOKEN }}
+```
+
 ## Issue Creation Behavior
 
 If `output_type` is set to `issue`, repolinter-action will create a GitHub issue with the Repolinter output on the current repository. An example issue can be found here: https://github.com/aperture-science-incorporated/companion-cube/issues/44. 
