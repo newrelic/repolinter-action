@@ -197,15 +197,31 @@ export async function createRepolinterIssue(
   }
   core.debug(`Creating issue "${options.issueName}"...`)
   // create the issue
-  const issue = await client.issues.create({
-    owner: options.owner,
-    repo: options.repo,
-    title: options.issueName,
-    body: options.issueContent,
-    labels: [options.labelName],
-    assignees:
-      options.issueAssignee !== undefined ? [options.issueAssignee] : undefined
-  })
+  let issue
+  try {
+    issue = await client.issues.create({
+      owner: options.owner,
+      repo: options.repo,
+      title: options.issueName,
+      body: options.issueContent,
+      labels: [options.labelName],
+      assignees:
+        options.issueAssignee !== undefined
+          ? [options.issueAssignee]
+          : undefined
+    })
+  } catch (e) {
+    if ((e as RequestError).status === 404)
+      throw new Error(
+        'Creating an issue returned a 404! Did you setup a token with the correct permissions?'
+      )
+    else if ((e as RequestError).status === 410)
+      throw new Error(
+        'Creating an issue returned 410, are issues enabled on the repository?'
+      )
+    else throw e
+  }
+
   core.debug(`Successfully created issue #${issue.data.number}`)
   return issue.data
 }

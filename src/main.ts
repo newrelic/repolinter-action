@@ -117,5 +117,6 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     core.setFailed('A fatal error was thrown.')
     core.error(error as Error)
     if (error.stack) core.error(error.stack)
+    core.error(JSON.stringify(error))
   }
 }
