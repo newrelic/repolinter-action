@@ -25,6 +25,7 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 
 **[devDependencies](#devDependencies)**
 
+* [@octokit/request-error](#octokitrequest-error)
 * [@types/jest](#typesjest)
 * [@types/node](#typesnode)
 * [@typescript-eslint/parser](#typescript-eslintparser)
@@ -253,9 +254,38 @@ SOFTWARE.
 
 ## devDependencies
 
+### @octokit/request-error
+
+This product includes source derived from [@octokit/request-error](https://github.com/octokit/request-error.js) ([v2.0.2](https://github.com/octokit/request-error.js/tree/v2.0.2)), distributed under the [MIT License](https://github.com/octokit/request-error.js/blob/v2.0.2/LICENSE):
+
+```
+The MIT License
+
+Copyright (c) 2019 Octokit contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
 ### @types/jest
 
-This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.10](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.10)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.10/LICENSE):
+This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.13](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.13)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.13/LICENSE):
 
 ```
     MIT License
@@ -284,7 +314,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.1](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.1)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.1/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.3](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.3)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.3/LICENSE):
 
 ```
     MIT License
@@ -414,7 +444,7 @@ SOFTWARE.
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.7.0](https://github.com/eslint/eslint/tree/v7.7.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.7.0/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.8.1](https://github.com/eslint/eslint/tree/v7.8.1)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.8.1/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
