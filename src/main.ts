@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import {RequestError} from '@octokit/request-error'
 import Octokit from './getOctokit'
 import {Inputs, Outputs} from './inputs'
 import {
@@ -115,8 +116,19 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     core.setOutput(Outputs.ERRORED, true)
     core.setOutput(Outputs.PASSED, false)
     core.setFailed('A fatal error was thrown.')
-    core.error(error as Error)
-    if (error.stack) core.error(error.stack)
-    core.error(JSON.stringify(error))
+    if (error.name === 'HttpError') {
+      const requestError = error as RequestError
+      // Octokit threw an error, so we can print out detailed information
+      core.error(
+        'Octokit API call failed. This may be due to your token permissions or an issue with the GitHub API. If the error persists, feel free to open an issue.'
+      )
+      core.error(
+        `${requestError.request.method} ${requestError.request.url} returned status ${requestError.status}`
+      )
+      core.debug(JSON.stringify(error))
+    } else {
+      core.error(error as Error)
+      if (error.stack) core.error(error.stack)
+    }
   }
 }

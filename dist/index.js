@@ -202,11 +202,11 @@ function createRepolinterIssue(client, options) {
         }
         catch (e) {
             if (e.status === 404)
-                throw new Error('Creating an issue returned a 404! Did you setup a token with the correct permissions?');
+                throw new Error('Creating an issue returned a 404! Is your token valid/does it have the correct permissions?');
+            else if (e.status === 403)
+                throw new Error("Creating an issue returned status 403. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)");
             else if (e.status === 410)
-                throw new Error("Creating an issue returned status 410. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)");
-            else if (e.status === 410)
-                throw new Error('Creating an issue returned 410, are issues enabled on the repository?');
+                throw new Error('Creating an issue returned status 410, are issues enabled on the repository?');
             else
                 throw e;
         }
@@ -547,10 +547,18 @@ function run(disableRetry) {
             core.setOutput("errored" /* ERRORED */, true);
             core.setOutput("passed" /* PASSED */, false);
             core.setFailed('A fatal error was thrown.');
-            core.error(error);
-            if (error.stack)
-                core.error(error.stack);
-            core.error(JSON.stringify(error));
+            if (error.name === 'HttpError') {
+                const requestError = error;
+                // Octokit threw an error, so we can print out detailed information
+                core.error('Octokit API call failed. This may be due to your token permissions or an issue with the GitHub API. If the error persists, feel free to open an issue.');
+                core.error(`${requestError.request.method} ${requestError.request.url} returned status ${requestError.status}`);
+                core.debug(JSON.stringify(error));
+            }
+            else {
+                core.error(error);
+                if (error.stack)
+                    core.error(error.stack);
+            }
         }
     });
 }
@@ -12364,6 +12372,179 @@ module.exports = {
 
 /***/ }),
 
+/***/ 1569:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__(4325);
+
+
+/***/ }),
+
+/***/ 4325:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var exec = __webpack_require__(3129).exec;
+var execSync = __webpack_require__(3129).execSync;
+var fs = __webpack_require__(5747);
+var path = __webpack_require__(5622);
+var access = fs.access;
+var accessSync = fs.accessSync;
+var constants = fs.constants || fs;
+
+var isUsingWindows = process.platform == 'win32'
+
+var fileNotExists = function(commandName, callback){
+    access(commandName, constants.F_OK,
+    function(err){
+        callback(!err);
+    });
+};
+
+var fileNotExistsSync = function(commandName){
+    try{
+        accessSync(commandName, constants.F_OK);
+        return false;
+    }catch(e){
+        return true;
+    }
+};
+
+var localExecutable = function(commandName, callback){
+    access(commandName, constants.F_OK | constants.X_OK,
+        function(err){
+        callback(null, !err);
+    });
+};
+
+var localExecutableSync = function(commandName){
+    try{
+        accessSync(commandName, constants.F_OK | constants.X_OK);
+        return true;
+    }catch(e){
+        return false;
+    }
+}
+
+var commandExistsUnix = function(commandName, cleanedCommandName, callback) {
+
+    fileNotExists(commandName, function(isFile){
+
+        if(!isFile){
+            var child = exec('command -v ' + cleanedCommandName +
+                  ' 2>/dev/null' +
+                  ' && { echo >&1 ' + cleanedCommandName + '; exit 0; }',
+                  function (error, stdout, stderr) {
+                      callback(null, !!stdout);
+                  });
+            return;
+        }
+
+        localExecutable(commandName, callback);
+    });
+
+}
+
+var commandExistsWindows = function(commandName, cleanedCommandName, callback) {
+  // Regex from Julio from: https://stackoverflow.com/questions/51494579/regex-windows-path-validator
+  if (!(/^(?!(?:.*\s|.*\.|\W+)$)(?:[a-zA-Z]:)?(?:(?:[^<>:"\|\?\*\n])+(?:\/\/|\/|\\\\|\\)?)+$/m.test(commandName))) {
+    callback(null, false);
+    return;
+  }
+  var child = exec('where ' + cleanedCommandName,
+    function (error) {
+      if (error !== null){
+        callback(null, false);
+      } else {
+        callback(null, true);
+      }
+    }
+  )
+}
+
+var commandExistsUnixSync = function(commandName, cleanedCommandName) {
+  if(fileNotExistsSync(commandName)){
+      try {
+        var stdout = execSync('command -v ' + cleanedCommandName +
+              ' 2>/dev/null' +
+              ' && { echo >&1 ' + cleanedCommandName + '; exit 0; }'
+              );
+        return !!stdout;
+      } catch (error) {
+        return false;
+      }
+  }
+  return localExecutableSync(commandName);
+}
+
+var commandExistsWindowsSync = function(commandName, cleanedCommandName, callback) {
+  // Regex from Julio from: https://stackoverflow.com/questions/51494579/regex-windows-path-validator
+  if (!(/^(?!(?:.*\s|.*\.|\W+)$)(?:[a-zA-Z]:)?(?:(?:[^<>:"\|\?\*\n])+(?:\/\/|\/|\\\\|\\)?)+$/m.test(commandName))) {
+    return false;
+  }
+  try {
+      var stdout = execSync('where ' + cleanedCommandName, {stdio: []});
+      return !!stdout;
+  } catch (error) {
+      return false;
+  }
+}
+
+var cleanInput = function(s) {
+  if (/[^A-Za-z0-9_\/:=-]/.test(s)) {
+    s = "'"+s.replace(/'/g,"'\\''")+"'";
+    s = s.replace(/^(?:'')+/g, '') // unduplicate single-quote at the beginning
+      .replace(/\\'''/g, "\\'" ); // remove non-escaped single-quote if there are enclosed between 2 escaped
+  }
+  return s;
+}
+
+if (isUsingWindows) {
+  cleanInput = function(s) {
+    var isPathName = /[\\]/.test(s);
+    if (isPathName) {
+      var dirname = '"' + path.dirname(s) + '"';
+      var basename = '"' + path.basename(s) + '"';
+      return dirname + ':' + basename;
+    }
+    return '"' + s + '"';
+  }
+}
+
+module.exports = function commandExists(commandName, callback) {
+  var cleanedCommandName = cleanInput(commandName);
+  if (!callback && typeof Promise !== 'undefined') {
+    return new Promise(function(resolve, reject){
+      commandExists(commandName, function(error, output) {
+        if (output) {
+          resolve(commandName);
+        } else {
+          reject(error);
+        }
+      });
+    });
+  }
+  if (isUsingWindows) {
+    commandExistsWindows(commandName, cleanedCommandName, callback);
+  } else {
+    commandExistsUnix(commandName, cleanedCommandName, callback);
+  }
+};
+
+module.exports.sync = function(commandName) {
+  var cleanedCommandName = cleanInput(commandName);
+  if (isUsingWindows) {
+    return commandExistsWindowsSync(commandName, cleanedCommandName);
+  } else {
+    return commandExistsUnixSync(commandName, cleanedCommandName);
+  }
+};
+
+
+/***/ }),
+
 /***/ 6891:
 /***/ ((module) => {
 
@@ -12379,6 +12560,831 @@ module.exports = function (xs, fn) {
 
 var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+
+/***/ }),
+
+/***/ 8222:
+/***/ ((module, exports, __webpack_require__) => {
+
+/* eslint-env browser */
+
+/**
+ * This is the web browser implementation of `debug()`.
+ */
+
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+	'#0000CC',
+	'#0000FF',
+	'#0033CC',
+	'#0033FF',
+	'#0066CC',
+	'#0066FF',
+	'#0099CC',
+	'#0099FF',
+	'#00CC00',
+	'#00CC33',
+	'#00CC66',
+	'#00CC99',
+	'#00CCCC',
+	'#00CCFF',
+	'#3300CC',
+	'#3300FF',
+	'#3333CC',
+	'#3333FF',
+	'#3366CC',
+	'#3366FF',
+	'#3399CC',
+	'#3399FF',
+	'#33CC00',
+	'#33CC33',
+	'#33CC66',
+	'#33CC99',
+	'#33CCCC',
+	'#33CCFF',
+	'#6600CC',
+	'#6600FF',
+	'#6633CC',
+	'#6633FF',
+	'#66CC00',
+	'#66CC33',
+	'#9900CC',
+	'#9900FF',
+	'#9933CC',
+	'#9933FF',
+	'#99CC00',
+	'#99CC33',
+	'#CC0000',
+	'#CC0033',
+	'#CC0066',
+	'#CC0099',
+	'#CC00CC',
+	'#CC00FF',
+	'#CC3300',
+	'#CC3333',
+	'#CC3366',
+	'#CC3399',
+	'#CC33CC',
+	'#CC33FF',
+	'#CC6600',
+	'#CC6633',
+	'#CC9900',
+	'#CC9933',
+	'#CCCC00',
+	'#CCCC33',
+	'#FF0000',
+	'#FF0033',
+	'#FF0066',
+	'#FF0099',
+	'#FF00CC',
+	'#FF00FF',
+	'#FF3300',
+	'#FF3333',
+	'#FF3366',
+	'#FF3399',
+	'#FF33CC',
+	'#FF33FF',
+	'#FF6600',
+	'#FF6633',
+	'#FF9900',
+	'#FF9933',
+	'#FFCC00',
+	'#FFCC33'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+// eslint-disable-next-line complexity
+function useColors() {
+	// NB: In an Electron preload script, document will be defined but not fully
+	// initialized. Since we know we're in Chrome, we'll just detect this case
+	// explicitly
+	if (typeof window !== 'undefined' && window.process && (window.process.type === 'renderer' || window.process.__nwjs)) {
+		return true;
+	}
+
+	// Internet Explorer and Edge do not support colors.
+	if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+		return false;
+	}
+
+	// Is webkit? http://stackoverflow.com/a/16459606/376773
+	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+		// Is firebug? http://stackoverflow.com/a/398120/376773
+		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+		// Is firefox >= v31?
+		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+		// Double check webkit in userAgent just in case we are in a worker
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	args[0] = (this.useColors ? '%c' : '') +
+		this.namespace +
+		(this.useColors ? ' %c' : ' ') +
+		args[0] +
+		(this.useColors ? '%c ' : ' ') +
+		'+' + module.exports.humanize(this.diff);
+
+	if (!this.useColors) {
+		return;
+	}
+
+	const c = 'color: ' + this.color;
+	args.splice(1, 0, c, 'color: inherit');
+
+	// The final "%c" is somewhat tricky, because there could be other
+	// arguments passed either before or after the %c, so we need to
+	// figure out the correct index to insert the CSS into
+	let index = 0;
+	let lastC = 0;
+	args[0].replace(/%[a-zA-Z%]/g, match => {
+		if (match === '%%') {
+			return;
+		}
+		index++;
+		if (match === '%c') {
+			// We only are interested in the *last* %c
+			// (the user may have provided their own)
+			lastC = index;
+		}
+	});
+
+	args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+function log(...args) {
+	// This hackery is required for IE8/9, where
+	// the `console.log` function doesn't have 'apply'
+	return typeof console === 'object' &&
+		console.log &&
+		console.log(...args);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	try {
+		if (namespaces) {
+			exports.storage.setItem('debug', namespaces);
+		} else {
+			exports.storage.removeItem('debug');
+		}
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+function load() {
+	let r;
+	try {
+		r = exports.storage.getItem('debug');
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+
+	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+	if (!r && typeof process !== 'undefined' && 'env' in process) {
+		r = process.env.DEBUG;
+	}
+
+	return r;
+}
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+	try {
+		// TVMLKit (Apple TV JS Runtime) does not have a window object, just localStorage in the global context
+		// The Browser also has localStorage in the global context.
+		return localStorage;
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+module.exports = __webpack_require__(6243)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+formatters.j = function (v) {
+	try {
+		return JSON.stringify(v);
+	} catch (error) {
+		return '[UnexpectedJSONParseError]: ' + error.message;
+	}
+};
+
+
+/***/ }),
+
+/***/ 6243:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ */
+
+function setup(env) {
+	createDebug.debug = createDebug;
+	createDebug.default = createDebug;
+	createDebug.coerce = coerce;
+	createDebug.disable = disable;
+	createDebug.enable = enable;
+	createDebug.enabled = enabled;
+	createDebug.humanize = __webpack_require__(900);
+
+	Object.keys(env).forEach(key => {
+		createDebug[key] = env[key];
+	});
+
+	/**
+	* Active `debug` instances.
+	*/
+	createDebug.instances = [];
+
+	/**
+	* The currently active debug mode names, and names to skip.
+	*/
+
+	createDebug.names = [];
+	createDebug.skips = [];
+
+	/**
+	* Map of special "%n" handling functions, for the debug "format" argument.
+	*
+	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+	*/
+	createDebug.formatters = {};
+
+	/**
+	* Selects a color for a debug namespace
+	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @return {Number|String} An ANSI color code for the given namespace
+	* @api private
+	*/
+	function selectColor(namespace) {
+		let hash = 0;
+
+		for (let i = 0; i < namespace.length; i++) {
+			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+			hash |= 0; // Convert to 32bit integer
+		}
+
+		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+	}
+	createDebug.selectColor = selectColor;
+
+	/**
+	* Create a debugger with the given `namespace`.
+	*
+	* @param {String} namespace
+	* @return {Function}
+	* @api public
+	*/
+	function createDebug(namespace) {
+		let prevTime;
+
+		function debug(...args) {
+			// Disabled?
+			if (!debug.enabled) {
+				return;
+			}
+
+			const self = debug;
+
+			// Set `diff` timestamp
+			const curr = Number(new Date());
+			const ms = curr - (prevTime || curr);
+			self.diff = ms;
+			self.prev = prevTime;
+			self.curr = curr;
+			prevTime = curr;
+
+			args[0] = createDebug.coerce(args[0]);
+
+			if (typeof args[0] !== 'string') {
+				// Anything else let's inspect with %O
+				args.unshift('%O');
+			}
+
+			// Apply any `formatters` transformations
+			let index = 0;
+			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+				// If we encounter an escaped % then don't increase the array index
+				if (match === '%%') {
+					return match;
+				}
+				index++;
+				const formatter = createDebug.formatters[format];
+				if (typeof formatter === 'function') {
+					const val = args[index];
+					match = formatter.call(self, val);
+
+					// Now we need to remove `args[index]` since it's inlined in the `format`
+					args.splice(index, 1);
+					index--;
+				}
+				return match;
+			});
+
+			// Apply env-specific formatting (colors, etc.)
+			createDebug.formatArgs.call(self, args);
+
+			const logFn = self.log || createDebug.log;
+			logFn.apply(self, args);
+		}
+
+		debug.namespace = namespace;
+		debug.enabled = createDebug.enabled(namespace);
+		debug.useColors = createDebug.useColors();
+		debug.color = selectColor(namespace);
+		debug.destroy = destroy;
+		debug.extend = extend;
+		// Debug.formatArgs = formatArgs;
+		// debug.rawLog = rawLog;
+
+		// env-specific initialization logic for debug instances
+		if (typeof createDebug.init === 'function') {
+			createDebug.init(debug);
+		}
+
+		createDebug.instances.push(debug);
+
+		return debug;
+	}
+
+	function destroy() {
+		const index = createDebug.instances.indexOf(this);
+		if (index !== -1) {
+			createDebug.instances.splice(index, 1);
+			return true;
+		}
+		return false;
+	}
+
+	function extend(namespace, delimiter) {
+		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+		newDebug.log = this.log;
+		return newDebug;
+	}
+
+	/**
+	* Enables a debug mode by namespaces. This can include modes
+	* separated by a colon and wildcards.
+	*
+	* @param {String} namespaces
+	* @api public
+	*/
+	function enable(namespaces) {
+		createDebug.save(namespaces);
+
+		createDebug.names = [];
+		createDebug.skips = [];
+
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
+
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+			} else {
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+			}
+		}
+
+		for (i = 0; i < createDebug.instances.length; i++) {
+			const instance = createDebug.instances[i];
+			instance.enabled = createDebug.enabled(instance.namespace);
+		}
+	}
+
+	/**
+	* Disable debug output.
+	*
+	* @return {String} namespaces
+	* @api public
+	*/
+	function disable() {
+		const namespaces = [
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+		].join(',');
+		createDebug.enable('');
+		return namespaces;
+	}
+
+	/**
+	* Returns true if the given mode name is enabled, false otherwise.
+	*
+	* @param {String} name
+	* @return {Boolean}
+	* @api public
+	*/
+	function enabled(name) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
+				return false;
+			}
+		}
+
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
+	}
+
+	/**
+	* Coerce `val`.
+	*
+	* @param {Mixed} val
+	* @return {Mixed}
+	* @api private
+	*/
+	function coerce(val) {
+		if (val instanceof Error) {
+			return val.stack || val.message;
+		}
+		return val;
+	}
+
+	createDebug.enable(createDebug.load());
+
+	return createDebug;
+}
+
+module.exports = setup;
+
+
+/***/ }),
+
+/***/ 8237:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/**
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+	module.exports = __webpack_require__(8222);
+} else {
+	module.exports = __webpack_require__(5332);
+}
+
+
+/***/ }),
+
+/***/ 5332:
+/***/ ((module, exports, __webpack_require__) => {
+
+/**
+ * Module dependencies.
+ */
+
+const tty = __webpack_require__(3867);
+const util = __webpack_require__(1669);
+
+/**
+ * This is the Node.js implementation of `debug()`.
+ */
+
+exports.init = init;
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+
+/**
+ * Colors.
+ */
+
+exports.colors = [6, 2, 3, 4, 5, 1];
+
+try {
+	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
+	// eslint-disable-next-line import/no-extraneous-dependencies
+	const supportsColor = __webpack_require__(9318);
+
+	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
+		exports.colors = [
+			20,
+			21,
+			26,
+			27,
+			32,
+			33,
+			38,
+			39,
+			40,
+			41,
+			42,
+			43,
+			44,
+			45,
+			56,
+			57,
+			62,
+			63,
+			68,
+			69,
+			74,
+			75,
+			76,
+			77,
+			78,
+			79,
+			80,
+			81,
+			92,
+			93,
+			98,
+			99,
+			112,
+			113,
+			128,
+			129,
+			134,
+			135,
+			148,
+			149,
+			160,
+			161,
+			162,
+			163,
+			164,
+			165,
+			166,
+			167,
+			168,
+			169,
+			170,
+			171,
+			172,
+			173,
+			178,
+			179,
+			184,
+			185,
+			196,
+			197,
+			198,
+			199,
+			200,
+			201,
+			202,
+			203,
+			204,
+			205,
+			206,
+			207,
+			208,
+			209,
+			214,
+			215,
+			220,
+			221
+		];
+	}
+} catch (error) {
+	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
+}
+
+/**
+ * Build up the default `inspectOpts` object from the environment variables.
+ *
+ *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
+ */
+
+exports.inspectOpts = Object.keys(process.env).filter(key => {
+	return /^debug_/i.test(key);
+}).reduce((obj, key) => {
+	// Camel-case
+	const prop = key
+		.substring(6)
+		.toLowerCase()
+		.replace(/_([a-z])/g, (_, k) => {
+			return k.toUpperCase();
+		});
+
+	// Coerce string value into JS value
+	let val = process.env[key];
+	if (/^(yes|on|true|enabled)$/i.test(val)) {
+		val = true;
+	} else if (/^(no|off|false|disabled)$/i.test(val)) {
+		val = false;
+	} else if (val === 'null') {
+		val = null;
+	} else {
+		val = Number(val);
+	}
+
+	obj[prop] = val;
+	return obj;
+}, {});
+
+/**
+ * Is stdout a TTY? Colored output is enabled when `true`.
+ */
+
+function useColors() {
+	return 'colors' in exports.inspectOpts ?
+		Boolean(exports.inspectOpts.colors) :
+		tty.isatty(process.stderr.fd);
+}
+
+/**
+ * Adds ANSI color escape codes if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	const {namespace: name, useColors} = this;
+
+	if (useColors) {
+		const c = this.color;
+		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
+		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
+
+		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
+		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
+	} else {
+		args[0] = getDate() + name + ' ' + args[0];
+	}
+}
+
+function getDate() {
+	if (exports.inspectOpts.hideDate) {
+		return '';
+	}
+	return new Date().toISOString() + ' ';
+}
+
+/**
+ * Invokes `util.format()` with the specified arguments and writes to stderr.
+ */
+
+function log(...args) {
+	return process.stderr.write(util.format(...args) + '\n');
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	if (namespaces) {
+		process.env.DEBUG = namespaces;
+	} else {
+		// If you set a process.env field to null or undefined, it gets cast to the
+		// string 'null' or 'undefined'. Just delete instead.
+		delete process.env.DEBUG;
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+	return process.env.DEBUG;
+}
+
+/**
+ * Init logic for `debug` instances.
+ *
+ * Create a new `inspectOpts` object in case `useColors` is set
+ * differently for a particular `debug` instance.
+ */
+
+function init(debug) {
+	debug.inspectOpts = {};
+
+	const keys = Object.keys(exports.inspectOpts);
+	for (let i = 0; i < keys.length; i++) {
+		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+	}
+}
+
+module.exports = __webpack_require__(6243)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %o to `util.inspect()`, all on a single line.
+ */
+
+formatters.o = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts)
+		.replace(/\s*\n\s*/g, ' ');
+};
+
+/**
+ * Map %O to `util.inspect()`, allowing multiple lines if needed.
+ */
+
+formatters.O = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts);
 };
 
 
@@ -13060,6 +14066,290 @@ exports.realpath = function realpath(p, cache, cb) {
     start();
   }
 };
+
+
+/***/ }),
+
+/***/ 7680:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var child_process = __webpack_require__(3129);
+var fs = __webpack_require__(5747);
+var createDebugger = _interopDefault(__webpack_require__(8237));
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+var debug = /*#__PURE__*/createDebugger("gitlog");
+var delimiter = "\t";
+var fieldMap = {
+  hash: "%H",
+  abbrevHash: "%h",
+  treeHash: "%T",
+  abbrevTreeHash: "%t",
+  parentHashes: "%P",
+  abbrevParentHashes: "%P",
+  authorName: "%an",
+  authorEmail: "%ae",
+  authorDate: "%ai",
+  authorDateRel: "%ar",
+  committerName: "%cn",
+  committerEmail: "%ce",
+  committerDate: "%cd",
+  committerDateRel: "%cr",
+  subject: "%s",
+  body: "%b",
+  rawBody: "%B"
+};
+var notOptFields = ["status", "files"];
+var defaultFields = ["abbrevHash", "hash", "subject", "authorName", "authorDate"];
+var defaultOptions = {
+  number: 10,
+  fields: defaultFields,
+  nameStatus: true,
+  includeMergeCommitFiles: false,
+  findCopiesHarder: false,
+  all: false
+};
+/** Add optional parameter to command */
+
+function addOptional(command, options) {
+  var commandWithOptions = command;
+  var cmdOptional = ["author", "since", "after", "until", "before", "committer"];
+
+  for (var i = cmdOptional.length; i--;) {
+    if (options[cmdOptional[i]]) {
+      commandWithOptions += " --" + cmdOptional[i] + "=\"" + options[cmdOptional[i]] + "\"";
+    }
+  }
+
+  return commandWithOptions;
+}
+/** Parse the output of "git log" for commit information */
+
+
+var parseCommits = function parseCommits(commits, fields, nameStatus) {
+  return commits.map(function (rawCommit) {
+    var parts = rawCommit.split("@end@");
+    var commit = parts[0].split(delimiter);
+
+    if (parts[1]) {
+      var parseNameStatus = parts[1].trimLeft().split("\n"); // Removes last empty char if exists
+
+      if (parseNameStatus[parseNameStatus.length - 1] === "") {
+        parseNameStatus.pop();
+      } // Split each line into it's own delimited array
+
+
+      var nameAndStatusDelimited = parseNameStatus.map(function (d) {
+        return d.split(delimiter);
+      }); // 0 will always be status, last will be the filename as it is in the commit,
+      // anything in between could be the old name if renamed or copied
+
+      nameAndStatusDelimited.forEach(function (item) {
+        var status = item[0];
+        var tempArr = [status, item[item.length - 1]]; // If any files in between loop through them
+
+        for (var i = 1, len = item.length - 1; i < len; i++) {
+          // If status R then add the old filename as a deleted file + status
+          // Other potentials are C for copied but this wouldn't require the original deleting
+          if (status.slice(0, 1) === "R") {
+            tempArr.push("D", item[i]);
+          }
+        }
+
+        commit.push.apply(commit, tempArr);
+      });
+    }
+
+    debug("commit", commit); // Remove the first empty char from the array
+
+    commit.shift();
+    var parsed = {};
+
+    if (nameStatus) {
+      // Create arrays for non optional fields if turned on
+      notOptFields.forEach(function (d) {
+        parsed[d] = [];
+      });
+    }
+
+    commit.forEach(function (commitField, index) {
+      if (fields[index]) {
+        parsed[fields[index]] = commitField;
+      } else if (nameStatus) {
+        var pos = (index - fields.length) % notOptFields.length;
+        debug("nameStatus", index - fields.length, notOptFields.length, pos, commitField);
+        var arr = parsed[notOptFields[pos]];
+
+        if (Array.isArray(arr)) {
+          arr.push(commitField);
+        }
+      }
+    });
+    return parsed;
+  });
+};
+/** Run "git log" and return the result as JSON */
+
+
+function createCommand(options) {
+  // Start constructing command
+  var command = "git log ";
+
+  if (options.findCopiesHarder) {
+    command += "--find-copies-harder ";
+  }
+
+  if (options.all) {
+    command += "--all ";
+  }
+
+  if (options.includeMergeCommitFiles) {
+    command += "-m ";
+  }
+
+  command += "-n " + options.number;
+  command = addOptional(command, options); // Start of custom format
+
+  command += ' --pretty="@begin@'; // Iterating through the fields and adding them to the custom format
+
+  if (options.fields) {
+    options.fields.forEach(function (field) {
+      if (!fieldMap[field] && !notOptFields.includes(field)) {
+        throw new Error("Unknown field: " + field);
+      }
+
+      command += delimiter + fieldMap[field];
+    });
+  } // Close custom format
+
+
+  command += '@end@"'; // Append branch (revision range) if specified
+
+  if (options.branch) {
+    command += " " + options.branch;
+  } // File and file status
+
+
+  if (options.nameStatus) {
+    command += " --name-status";
+  }
+
+  if (options.file) {
+    command += " -- " + options.file;
+  }
+
+  debug("command", options.execOptions, command);
+  return command;
+}
+
+function gitlog(userOptions, cb) {
+  if (!userOptions.repo) {
+    throw new Error("Repo required!");
+  }
+
+  if (!fs.existsSync(userOptions.repo)) {
+    throw new Error("Repo location does not exist");
+  } // Set defaults
+
+
+  var options = _extends({}, defaultOptions, {}, userOptions);
+
+  var execOptions = _extends({
+    cwd: userOptions.repo
+  }, userOptions.execOptions);
+
+  var command = createCommand(options);
+
+  if (!cb) {
+    var stdout = child_process.execSync(command, execOptions).toString();
+    var commits = stdout.split("@begin@");
+
+    if (commits[0] === "") {
+      commits.shift();
+    }
+
+    debug("commits", commits);
+    return parseCommits(commits, options.fields, options.nameStatus);
+  }
+
+  child_process.exec(command, execOptions, function (err, stdout, stderr) {
+    debug("stdout", stdout);
+    var commits = stdout.split("@begin@");
+
+    if (commits[0] === "") {
+      commits.shift();
+    }
+
+    debug("commits", commits);
+    cb(stderr || err, parseCommits(commits, options.fields, options.nameStatus));
+  });
+}
+
+function gitlogPromise(options) {
+  return new Promise(function (resolve, reject) {
+    gitlog(options, function (err, commits) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(commits);
+      }
+    });
+  });
+}
+
+exports.default = gitlog;
+exports.gitlogPromise = gitlogPromise;
+//# sourceMappingURL=gitlog.cjs.development.js.map
+
+
+/***/ }),
+
+/***/ 2093:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", ({value:!0}));var e,t=__webpack_require__(3129),r=__webpack_require__(5747);function n(){return(n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}var i=((e=__webpack_require__(8237))&&"object"==typeof e&&"default"in e?e.default:e)("gitlog"),a={hash:"%H",abbrevHash:"%h",treeHash:"%T",abbrevTreeHash:"%t",parentHashes:"%P",abbrevParentHashes:"%P",authorName:"%an",authorEmail:"%ae",authorDate:"%ai",authorDateRel:"%ar",committerName:"%cn",committerEmail:"%ce",committerDate:"%cd",committerDateRel:"%cr",subject:"%s",body:"%b",rawBody:"%B"},o=["status","files"],s={number:10,fields:["abbrevHash","hash","subject","authorName","authorDate"],nameStatus:!0,includeMergeCommitFiles:!1,findCopiesHarder:!1,all:!1},u=function(e,t,r){return e.map((function(e){var n=e.split("@end@"),a=n[0].split("\t");if(n[1]){var s=n[1].trimLeft().split("\n");""===s[s.length-1]&&s.pop(),s.map((function(e){return e.split("\t")})).forEach((function(e){for(var t=e[0],r=[t,e[e.length-1]],n=1,i=e.length-1;n<i;n++)"R"===t.slice(0,1)&&r.push("D",e[n]);a.push.apply(a,r)}))}i("commit",a),a.shift();var u={};return r&&o.forEach((function(e){u[e]=[]})),a.forEach((function(e,n){if(t[n])u[t[n]]=e;else if(r){var a=(n-t.length)%o.length;i("nameStatus",n-t.length,o.length,a,e);var s=u[o[a]];Array.isArray(s)&&s.push(e)}})),u}))};function c(e,c){if(!e.repo)throw new Error("Repo required!");if(!r.existsSync(e.repo))throw new Error("Repo location does not exist");var l=n({},s,{},e),f=n({cwd:e.repo},e.execOptions),h=function(e){var t="git log ";return e.findCopiesHarder&&(t+="--find-copies-harder "),e.all&&(t+="--all "),e.includeMergeCommitFiles&&(t+="-m "),t=function(e,t){for(var r=e,n=["author","since","after","until","before","committer"],i=n.length;i--;)t[n[i]]&&(r+=" --"+n[i]+'="'+t[n[i]]+'"');return r}(t+="-n "+e.number,e),t+=' --pretty="@begin@',e.fields&&e.fields.forEach((function(e){if(!a[e]&&!o.includes(e))throw new Error("Unknown field: "+e);t+="\t"+a[e]})),t+='@end@"',e.branch&&(t+=" "+e.branch),e.nameStatus&&(t+=" --name-status"),e.file&&(t+=" -- "+e.file),i("command",e.execOptions,t),t}(l);if(!c){var m=t.execSync(h,f).toString().split("@begin@");return""===m[0]&&m.shift(),i("commits",m),u(m,l.fields,l.nameStatus)}t.exec(h,f,(function(e,t,r){i("stdout",t);var n=t.split("@begin@");""===n[0]&&n.shift(),i("commits",n),c(r||e,u(n,l.fields,l.nameStatus))}))}exports.default=c,exports.gitlogPromise=function(e){return new Promise((function(t,r){c(e,(function(e,n){e?r(e):t(n)}))}))};
+//# sourceMappingURL=gitlog.cjs.production.min.js.map
+
+
+/***/ }),
+
+/***/ 1022:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(2093)
+} else {
+  module.exports = __webpack_require__(7680)
+}
 
 
 /***/ }),
@@ -15578,40 +16868,6 @@ if (typeof Object.create === 'function') {
     }
   }
 }
-
-
-/***/ }),
-
-/***/ 9125:
-/***/ ((module, exports) => {
-
-/*!
- * is-windows <https://github.com/jonschlinkert/is-windows>
- *
- * Copyright © 2015-2018, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-(function(factory) {
-  if (exports && typeof exports === 'object' && "object" !== 'undefined') {
-    module.exports = factory();
-  } else if (typeof define === 'function' && define.amd) {
-    define([], factory);
-  } else if (typeof window !== 'undefined') {
-    window.isWindows = factory();
-  } else if (typeof global !== 'undefined') {
-    global.isWindows = factory();
-  } else if (typeof self !== 'undefined') {
-    self.isWindows = factory();
-  } else {
-    this.isWindows = factory();
-  }
-})(function() {
-  'use strict';
-  return function isWindows() {
-    return process && (process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE));
-  };
-});
 
 
 /***/ }),
@@ -21855,6 +23111,175 @@ function regExpEscape (s) {
 
 /***/ }),
 
+/***/ 900:
+/***/ ((module) => {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
 /***/ 467:
 /***/ ((module, exports, __webpack_require__) => {
 
@@ -25730,7 +27155,7 @@ module.exports = [
 // Copyright 2017 TODO Group. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-const { gitlogPromise } = __webpack_require__(6875)
+const { gitlogPromise } = __webpack_require__(1022)
 const Result = __webpack_require__(2893)
 
 module.exports = async function (fileSystem) {
@@ -25761,16 +27186,12 @@ module.exports = async function (fileSystem) {
 const licensee = __webpack_require__(2224)
 const Result = __webpack_require__(2893)
 
-module.exports = function (fileSystem) {
+module.exports = async function (fileSystem) {
   let licenses = []
   try {
-    licenses = licensee.identifyLicensesSync(fileSystem.targetDir)
+    licenses = await licensee.identifyLicense(fileSystem.targetDir)
   } catch (error) {
-    if (error.message === 'Licensee not installed') {
-      return new Result('Licensee not found in path, only running license-independent rules', [], false)
-    } else {
-      return new Result(error.message, [], false)
-    }
+    return new Result(error.message, [], false)
   }
   return new Result('', licenses.map(l => { return { passed: true, path: l } }), true)
 }
@@ -25787,19 +27208,15 @@ module.exports = function (fileSystem) {
 const linguist = __webpack_require__(3762)
 const Result = __webpack_require__(2893)
 
-module.exports = function (fileSystem) {
+module.exports = async function (fileSystem) {
   const languages = []
   try {
-    var jsonObj = linguist.identifyLanguagesSync(fileSystem.targetDir)
+    var jsonObj = await linguist.identifyLanguages(fileSystem.targetDir)
     for (var language in jsonObj) {
       languages.push(language.toLowerCase())
     }
   } catch (error) {
-    if (error.message === 'Linguist not installed') {
-      return new Result('Linguist not found in path, only running language-independent rules', [], false)
-    } else {
-      return new Result(error.message, [], false)
-    }
+    return new Result(error.message, [], false)
   }
   return new Result('', languages.map(l => { return { passed: true, path: l } }), true)
 }
@@ -26168,26 +27585,29 @@ class MarkdownFormatter {
       const start = '\n\n' +
         opWrap(null, result.ruleInfo.policyInfo, '. ') +
         opWrap('For more information please visit ', result.ruleInfo.policyUrl, '. ') +
-        opWrap(null, result.lintResult.message, '. ') +
-        'Below is a list of files or patterns that failed:\n\n'
+        opWrap(null, result.lintResult.message, '. ')
       formatBase.push(start)
-      // create bulleted list
-      // format the result based on these pieces of information
-      const list = result.lintResult.targets
-        // filter only failed targets
-        .filter(t => t.passed === false)
-        // match each target to it's fix result, if one exists
-        .map(t =>
-          result.fixResult && t.path ? [t, result.fixResult.targets.find(f => f.path === t.path) || null] : [t, null])
-        .map(([lintTarget, fixTarget]) => {
-          const base = `- \`${lintTarget.path || lintTarget.pattern}\`${opWrap(': ', lintTarget.message, '.')}`
-          // no fix format
-          if (!fixTarget || !fixTarget.passed) { return base }
-          // with fix format
-          return base + `\n  - ${dryRun ? SUGGESTED_FIX : APPLIED_FIX} ${fixTarget.message || result.fixResult.message}`
-        })
-        .join('\n')
-      formatBase.push(list)
+      // create bulleted list, filter only failed targets
+      const failedList = result.lintResult.targets.filter(t => t.passed === false)
+      if (failedList.length === 0) {
+        formatBase.push('All files passed this test.')
+      } else {
+        formatBase.push('Below is a list of files or patterns that failed:\n\n')
+        // format the result based on these pieces of information
+        const list = failedList
+          // match each target to it's fix result, if one exists
+          .map(t =>
+            result.fixResult && t.path ? [t, result.fixResult.targets.find(f => f.path === t.path) || null] : [t, null])
+          .map(([lintTarget, fixTarget]) => {
+            const base = `- \`${lintTarget.path || lintTarget.pattern}\`${opWrap(': ', lintTarget.message, '.')}`
+            // no fix format
+            if (!fixTarget || !fixTarget.passed) { return base }
+            // with fix format
+            return base + `\n  - ${dryRun ? SUGGESTED_FIX : APPLIED_FIX} ${fixTarget.message || result.fixResult.message}`
+          })
+          .join('\n')
+        formatBase.push(list)
+      }
     }
     // suggested fix for overall rule/fix combo
     if (result.fixResult && result.fixResult.passed) {
@@ -26621,7 +28041,7 @@ async function lint (targetDir, filterPaths = [], ruleset = null, dryRun = false
         errMsg: e && e.toString(),
         results: [],
         targets: {},
-        formatOptions: ruleset.formatOptions
+        formatOptions: ruleset && ruleset.formatOptions
       }
     }
   }
@@ -26982,6 +28402,44 @@ module.exports.Result = Result
 module.exports.RuleInfo = RuleInfo
 module.exports.FileSystem = FileSystem
 module.exports.FormatResult = FormatResult
+
+
+/***/ }),
+
+/***/ 3243:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// Copyright 2017 TODO Group. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+const commandExistsLib = __webpack_require__(1569)
+
+/**
+ * Checks whether or not a list of commands exists in the
+ * current environment. Returns the first command that was
+ * found to exist.
+ *
+ * @protected
+ * @param {string|string[]} command The command or commands to check for.
+ * @returns {string|null} The first command found to exist, or null of none were found.
+ */
+async function commandExists (command) {
+  // convert to array if needed
+  if (!Array.isArray(command)) {
+    command = [command]
+  }
+  for (const commandString of command) {
+    try {
+      await commandExistsLib(commandString)
+      return commandString
+    } catch (e) {
+      // do nothing
+    }
+  }
+  return null
+}
+
+module.exports.commandExists = commandExists
 
 
 /***/ }),
@@ -27397,7 +28855,7 @@ module.exports.slug = slug
 // Copyright 2018 TODO Group. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
-const isWindows = __webpack_require__(9125)
+const { commandExists } = __webpack_require__(3243)
 const spawnSync = __webpack_require__(3129).spawnSync
 
 class Licensee {
@@ -27407,14 +28865,17 @@ class Licensee {
    * Throws 'Licensee not installed' error if command line of 'licensee' is not available.
    *
    * @param {string} targetDir The directory to run licensee on
-   * @returns {string[]} License identifiers
+   * @returns {Promise<string[]>} License identifiers
    */
-  identifyLicensesSync (targetDir) {
-    const licenseeOutput = spawnSync(isWindows() ? 'licensee.bat' : 'licensee', ['detect', '--json', targetDir]).stdout
-    if (licenseeOutput == null) {
+  async identifyLicense (targetDir) {
+    const command = await commandExists(['licensee', 'licensee.bat'])
+    if (command === null) {
       throw new Error('Licensee not installed')
     }
-
+    const licenseeOutput = spawnSync(command, ['detect', '--json', targetDir]).stdout
+    if (licenseeOutput == null) {
+      throw new Error('Error executing licensee')
+    }
     const json = licenseeOutput.toString()
     return JSON.parse(json).licenses.map(function (license) { return license.spdx_id })
   }
@@ -27431,8 +28892,8 @@ module.exports = new Licensee()
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-const isWindows = __webpack_require__(9125)
 const spawnSync = __webpack_require__(3129).spawnSync
+const { commandExists } = __webpack_require__(3243)
 
 class Linguist {
   /**
@@ -27442,18 +28903,20 @@ class Linguist {
    * Throws 'Linguist not installed' error if command line of 'linguist' is not available.
    *
    * @param {string} targetDir The directory to run linguist on
-   * @returns {object} The linguist output
+   * @returns {Promise<object>} The linguist output
    */
-  identifyLanguagesSync (targetDir) {
+  async identifyLanguages (targetDir) {
     // Command was renamed in https://github.com/github/linguist/pull/4208
-    for (const command of ['github-linguist', 'linguist']) {
-      const output = spawnSync(isWindows() ? `${command}.bat` : command, [targetDir, '--json']).stdout
-      if (output !== null) {
-        return JSON.parse(output.toString())
-      }
+    const command = await commandExists(['github-linguist', 'linguist', 'github-linguist.bat', 'linguist.bat'])
+    if (command === null) {
+      throw new Error('Linguist not installed')
     }
-
-    throw new Error('Linguist not installed')
+    const output = spawnSync(command, [targetDir, '--json']).stdout
+    if (output !== null) {
+      return JSON.parse(output.toString())
+    } else {
+      throw new Error('Execution of linguist failed!')
+    }
   }
 }
 
@@ -30457,14 +31920,6 @@ function wrappy (fn, cb) {
 /***/ ((module) => {
 
 module.exports = eval("require")("encoding");
-
-
-/***/ }),
-
-/***/ 6875:
-/***/ ((module) => {
-
-module.exports = eval("require")("gitlog");
 
 
 /***/ }),

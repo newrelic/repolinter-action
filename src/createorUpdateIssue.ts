@@ -1,10 +1,10 @@
 import * as core from '@actions/core'
 import {
-  RequestError,
   IssuesListForRepoResponseData,
   IssuesCreateResponseData,
   IssuesUpdateResponseData
 } from '@octokit/types'
+import {RequestError} from '@octokit/request-error'
 import Octokit from './getOctokit'
 
 export interface CreateOrUpdateIssueOpts {
@@ -213,15 +213,15 @@ export async function createRepolinterIssue(
   } catch (e) {
     if ((e as RequestError).status === 404)
       throw new Error(
-        'Creating an issue returned a 404! Did you setup a token with the correct permissions?'
+        'Creating an issue returned a 404! Is your token valid/does it have the correct permissions?'
       )
-    else if (e.status === 410)
+    else if (e.status === 403)
       throw new Error(
-        "Creating an issue returned status 410. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)"
+        "Creating an issue returned status 403. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)"
       )
     else if ((e as RequestError).status === 410)
       throw new Error(
-        'Creating an issue returned 410, are issues enabled on the repository?'
+        'Creating an issue returned status 410, are issues enabled on the repository?'
       )
     else throw e
   }
