@@ -126,9 +126,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
         `${requestError.request.method} ${requestError.request.url} returned status ${requestError.status}`
       )
       core.debug(JSON.stringify(error))
-    } else {
-      core.error(error as Error)
-      if (error.stack) core.error(error.stack)
-    }
+    } else if (error.stack) core.error(error.stack)
+    else core.error(error)
   }
 }

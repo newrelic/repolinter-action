@@ -206,7 +206,7 @@ function createRepolinterIssue(client, options) {
             else if (e.status === 403)
                 throw new Error("Creating an issue returned status 403. This is probably due to a scope limitation of your PAT, check that you set the correct permissions (note that GITHUB_TOKEN cannot write repositories other than it's own)");
             else if (e.status === 410)
-                throw new Error('Creating an issue returned status 410, are issues enabled on the repository?');
+                throw new Error('Creating an issue returned status 410, are issues enabled on the target repository?');
             else
                 throw e;
         }
@@ -554,11 +554,10 @@ function run(disableRetry) {
                 core.error(`${requestError.request.method} ${requestError.request.url} returned status ${requestError.status}`);
                 core.debug(JSON.stringify(error));
             }
-            else {
+            else if (error.stack)
+                core.error(error.stack);
+            else
                 core.error(error);
-                if (error.stack)
-                    core.error(error.stack);
-            }
         }
     });
 }
