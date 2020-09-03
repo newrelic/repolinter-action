@@ -5,6 +5,10 @@ import * as yaml from 'js-yaml'
 import nock from 'nock'
 
 describe('getConfig', () => {
+  // supress github actions commands inside tests
+  beforeEach(() => process.stdout.write('::stop-commands::running-tests\n'))
+  afterEach(() => process.stdout.write('::running-tests::\n'))
+
   test('getConfig returns a config from a JSON file', async () => {
     const filepath = path.resolve(__dirname, 'testconfig.json')
     const expected = JSON.parse(await fs.promises.readFile(filepath, 'utf8'))

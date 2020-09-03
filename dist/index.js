@@ -544,6 +544,7 @@ function run(disableRetry) {
         }
         catch (error) {
             // set the outputs for this action
+            core.endGroup();
             core.setOutput("errored" /* ERRORED */, true);
             core.setOutput("passed" /* PASSED */, false);
             core.setFailed('A fatal error was thrown.');

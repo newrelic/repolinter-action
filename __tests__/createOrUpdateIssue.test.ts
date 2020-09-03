@@ -40,6 +40,9 @@ function atLeastObject(matcher: {
 }
 
 describe('createOrUpdateIssue', () => {
+  // supress github actions commands inside tests
+  beforeEach(() => process.stdout.write('::stop-commands::running-tests\n'))
+  afterEach(() => process.stdout.write('::running-tests::\n'))
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const client: any = new Octokit()
 

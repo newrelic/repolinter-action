@@ -113,6 +113,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     )
   } catch (error) {
     // set the outputs for this action
+    core.endGroup()
     core.setOutput(Outputs.ERRORED, true)
     core.setOutput(Outputs.PASSED, false)
     core.setFailed('A fatal error was thrown.')
