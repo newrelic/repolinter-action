@@ -187,14 +187,27 @@ function createRepolinterIssue(client, options) {
         }
         core.debug(`Creating issue "${options.issueName}"...`);
         // create the issue
-        const issue = yield client.issues.create({
-            owner: options.owner,
-            repo: options.repo,
-            title: options.issueName,
-            body: options.issueContent,
-            labels: [options.labelName],
-            assignees: options.issueAssignee !== undefined ? [options.issueAssignee] : undefined
-        });
+        let issue;
+        try {
+            issue = yield client.issues.create({
+                owner: options.owner,
+                repo: options.repo,
+                title: options.issueName,
+                body: options.issueContent,
+                labels: [options.labelName],
+                assignees: options.issueAssignee !== undefined
+                    ? [options.issueAssignee]
+                    : undefined
+            });
+        }
+        catch (e) {
+            if (e.status === 404)
+                throw new Error('Creating an issue returned a 404! Did you setup a token with the correct permissions?');
+            else if (e.status === 410)
+                throw new Error('Creating an issue returned 410, are issues enabled on the repository?');
+            else
+                throw e;
+        }
         core.debug(`Successfully created issue #${issue.data.number}`);
         return issue.data;
     });
@@ -535,6 +548,7 @@ function run(disableRetry) {
             core.error(error);
             if (error.stack)
                 core.error(error.stack);
+            core.error(JSON.stringify(error));
         }
     });
 }
@@ -25701,8 +25715,37 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
 module.exports = [
   'licensee',
   'linguist',
-  'packagers'
+  'packagers',
+  'contributor-count'
 ]
+
+
+/***/ }),
+
+/***/ 7777:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// Copyright 2017 TODO Group. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+
+const { gitlogPromise } = __webpack_require__(6875)
+const Result = __webpack_require__(2893)
+
+module.exports = async function (fileSystem) {
+  const commits = await gitlogPromise({
+    repo: fileSystem.targetDir,
+    all: true,
+    number: 10000 // Fetch the last 10000 commits
+  })
+  if (!commits) {
+    return new Result('GitLog axiom failed to run, is this project a git repository?', [], false)
+  }
+  // Get commit authors and filter unique values
+  const contributors = commits
+    .map((commit) => commit.authorName.toLowerCase())
+    .filter((value, index, self) => self.indexOf(value) === index)
+  return new Result('', [{ path: contributors.length.toString(), passed: true }], true)
+}
 
 
 /***/ }),
@@ -25985,10 +26028,15 @@ module.exports = [
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+/**
+ * A JSON formatter for machines. Exported as jsonFormatter.
+ *
+ * @protected
+ */
 class JsonFormatter {
   /**
    *
-   * @param {import('..').LintResult} output The linter output to format
+   * @param {LintResult} output The linter output to format
    * @param {boolean} dryRun (ignored)
    * @returns {string} The formatted output
    */
@@ -26034,6 +26082,7 @@ const COLLAPSE_BOTTOM = '</details>'
 /**
  * Optionally add prefix or suffix to a string if it's truthy.
  *
+ * @private
  * @param {string?} pre The optional prefix
  * @param {string?} base The base string
  * @param {string?} [suf] The optional suffix
@@ -26044,6 +26093,12 @@ function opWrap (pre, base, suf) {
   return ''
 }
 
+/**
+ * A markdown formatter for Repolinter output, designed to be used with GH issues.
+ * Exported as markdownFormatter.
+ *
+ * @protected
+ */
 class MarkdownFormatter {
   /**
    * Creates a header for a rule-output block.
@@ -26160,7 +26215,7 @@ class MarkdownFormatter {
    * @returns {Object.<string, FormatResult[]>} The object representing sorted results.
    */
   static sortResults (results) {
-    /** @type {Object.<string, FormatResult[]>} */
+    /** @ignore @type {Object.<string, FormatResult[]>} */
     const out = {}
     for (const key of FormatResult.getAllStatus()) {
       out[key] = []
@@ -26188,7 +26243,7 @@ ${collapse ? `\n${COLLAPSE_BOTTOM}` : ''}`
 
   /**
    *
-   * @param {import('..').LintResult} output The linter output to format
+   * @param {LintResult} output The linter output to format
    * @param {string} [output.formatOptions.disclaimer] A disclaimer to put at the top of the markdown document.
    * @param {boolean?} [dryRun] Whether or not to print fix "suggested" or "applied"
    * @returns {string} The formatted output
@@ -26267,6 +26322,7 @@ const Result = __webpack_require__(2893)
  * Pads a string with a space if the string exists,
  * returns the falsey input value otherwise.
  *
+ * @private
  * @param {string?} string The string or null input
  * @returns {string} A padded string or empty string
  */
@@ -26274,6 +26330,11 @@ function frontSpace (string) {
   return string ? (' ' + string) : ''
 }
 
+/**
+ * The default CLI formatter. Exported as defaultFormatter and resultFormatter.
+ *
+ * @protected
+ */
 class SymbolFormatter {
   /**
    * Format a FormatResult object into a line of human-readable text.
@@ -26314,7 +26375,7 @@ class SymbolFormatter {
 
   /**
    *
-   * @param {import('..').LintResult} output The linter output to format
+   * @param {LintResult} output The linter output to format
    * @param {boolean} dryRun Whether or not to generate in "report" format
    * @returns {string} The formatted output
    */
@@ -26362,6 +26423,8 @@ module.exports = SymbolFormatter
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+/** @module repolinter */
+
 function __ncc_wildcard$0 (arg) {
   if (arg === "apache-notice-config.json" || arg === "apache-notice-config") return __webpack_require__(376);
   else if (arg === "apache-notice.js" || arg === "apache-notice") return __webpack_require__(6832);
@@ -26402,6 +26465,7 @@ function __ncc_wildcard$1 (arg) {
 }
 function __ncc_wildcard$2 (arg) {
   if (arg === "axioms.js" || arg === "axioms") return __webpack_require__(7439);
+  else if (arg === "contributor-count.js" || arg === "contributor-count") return __webpack_require__(7777);
   else if (arg === "licensee.js" || arg === "licensee") return __webpack_require__(3667);
   else if (arg === "linguist.js" || arg === "linguist") return __webpack_require__(4056);
   else if (arg === "packagers.js" || arg === "packagers") return __webpack_require__(930);
@@ -26422,9 +26486,8 @@ const Fixes = __webpack_require__(6285)
 const Axioms = __webpack_require__(7439)
 
 /**
- * @typedef {object} Formatter
- *
- * @property {(output: LintResult, dryRun: boolean) => string} formatOutput A function to format the entire linter output
+ * @typedef {Object} Formatter
+ * @property {function(LintResult, boolean): string} formatOutput A function to format the entire linter output.
  */
 
 /**
@@ -26482,16 +26545,21 @@ module.exports.markdownFormatter = __webpack_require__(8626)
 module.exports.resultFormatter = exports.defaultFormatter
 
 /**
- * @typedef {object} LintResult
+ * @typedef {Object} LintResult
  *
- * @property {{ targetDir: string, filterPaths: string[], rulesetPath?: string, ruleset: object }} params
+ * @property {Object} params
  * The parameters to the lint function call, including the found/supplied ruleset object.
+ * @property {string} params.targetDir The target directory repolinter was called with. May also be a git URL.
+ * @property {string[]} params.filterPaths The filter paths repolinter was called with.
+ * @property {string?} [params.rulesetPath] The path to the ruleset configuration repolinter was called with.
+ * @property {Object} params.ruleset The deserialized ruleset that Repolinter ran.
+ *
  * @property {boolean} passed Whether or not all lint rules and fix rules succeeded. Will be false if an error occurred during linting.
  * @property {boolean} errored Whether or not an error occurred during the linting process (ex. the configuration failed validation).
  * @property {string} [errMsg] A string indication error information, will be present if errored is true.
  * @property {FormatResult[]} results The output of all the linter rules.
  * @property {Object.<string, Result>} targets An object representing axiom type: axiom targets.
- * @property {object} [formatOptions] Additional options to pass to the formatter, generated from the output or config.
+ * @property {Object} [formatOptions] Additional options to pass to the formatter, generated from the output or config.
  */
 
 /**
@@ -26503,9 +26571,10 @@ module.exports.resultFormatter = exports.defaultFormatter
  * an error on failure, instead indicating that an error has
  * ocurred in returned value.
  *
+ * @memberof repolinter
  * @param {string} targetDir The directory of the repository to lint.
  * @param {string[]} [filterPaths] A list of directories to allow linting of, or [] for all.
- * @param {object|string|null} [ruleset] A custom ruleset object with the same structure as the JSON ruleset configs, or a string path to a JSON config.
+ * @param {Object|string|null} [ruleset] A custom ruleset object with the same structure as the JSON ruleset configs, or a string path to a JSON config.
  * Set to null for repolinter to automatically find it in the repository.
  * @param {boolean} [dryRun] If true, repolinter will report suggested fixes, but will make no disk modifications.
  * @returns {Promise<LintResult>} An object representing the output of the linter
@@ -26546,7 +26615,7 @@ async function lint (targetDir, filterPaths = [], ruleset = null, dryRun = false
         },
         passed: false,
         errored: true,
-        /** @ts-ignore */
+        /** @ignore */
         errMsg: e && e.toString(),
         results: [],
         targets: {},
@@ -26566,7 +26635,7 @@ async function lint (targetDir, filterPaths = [], ruleset = null, dryRun = false
       },
       passed: false,
       errored: true,
-      /** @ts-ignore */
+      /** @ignore */
       errMsg: val.error,
       results: [],
       targets: {},
@@ -26576,7 +26645,7 @@ async function lint (targetDir, filterPaths = [], ruleset = null, dryRun = false
   // parse it
   const configParsed = parseConfig(ruleset)
   // determine axiom targets
-  /** @type {Object.<string, Result>} */
+  /** @ignore @type {Object.<string, Result>} */
   let targetObj = {}
   // Identify axioms and execute them
   if (ruleset.axioms) { targetObj = await determineTargets(ruleset.axioms, fileSystem) }
@@ -26614,7 +26683,8 @@ async function lint (targetDir, filterPaths = [], ruleset = null, dryRun = false
  * is for rules. This function is split in three to allow NCC to
  * statically determine the modules to resolve.
  *
- * @returns {Promise<Object.<string, () => any>>}
+ * @private
+ * @returns {Promise<Object.<string, Function>>}
  * An object containing JS file names associated with their appropriate require function
  */
 async function loadRules () {
@@ -26634,7 +26704,8 @@ async function loadRules () {
  * is for fixes. This function is split in three to allow NCC to
  * statically determine the modules to resolve.
  *
- * @returns {Promise<Object.<string, () => any>>}
+ * @private
+ * @returns {Promise<Object.<string, Function>>}
  * An object containing JS file names associated with their appropriate require function
  */
 async function loadFixes () {
@@ -26654,7 +26725,8 @@ async function loadFixes () {
  * is for Axioms. This function is split in three to allow NCC to
  * statically determine the modules to resolve.
  *
- * @returns {Promise<Object.<string, () => any>>}
+ * @private
+ * @returns {Promise<Object.<string, Function>>}
  * An object containing JS file names associated with their appropriate require function
  */
 async function loadAxioms () {
@@ -26665,9 +26737,69 @@ async function loadAxioms () {
 }
 
 /**
+ * Checks a rule's list of axioms against a list of valid
+ * targets, and determines if the rule should run or not
+ * based on the following rules criteria:
+ * * The rule's list has a direct match on a target OR
+ * * The rule specifies a numerical axiom (ex. >) and the target
+ *   list contains a target that matches that axiom.
+ *
+ * Supported numerical axioms are >, <, >=, <=, and = Only
+ *
+ * @memberof repolinter
+ * @param {string[]} validTargets The axiom target list in "target=thing" format, including the wildcard entry ("target=*").
+ * For numerical targets it is assumed that only one entry and the wildcard are present (e.g. ["target=2", "target=3", "target=*"] is invalid)
+ * @param {string[]} ruleAxioms The rule "where" specification to validate against.
+ * @returns {string[]} The list pf unsatisfied axioms, if any. Empty array indicates the rule should run.
+ */
+function shouldRuleRun (validTargets, ruleAxioms) {
+  // parse out numerical axioms, splitting them by name, operand, and number
+  const ruleRegex = /([\w-]+)((?:>|<)=?)(\d+)/i
+  const numericalRuleAxioms = []
+  const regularRuleAxioms = []
+  for (const ruleax of ruleAxioms) {
+    const match = ruleRegex.exec(ruleax)
+    if (match !== null && match[1] && match[2] && !isNaN(parseInt(match[3]))) {
+      // parse the numerical version
+      numericalRuleAxioms.push({ axiom: ruleax, name: match[1], operand: match[2], number: parseInt(match[3]) })
+    } else {
+      // parse the non-numerical version
+      regularRuleAxioms.push(ruleax)
+    }
+  }
+  // test that every non-number axiom matches a target
+  // start a list of condidions that don't pass
+  const table = new Set(validTargets)
+  const failedRuleAxioms = regularRuleAxioms.filter(r => !table.has(r))
+  // check the numbered axioms
+  // convert the targets into { targetName: number } for all numerical ones
+  const numericalTargets = validTargets
+    .map(r => r.split('='))
+    .map(([name, maybeNumber]) => [name, parseInt(maybeNumber)])
+    .filter(([name, maybeNumber]) => !isNaN(maybeNumber))
+  /** @ts-ignore */
+  const numericalTargetsMap = new Map(numericalTargets)
+  // test each numerical Rule against it's numerical axiom, return the axioms that failed
+  return numericalRuleAxioms
+    .filter(({ axiom, name, operand, number }) => {
+      // get the number to test against
+      const target = numericalTargetsMap.get(name)
+      if (target === undefined) return true
+      // test the number based on the operand
+      return !((operand === '<' && target < number) ||
+        (operand === '<=' && target <= number) ||
+        (operand === '>' && target > number) ||
+        (operand === '>=' && target >= number))
+    })
+    .map(({ axiom }) => axiom)
+    .concat(failedRuleAxioms)
+}
+
+/**
  * Run all operations in a ruleset, including linting and fixing. Returns
  * a list of objects with the output of the linter rules
  *
+ * @memberof repolinter
  * @param {RuleInfo[]} ruleset A ruleset (list of rules with information about each). This parameter can be generated from a config using parseConfig.
  * @param {Object.<string, Result>|boolean} targets The axiom targets to enable for this run of the ruleset. Structure is from the output of determineTargets. Use true for all targets.
  * @param {FileSystem} fileSystem A filesystem object configured with filter paths and a target directory.
@@ -26676,11 +26808,15 @@ async function loadAxioms () {
  */
 async function runRuleset (ruleset, targets, fileSystem, dryRun) {
   // generate a flat array of axiom string identifiers
+  /** @ignore @type {string[]} */
   let targetArray = []
   if (typeof targets !== 'boolean') {
     targetArray = Object.entries(targets)
+      // restricted to only passed axioms
       .filter(([axiomId, res]) => res.passed)
+      // pair the axiom ID with the axiom target array
       .map(([axiomId, res]) => [axiomId, res.targets.map(t => t.path)])
+      // join the target arrays together into one array of all the targets
       .map(([axiomId, paths]) => [`${axiomId}=*`].concat(paths.map(p => `${axiomId}=${p}`)))
       .reduce((a, c) => a.concat(c), [])
   }
@@ -26694,8 +26830,8 @@ async function runRuleset (ruleset, targets, fileSystem, dryRun) {
     // check axioms and enable appropriately
     if (r.level === 'off') { return FormatResult.CreateIgnored(r, 'ignored because level is "off"') }
     // filter to only targets with no matches
-    if (typeof targets !== 'boolean') {
-      const ignoreReasons = r.where.filter(check => !targetArray.find(tar => check === tar))
+    if (typeof targets !== 'boolean' && r.where && r.where.length) {
+      const ignoreReasons = shouldRuleRun(targetArray, r.where)
       if (ignoreReasons.length > 0) { return FormatResult.CreateIgnored(r, `ignored due to unsatisfied condition(s): "${ignoreReasons.join('", "')}"`) }
     }
     // check if the rule file exists
@@ -26703,7 +26839,6 @@ async function runRuleset (ruleset, targets, fileSystem, dryRun) {
     let result
     try {
       // load the rule
-      /** @type {(fs: FileSystem, options: object) => Promise<Result> | Result} */
       const ruleFunc = allRules[r.ruleType]()
       // run the rule!
       result = await ruleFunc(fileSystem, r.ruleConfig)
@@ -26719,7 +26854,6 @@ async function runRuleset (ruleset, targets, fileSystem, dryRun) {
     if (!Object.prototype.hasOwnProperty.call(allFixes, r.fixType)) { return FormatResult.CreateError(r, `${r.fixType} is not a valid fix`) }
     let fixresult
     try {
-      /** @type {(fs: FileSystem, options: object, targets: string[], dryRun: boolean) => Promise<Result> | Result} */
       const fixFunc = allFixes[r.fixType]()
       fixresult = await fixFunc(fileSystem, r.fixConfig, fixTargets, dryRun)
     } catch (e) {
@@ -26736,7 +26870,8 @@ async function runRuleset (ruleset, targets, fileSystem, dryRun) {
  * Given an axiom configuration, determine the appropriate targets to run against
  * (e.g. "target=javascript").
  *
- * @param {object} axiomconfig A configuration conforming to the "axioms" section in schema.json
+ * @memberof repolinter
+ * @param {Object} axiomconfig A configuration conforming to the "axioms" section in schema.json
  * @param {FileSystem} fs The filesystem to run axioms against
  * @returns {Promise<Object.<string, Result>>} An object representing axiom name: axiom results. The array will be null if the axiom could not run.
  */
@@ -26757,8 +26892,11 @@ async function determineTargets (axiomconfig, fs) {
 /**
  * Validate a repolint configuration against a known JSON schema
  *
- * @param {object} config The configuration to validate
- * @returns {Promise<{ passed: boolean, error?: string }>} Whether or not the config validation succeeded
+ * @memberof repolinter
+ * @param {Object} config The configuration to validate
+ * @returns {Promise<Object>}
+ * A object representing or not the config validation succeeded (passed)
+ * an an error message if not (error)
  */
 async function validateConfig (config) {
   // compile the json schema
@@ -26789,7 +26927,8 @@ async function validateConfig (config) {
  * Parse a JSON object config (with repolinter.json structure) and return a list
  * of RuleInfo objects which will then be used to determine how to run the linter.
  *
- * @param {object} config The repolinter.json config
+ * @memberof repolinter
+ * @param {Object} config The repolinter.json config
  * @returns {RuleInfo[]} The parsed rule data
  */
 function parseConfig (config) {
@@ -26831,11 +26970,16 @@ function parseConfig (config) {
     .reduce((a, c) => a.concat(c))
 }
 
-exports.runRuleset = runRuleset
-exports.determineTargets = determineTargets
-exports.validateConfig = validateConfig
-exports.parseConfig = parseConfig
-exports.lint = lint
+module.exports.runRuleset = runRuleset
+module.exports.determineTargets = determineTargets
+module.exports.validateConfig = validateConfig
+module.exports.parseConfig = parseConfig
+module.exports.shouldRuleRun = shouldRuleRun
+module.exports.lint = lint
+module.exports.Result = Result
+module.exports.RuleInfo = RuleInfo
+module.exports.FileSystem = FileSystem
+module.exports.FormatResult = FormatResult
 
 
 /***/ }),
@@ -26851,6 +26995,11 @@ const path = __webpack_require__(5622)
 const glob = __webpack_require__(9568)
 const fs = __webpack_require__(5747)
 
+/**
+ * Utility filesystem class that scopes operations to a given set of directories and a CWD
+ *
+ * @memberof repolinter
+ */
 class FileSystem {
   constructor (targetDir = '.', filterPaths = []) {
     this.targetDir = targetDir
@@ -27087,33 +27236,33 @@ const Result = __webpack_require__(2893)
 const RuleInfo = __webpack_require__(6395)
 
 /**
- *
+ * @typedef {Object} FormatResultBase
  * @property {string} status status of the rule execution, either FormatResult.OK, FormatResult.IGNORED, or FormatResult.ERROR
  * @property {string?} [runMessage] a message why the rule was ignored or failed, or undefined if the rule ran successfully
  * @property {Result?} [lintResult] the linter result object, or undefined if the rule was ignored
  * @property {Result?} [fixResult] the fix result object, or undefined if no fix was present or the rule was ignored
  * @property {RuleInfo} ruleInfo the rule metadata object
  */
+
+/**
+ * A class representing the information produces by a single rule/fix
+ * check. Do not use the constructor for this class, prefer the static
+ * factory functions instead.
+ *
+ * @memberof repolinter
+ * @extends FormatResultBase
+ * @param {RuleInfo} ruleInfo Information about the rule
+ * @param {string?} message Message from the engine indicating why the rule may have been excluded. must be null if lintRes is present.
+ * @param {string} status The "status" (error, ignored, ok) code, based on static values in FormatResult
+ * @param {Result?} lintRes The linter rule output
+ * @param {Result?} fixRes The fixer rule output
+ */
 class FormatResult {
-  /**
-   *
-   * @private
-   * @param {RuleInfo} ruleInfo Information about the rule
-   * @param {string?} message Message from the engine indicating why the rule may have been excluded. must be null if lintRes is present.
-   * @param {string} status The "status" (error, ignored, ok) code, based on static values in FormatResult
-   * @param {Result?} lintRes The linter rule output
-   * @param {Result?} fixRes The fixer rule output
-   */
   constructor (ruleInfo, message, status, lintRes, fixRes) {
-    /** @member {RuleInfo} ruleInfo the rule metadata object */
     this.ruleInfo = ruleInfo
-    /** @member {string} [runMessage] a message why the rule was ignored or failed, or null if the rule ran successfully */
     if (message) this.runMessage = message
-    /** @member {string} status status of the rule execution, either FormatResult.OK, FormatResult.IGNORED, or FormatResult.ERROR */
     this.status = status
-    /** @member {Result} [lintResult] the linter result object, or null if the rule was ignored */
     if (lintRes) this.lintResult = lintRes
-    /** @member {Result} [fixResult] the fix result object, or null if no fix was present or the rule was ignored */
     if (fixRes) this.fixResult = fixRes
   }
 
@@ -27212,17 +27361,15 @@ module.exports = FormatResult
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-/**
- * A github markdown header slugger, based on the following fork of github-slugger: https://github.com/Flet/github-slugger/tree/25cdb15768737d7c1e5218d06d34a772faaf5851
- */
-
 const whitespace = /\s/g
 const specials = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~’]/g
 const emojiRegex = __webpack_require__(9451)
 
 /**
+ * A github markdown header slugger, based on the following fork of github-slugger: https://github.com/Flet/github-slugger/tree/25cdb15768737d7c1e5218d06d34a772faaf5851
  * Parse a unicode string into a markdown anchor link using a GitHub-flavored algorithm.
  *
+ * @protected
  * @param {string} string The heading to parse.
  * @returns {string} The slug to use in URLs.
  */
@@ -27319,14 +27466,23 @@ module.exports = new Linguist()
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+/**
+ * @typedef {Object} ResultTarget
+ * @property {string} [path] The filepath or axiom value executed on.
+ * @property {string} [pattern] The file pattern used to search, can be present if path is not available.
+ * @property {boolean} passed Whether or not this target passed the check.
+ * @property {string} [message] A message relating to this target.
+ */
+
+/**
+ * Object representing the result of a rule or fix job.
+ *
+ * @memberof repolinter
+ * @param {string?} message Message to display to console indications the output of the job. Does not need to contain the list of files checked.
+ * @param {ResultTarget[]} targets A list of paths that this rule/fix changed or checked
+ * @param {boolean} passed Whether or not the rule/fix succeeded
+ */
 class Result {
-  /**
-   * Object representing the result of a rule or fix job.
-   *
-   * @param {string?} message Message to display to console indications the output of the job. Does not need to contain the list of files checked.
-   * @param {Array<{ path?: string, pattern?: string, passed: boolean, message?: string }>} targets A list of paths that this rule/fix changed or checked
-   * @param {boolean} passed Whether or not the rule/fix succeeded
-   */
   constructor (message, targets, passed) {
     if (message) this.message = message
     this.targets = targets
@@ -27345,19 +27501,22 @@ module.exports = Result
 // Copyright 2017 TODO Group. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+/**
+ * A class containing parsed information from a single "rule"
+ * entry in the configuration.
+ *
+ * @memberof repolinter
+ * @param {string} name Human readable name of the rule
+ * @param {"off"|"error"|"warning"} level The print level of the rule
+ * @param {Array<string>?} where Axioms to conditionally run the rule
+ * @param {string} ruleType The type of rule to run (ex. "directory-existence")
+ * @param {Object} ruleConfig The options object for the rule
+ * @param {string|undefined} [fixType] The type of fix to run (ex. "file-modify")
+ * @param {object|undefined} [fixConfig] The options object for the fix to run
+ * @param {string|undefined} [policyInfo] A string representing more in-depth information about this rule/fix combo.
+ * @param {string|undefined} [policyUrl] A URL with relevant policy information pertaining to this rule/fix combo.
+ */
 class RuleInfo {
-  /**
-   *
-   * @param {string} name Human readable name of the rule
-   * @param {"off"|"error"|"warning"} level The print level of the rule
-   * @param {Array<string>?} where Axioms to conditionally run the rule
-   * @param {string} ruleType The type of rule to run (ex. "directory-existence")
-   * @param {object} ruleConfig The options object for the rule
-   * @param {string|undefined} [fixType] The type of fix to run (ex. "file-modify")
-   * @param {object|undefined} [fixConfig] The options object for the fix to run
-   * @param {string|undefined} [policyInfo] A string representing more in-depth information about this rule/fix combo.
-   * @param {string|undefined} [policyUrl] A URL with relevant policy information pertaining to this rule/fix combo.
-   */
   constructor (name, level, where, ruleType, ruleConfig, fixType, fixConfig, policyInfo, policyUrl) {
     this.name = name
     this.level = level
@@ -28184,16 +28343,31 @@ function listCommitsWithLines (fileSystem, options) {
   }).filter(commit => commit.lines.length > 0)
 }
 
+/**
+ * @param targetDir
+ */
 function gitAllCommits (targetDir) {
   const args = ['-C', targetDir, 'rev-list', '--all']
   return spawnSync('git', args).stdout.toString().trim().split('\n')
 }
 
+/**
+ * @param targetDir
+ * @param pattern
+ * @param ignoreCase
+ * @param commit
+ */
 function gitGrep (targetDir, pattern, ignoreCase, commit) {
   const args = ['-C', targetDir, 'grep', '-E', ignoreCase ? '-i' : '', pattern, commit]
   return spawnSync('git', args).stdout.toString().split('\n').filter(x => !!x)
 }
 
+/**
+ * @param targetDir
+ * @param pattern
+ * @param ignoreCase
+ * @param commit
+ */
 function gitLinesAtCommit (targetDir, pattern, ignoreCase, commit) {
   const lines = gitGrep(targetDir, pattern, ignoreCase, commit)
     .map((entry) => {
@@ -28204,6 +28378,10 @@ function gitLinesAtCommit (targetDir, pattern, ignoreCase, commit) {
   return lines
 }
 
+/**
+ * @param fileSystem
+ * @param options
+ */
 function listFiles (fileSystem, options) {
   const files = []
 
@@ -28236,6 +28414,9 @@ function listFiles (fileSystem, options) {
  * @returns {Result} The lint rule result
  */
 function gitGrepCommits (fs, options) {
+  // backwards compatibility with blacklist
+  options.denylist = options.denylist || options.blacklist
+
   const files = listFiles(fs, options)
   const targets = files.map(file => {
     const [firstCommit, ...rest] = file.commits
@@ -28290,12 +28471,18 @@ function grepLog (fileSystem, options) {
   return parseLog(log)
 }
 
+/**
+ * @param log
+ */
 function parseLog (log) {
   const logEntries = log.split('\ncommit ').filter(x => !!x)
 
   return logEntries.map(entry => extractInfo(entry))
 }
 
+/**
+ * @param commit
+ */
 function extractInfo (commit) {
   const [hash, , , ...message] = commit.split('\n')
   return {
@@ -28311,6 +28498,9 @@ function extractInfo (commit) {
  * @returns {Result} The lint rule result
  */
 function gitGrepLog (fs, options) {
+  // backwards compatibility with blacklist
+  options.denylist = options.denylist || options.blacklist
+
   const commits = grepLog(fs, options)
 
   const targets = commits.map(commit => {
@@ -28355,11 +28545,19 @@ function gitAllCommits (targetDir) {
   return spawnSync('git', args).stdout.toString().split('\n')
 }
 
+/**
+ * @param targetDir
+ * @param commit
+ */
 function gitFilesAtCommit (targetDir, commit) {
   const args = ['-C', targetDir, 'ls-tree', '-r', '--name-only', commit]
   return spawnSync('git', args).stdout.toString().split('\n')
 }
 
+/**
+ * @param fileSystem
+ * @param options
+ */
 function listFiles (fileSystem, options) {
   const files = []
 
@@ -28389,6 +28587,9 @@ function listFiles (fileSystem, options) {
  * @returns {Result} The lint rule result
  */
 function gitListTree (fs, options) {
+  // backwards compatibility with blacklist
+  options.denylist = options.denylist || options.blacklist
+
   const files = listFiles(fs, options)
 
   const targets = files.map(file => {
@@ -30254,6 +30455,14 @@ function wrappy (fn, cb) {
 /***/ ((module) => {
 
 module.exports = eval("require")("encoding");
+
+
+/***/ }),
+
+/***/ 6875:
+/***/ ((module) => {
+
+module.exports = eval("require")("gitlog");
 
 
 /***/ }),
