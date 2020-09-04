@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/newrelic/repolinter-action/compare/v1.3.2...v1.4.0) (2020-09-04)
+
+
+### Features
+
+* upgrade repolinter version ([31e15f9](https://github.com/newrelic/repolinter-action/commit/31e15f9d5d1e562427d99698180351897ecd1eca))
+
 ## [1.3.2](https://github.com/newrelic/repolinter-action/compare/v1.3.1...v1.3.2) (2020-09-03)
 
 
