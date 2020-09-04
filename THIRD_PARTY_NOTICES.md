@@ -28,6 +28,7 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 * [@octokit/request-error](#octokitrequest-error)
 * [@types/jest](#typesjest)
 * [@types/node](#typesnode)
+* [@typescript-eslint/eslint-plugin](#typescript-eslinteslint-plugin)
 * [@typescript-eslint/parser](#typescript-eslintparser)
 * [@vercel/ncc](#vercelncc)
 * [eslint-plugin-github](#eslint-plugin-github)
@@ -62,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### @octokit/action
 
-This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.0.6](https://github.com/octokit/action.js/tree/v3.0.6)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.0.6/LICENSE):
+This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.0.7](https://github.com/octokit/action.js/tree/v3.0.7)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.0.7/LICENSE):
 
 ```
 MIT License
@@ -120,7 +121,7 @@ SOFTWARE.
 
 ### @octokit/rest
 
-This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.4](https://github.com/octokit/rest.js/tree/v18.0.4)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.4/LICENSE):
+This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.5](https://github.com/octokit/rest.js/tree/v18.0.5)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.5/LICENSE):
 
 ```
 The MIT License
@@ -314,7 +315,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.3](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.3)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.3/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.4](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.4)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.4/LICENSE):
 
 ```
     MIT License
@@ -341,9 +342,38 @@ This product includes source derived from [@types/node](https://github.com/Defin
 
 ```
 
+### @typescript-eslint/eslint-plugin
+
+This product includes source derived from [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) ([v4.0.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1)), distributed under the [MIT License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE):
+
+```
+MIT License
+
+Copyright (c) 2019 TypeScript ESLint and other contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
 ### @typescript-eslint/parser
 
-This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v3.10.1](https://github.com/typescript-eslint/typescript-eslint/tree/v3.10.1)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v3.10.1/LICENSE):
+This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v4.0.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE):
 
 ```
 TypeScript ESLint Parser
@@ -415,7 +445,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### eslint-plugin-jest
 
-This product includes source derived from [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) ([v23.20.0](https://github.com/jest-community/eslint-plugin-jest/tree/v23.20.0)), distributed under the [MIT License](https://github.com/jest-community/eslint-plugin-jest/blob/v23.20.0/LICENSE):
+This product includes source derived from [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) ([v24.0.0](https://github.com/jest-community/eslint-plugin-jest/tree/v24.0.0)), distributed under the [MIT License](https://github.com/jest-community/eslint-plugin-jest/blob/v24.0.0/LICENSE):
 
 ```
 MIT License
@@ -631,7 +661,7 @@ SOFTWARE.
 
 ### typescript
 
-This product includes source derived from [typescript](https://github.com/Microsoft/TypeScript) ([v3.9.7](https://github.com/Microsoft/TypeScript/tree/v3.9.7)), distributed under the [Apache-2.0 License](https://github.com/Microsoft/TypeScript/blob/v3.9.7/LICENSE.txt):
+This product includes source derived from [typescript](https://github.com/Microsoft/TypeScript) ([v4.0.2](https://github.com/Microsoft/TypeScript/tree/v4.0.2)), distributed under the [Apache-2.0 License](https://github.com/Microsoft/TypeScript/blob/v4.0.2/LICENSE.txt):
 
 ```
 Apache License

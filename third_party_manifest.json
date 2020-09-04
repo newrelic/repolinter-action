@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Thu Sep 03 2020 23:44:36 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Sep 04 2020 22:48:40 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
@@ -15,15 +15,15 @@
       "licenseUrl": "https://github.com/actions/toolkit/blob/v1.2.5/LICENSE.md",
       "licenseTextSource": "file"
     },
-    "@octokit/action@3.0.6": {
+    "@octokit/action@3.0.7": {
       "name": "@octokit/action",
-      "version": "3.0.6",
-      "range": "^3.0.6",
+      "version": "3.0.7",
+      "range": "^3.0.7",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/action.js",
-      "versionedRepoUrl": "https://github.com/octokit/action.js/tree/v3.0.6",
+      "versionedRepoUrl": "https://github.com/octokit/action.js/tree/v3.0.7",
       "licenseFile": "node_modules/@octokit/action/LICENSE",
-      "licenseUrl": "https://github.com/octokit/action.js/blob/v3.0.6/LICENSE",
+      "licenseUrl": "https://github.com/octokit/action.js/blob/v3.0.7/LICENSE",
       "licenseTextSource": "file"
     },
     "@octokit/plugin-retry@3.0.3": {
@@ -37,15 +37,15 @@
       "licenseUrl": "https://github.com/octokit/plugin-retry.js/blob/v3.0.3/LICENSE",
       "licenseTextSource": "file"
     },
-    "@octokit/rest@18.0.4": {
+    "@octokit/rest@18.0.5": {
       "name": "@octokit/rest",
-      "version": "18.0.4",
-      "range": "^18.0.4",
+      "version": "18.0.5",
+      "range": "^18.0.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/rest.js",
-      "versionedRepoUrl": "https://github.com/octokit/rest.js/tree/v18.0.4",
+      "versionedRepoUrl": "https://github.com/octokit/rest.js/tree/v18.0.5",
       "licenseFile": "node_modules/@octokit/rest/LICENSE",
-      "licenseUrl": "https://github.com/octokit/rest.js/blob/v18.0.4/LICENSE",
+      "licenseUrl": "https://github.com/octokit/rest.js/blob/v18.0.5/LICENSE",
       "licenseTextSource": "file"
     },
     "@octokit/types@5.4.1": {
@@ -117,26 +117,37 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.13/LICENSE",
       "licenseTextSource": "file"
     },
-    "@types/node@14.6.3": {
+    "@types/node@14.6.4": {
       "name": "@types/node",
-      "version": "14.6.3",
-      "range": "^14.6.3",
+      "version": "14.6.4",
+      "range": "^14.6.4",
       "licenses": "MIT",
       "repoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.3",
+      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.4",
       "licenseFile": "node_modules/@types/node/LICENSE",
-      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.3/LICENSE",
+      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.4/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/parser@3.10.1": {
+    "@typescript-eslint/eslint-plugin@4.0.1": {
+      "name": "@typescript-eslint/eslint-plugin",
+      "version": "4.0.1",
+      "range": "^4.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1",
+      "licenseFile": "node_modules/@typescript-eslint/eslint-plugin/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "@typescript-eslint/parser@4.0.1": {
       "name": "@typescript-eslint/parser",
-      "version": "3.10.1",
-      "range": "^3.10.1",
+      "version": "4.0.1",
+      "range": "^4.0.1",
       "licenses": "BSD-2-Clause",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v3.10.1",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1",
       "licenseFile": "node_modules/@typescript-eslint/parser/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v3.10.1/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE",
       "licenseTextSource": "file"
     },
     "@vercel/ncc@0.24.0": {
@@ -162,15 +173,15 @@
       "licenseTextSource": "file",
       "publisher": "GitHub, Inc."
     },
-    "eslint-plugin-jest@23.20.0": {
+    "eslint-plugin-jest@24.0.0": {
       "name": "eslint-plugin-jest",
-      "version": "23.20.0",
-      "range": "^23.20.0",
+      "version": "24.0.0",
+      "range": "^24.0.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/jest-community/eslint-plugin-jest",
-      "versionedRepoUrl": "https://github.com/jest-community/eslint-plugin-jest/tree/v23.20.0",
+      "versionedRepoUrl": "https://github.com/jest-community/eslint-plugin-jest/tree/v24.0.0",
       "licenseFile": "node_modules/eslint-plugin-jest/LICENSE",
-      "licenseUrl": "https://github.com/jest-community/eslint-plugin-jest/blob/v23.20.0/LICENSE",
+      "licenseUrl": "https://github.com/jest-community/eslint-plugin-jest/blob/v24.0.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Jonathan Kim",
       "email": "hello@jkimbo.com",
@@ -263,15 +274,15 @@
       "email": "kulshekhar@users.noreply.github.com",
       "url": "https://github.com/kulshekhar"
     },
-    "typescript@3.9.7": {
+    "typescript@4.0.2": {
       "name": "typescript",
-      "version": "3.9.7",
-      "range": "^3.9.7",
+      "version": "4.0.2",
+      "range": "^4.0.2",
       "licenses": "Apache-2.0",
       "repoUrl": "https://github.com/Microsoft/TypeScript",
-      "versionedRepoUrl": "https://github.com/Microsoft/TypeScript/tree/v3.9.7",
+      "versionedRepoUrl": "https://github.com/Microsoft/TypeScript/tree/v4.0.2",
       "licenseFile": "node_modules/typescript/LICENSE.txt",
-      "licenseUrl": "https://github.com/Microsoft/TypeScript/blob/v3.9.7/LICENSE.txt",
+      "licenseUrl": "https://github.com/Microsoft/TypeScript/blob/v4.0.2/LICENSE.txt",
       "licenseTextSource": "file",
       "publisher": "Microsoft Corp."
     }
