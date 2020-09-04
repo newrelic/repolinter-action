@@ -1,4 +1,4 @@
-export const enum Inputs {
+export const enum ActionInputs {
   TOKEN = 'token',
   USERNAME = 'username',
   CONFIG_URL = 'config_url',
@@ -10,7 +10,7 @@ export const enum Inputs {
   LABEL_COLOR = 'label_color'
 }
 
-export const enum Outputs {
+export const enum ActionOutputs {
   PASSED = 'passed',
   ERRORED = 'errored',
   JSON_OUTPUT = 'json_output'

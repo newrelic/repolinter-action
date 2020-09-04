@@ -1,7 +1,7 @@
 import * as cp from 'child_process'
 import * as path from 'path'
 import * as process from 'process'
-import {Inputs} from '../src/inputs'
+import {ActionInputs} from '../src/inputs'
 
 async function execAsync(
   command: string,
@@ -33,12 +33,12 @@ function getInputName(input: string): string {
 
 function getBaseEnv(): NodeJS.ProcessEnv {
   const ret: NodeJS.ProcessEnv = {}
-  ret[getInputName(Inputs.REPO)] = 'newrelic/repolinter-action'
-  ret[getInputName(Inputs.OUTPUT_TYPE)] = 'exit-code'
-  ret[getInputName(Inputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
-  ret[getInputName(Inputs.LABEL_NAME)] = 'repolinter'
-  ret[getInputName(Inputs.LABEL_COLOR)] = 'fbca04'
-  ret[getInputName(Inputs.USERNAME)] = 'github-actions'
+  ret[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
+  ret[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
+  ret[getInputName(ActionInputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
+  ret[getInputName(ActionInputs.LABEL_NAME)] = 'repolinter'
+  ret[getInputName(ActionInputs.LABEL_COLOR)] = 'fbca04'
+  ret[getInputName(ActionInputs.USERNAME)] = 'github-actions'
   ret['GITHUB_ACTION'] = 'true'
   return ret
 }
@@ -48,7 +48,7 @@ describe('integration', () => {
 
   test('runs a failing test config', async () => {
     const baseEnv = getBaseEnv()
-    baseEnv[getInputName(Inputs.CONFIG_FILE)] = path.resolve(
+    baseEnv[getInputName(ActionInputs.CONFIG_FILE)] = path.resolve(
       __dirname,
       'testconfig.json'
     )
@@ -63,7 +63,7 @@ describe('integration', () => {
 
   test('runs a URL config', async () => {
     const baseEnv = getBaseEnv()
-    baseEnv[getInputName(Inputs.CONFIG_URL)] =
+    baseEnv[getInputName(ActionInputs.CONFIG_URL)] =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
 
     const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
@@ -86,7 +86,7 @@ describe('integration', () => {
 
   test('runs a passing config', async () => {
     const baseEnv = getBaseEnv()
-    baseEnv[getInputName(Inputs.CONFIG_FILE)] = path.resolve(
+    baseEnv[getInputName(ActionInputs.CONFIG_FILE)] = path.resolve(
       __dirname,
       'passingtestconfig.json'
     )

@@ -14,7 +14,7 @@ import {validateConfig} from 'repolinter'
 export default async function getConfig(where: {
   configFile?: string
   configUrl?: string
-}): Promise<object | null> {
+}): Promise<Record<string, unknown> | null> {
   // get the config file contents
   let contents
   if (where.configFile) {

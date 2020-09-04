@@ -11,7 +11,9 @@ describe('getConfig', () => {
 
   test('getConfig returns a config from a JSON file', async () => {
     const filepath = path.resolve(__dirname, 'testconfig.json')
-    const expected = JSON.parse(await fs.promises.readFile(filepath, 'utf8'))
+    const expected = JSON.parse(
+      await fs.promises.readFile(filepath, 'utf8')
+    ) as Record<string, unknown>
     const res = await getConfig({configFile: filepath})
 
     expect(res).toMatchObject(expected)
@@ -19,10 +21,12 @@ describe('getConfig', () => {
 
   test('getConfig returns a config from a YAML', async () => {
     const filepath = path.resolve(__dirname, 'testconfig.yaml')
-    const expected = yaml.safeLoad(await fs.promises.readFile(filepath, 'utf8'))
+    const expected = yaml.safeLoad(
+      await fs.promises.readFile(filepath, 'utf8')
+    ) as Record<string, unknown>
     const res = await getConfig({configFile: filepath})
 
-    expect(res).toMatchObject(expected as object)
+    expect(res).toMatchObject(expected)
   })
 
   test('getConfig returns a JSON config from a URL', async () => {
@@ -30,7 +34,9 @@ describe('getConfig', () => {
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
     const filepath = path.resolve(__dirname, 'testconfig.json')
-    const expected = JSON.parse(await fs.promises.readFile(filepath, 'utf8'))
+    const expected = JSON.parse(
+      await fs.promises.readFile(filepath, 'utf8')
+    ) as Record<string, unknown>
     const scope = nock('https://raw.githubusercontent.com')
       .get('/aperture-science-incorporated/.github/master/repolinter.json')
       .replyWithFile(200, filepath)
@@ -47,14 +53,16 @@ describe('getConfig', () => {
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.yaml'
     const filepath = path.resolve(__dirname, 'testconfig.yaml')
-    const expected = yaml.safeLoad(await fs.promises.readFile(filepath, 'utf8'))
+    const expected = yaml.safeLoad(
+      await fs.promises.readFile(filepath, 'utf8')
+    ) as Record<string, unknown>
     const scope = nock('https://raw.githubusercontent.com')
       .get('/aperture-science-incorporated/.github/master/repolinter.yaml')
       .replyWithFile(200, filepath)
 
     const res = await getConfig({configUrl: url})
 
-    expect(res).toMatchObject(expected as object)
+    expect(res).toMatchObject(expected)
 
     scope.done()
   })

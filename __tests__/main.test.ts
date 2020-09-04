@@ -1,4 +1,4 @@
-import {Inputs, Outputs} from '../src/inputs'
+import {ActionInputs, ActionOutputs} from '../src/inputs'
 import run from '../src/main'
 import * as path from 'path'
 import nock from 'nock'
@@ -30,12 +30,13 @@ describe('main', () => {
     // reset process.env
     process.env = {}
     // reset inputs
-    process.env[getInputName(Inputs.REPO)] = 'newrelic/repolinter-action'
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'exit-code'
-    process.env[getInputName(Inputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
-    process.env[getInputName(Inputs.LABEL_NAME)] = 'repolinter'
-    process.env[getInputName(Inputs.LABEL_COLOR)] = 'fbca04'
-    process.env[getInputName(Inputs.USERNAME)] = 'my-user'
+    process.env[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
+    process.env[getInputName(ActionInputs.OUTPUT_NAME)] =
+      'Open Source Policy Issues'
+    process.env[getInputName(ActionInputs.LABEL_NAME)] = 'repolinter'
+    process.env[getInputName(ActionInputs.LABEL_COLOR)] = 'fbca04'
+    process.env[getInputName(ActionInputs.USERNAME)] = 'my-user'
     process.env['GITHUB_ACTION'] = 'true'
     // disable STDOUT printing for now
     spooledStdout = []
@@ -48,180 +49,180 @@ describe('main', () => {
   })
 
   test('throws when no token is supplied and output-type is not off', async () => {
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'issue'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid token is supplied and output-type is not off', async () => {
     process.env['GITHUB_TOKEN'] = '2'
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'issue'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid is supplied in TOKEN and output-type is not off', async () => {
-    process.env[getInputName(Inputs.TOKEN)] = '2'
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
+    process.env[getInputName(ActionInputs.TOKEN)] = '2'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'issue'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no username is supplied', async () => {
-    process.env[getInputName(Inputs.TOKEN)] = '2'
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
-    delete process.env[getInputName(Inputs.USERNAME)]
+    process.env[getInputName(ActionInputs.TOKEN)] = '2'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'issue'
+    delete process.env[getInputName(ActionInputs.USERNAME)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no output-type is supplied', async () => {
-    delete process.env[getInputName(Inputs.OUTPUT_TYPE)]
+    delete process.env[getInputName(ActionInputs.OUTPUT_TYPE)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid output-type is supplied', async () => {
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'string-cheese'
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'string-cheese'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no output-name is supplied', async () => {
-    delete process.env[getInputName(Inputs.OUTPUT_NAME)]
+    delete process.env[getInputName(ActionInputs.OUTPUT_NAME)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no repository is supplied', async () => {
-    delete process.env[getInputName(Inputs.REPO)]
+    delete process.env[getInputName(ActionInputs.REPO)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid config-url is specified', async () => {
-    process.env[getInputName(Inputs.CONFIG_URL)] = 'notadomain'
+    process.env[getInputName(ActionInputs.CONFIG_URL)] = 'notadomain'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no label name is specified', async () => {
-    delete process.env[getInputName(Inputs.LABEL_NAME)]
+    delete process.env[getInputName(ActionInputs.LABEL_NAME)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid label name is specified', async () => {
-    process.env[getInputName(Inputs.LABEL_NAME)] = ''
+    process.env[getInputName(ActionInputs.LABEL_NAME)] = ''
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no label color is specified', async () => {
-    delete process.env[getInputName(Inputs.LABEL_COLOR)]
+    delete process.env[getInputName(ActionInputs.LABEL_COLOR)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when an invalid label color is specified', async () => {
-    process.env[getInputName(Inputs.LABEL_COLOR)] = 'notacolor'
+    process.env[getInputName(ActionInputs.LABEL_COLOR)] = 'notacolor'
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no repository is supplied', async () => {
-    delete process.env[getInputName(Inputs.REPO)]
+    delete process.env[getInputName(ActionInputs.REPO)]
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('runs a failing file config', async () => {
     const configPath = path.resolve(__dirname, 'testconfig.json')
-    process.env[getInputName(Inputs.CONFIG_FILE)] = configPath
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] = configPath
 
     const expected = JSON.parse(
       jsonFormatter.formatOutput(
@@ -239,15 +240,17 @@ describe('main', () => {
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('false')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
-    expect(JSON.parse(outputs[Outputs.JSON_OUTPUT])).toMatchObject(expected)
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(JSON.parse(outputs[ActionOutputs.JSON_OUTPUT])).toMatchObject(
+      expected
+    )
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('runs a failing URL config', async () => {
     const configPath = path.resolve(__dirname, 'testconfig.json')
-    process.env[getInputName(Inputs.CONFIG_URL)] =
+    process.env[getInputName(ActionInputs.CONFIG_URL)] =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
 
     nock('https://raw.githubusercontent.com')
@@ -268,9 +271,9 @@ describe('main', () => {
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('false')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
-    expect(JSON.parse(outputs[Outputs.JSON_OUTPUT])).toMatchObject(
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(JSON.parse(outputs[ActionOutputs.JSON_OUTPUT])).toMatchObject(
       JSON.parse(expected)
     )
     expect(process.exitCode).not.toEqual(0)
@@ -280,27 +283,27 @@ describe('main', () => {
     await run()
     const outputs = getOutputs(spooledStdout)
 
-    expect(outputs[Outputs.ERRORED]).toEqual('false')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws if the config is invalid', async () => {
     const configPath = path.resolve(__dirname, 'invalidtestconfig.json')
-    process.env[getInputName(Inputs.CONFIG_FILE)] = configPath
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] = configPath
 
     await run()
     const outputs = getOutputs(spooledStdout)
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('true')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })
 
   test('runs a passing config', async () => {
     const configPath = path.resolve(__dirname, 'passingtestconfig.json')
-    process.env[getInputName(Inputs.CONFIG_FILE)] = configPath
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] = configPath
 
     await run()
     const outputs = getOutputs(spooledStdout)
@@ -316,9 +319,9 @@ describe('main', () => {
     )
 
     // console.debug(out)
-    expect(outputs[Outputs.ERRORED]).toEqual('false')
-    expect(outputs[Outputs.PASSED]).toEqual('true')
-    expect(JSON.parse(outputs[Outputs.JSON_OUTPUT])).toMatchObject(
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('true')
+    expect(JSON.parse(outputs[ActionOutputs.JSON_OUTPUT])).toMatchObject(
       JSON.parse(expected)
     )
     expect(process.exitCode).toEqual(0)
@@ -339,9 +342,9 @@ describe('main', () => {
       .reply(200, {number: 7})
 
     const configPath = path.resolve(__dirname, 'testconfig.json')
-    process.env[getInputName(Inputs.CONFIG_FILE)] = configPath
-    process.env[getInputName(Inputs.OUTPUT_TYPE)] = 'issue'
-    process.env[getInputName(Inputs.TOKEN)] = '123315213523b53'
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] = configPath
+    process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'issue'
+    process.env[getInputName(ActionInputs.TOKEN)] = '123315213523b53'
 
     const expected = jsonFormatter.formatOutput(
       await lint(
@@ -356,10 +359,10 @@ describe('main', () => {
     await run(true)
     const outputs = getOutputs(spooledStdout)
 
-    expect(outputs[Outputs.ERRORED]).toEqual('false')
-    expect(outputs[Outputs.PASSED]).toEqual('false')
-    expect(outputs[Outputs.JSON_OUTPUT])
-    expect(JSON.parse(outputs[Outputs.JSON_OUTPUT])).toMatchObject(
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(outputs[ActionOutputs.JSON_OUTPUT])
+    expect(JSON.parse(outputs[ActionOutputs.JSON_OUTPUT])).toMatchObject(
       JSON.parse(expected)
     )
     expect(process.exitCode).toEqual(0)

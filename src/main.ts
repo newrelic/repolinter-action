@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import {RequestError} from '@octokit/request-error'
 import Octokit from './getOctokit'
-import {Inputs, Outputs} from './inputs'
+import {ActionInputs, ActionOutputs} from './inputs'
 import {
   lint,
   resultFormatter,
@@ -13,15 +13,15 @@ import createOrUpdateIssue from './createorUpdateIssue'
 
 function getInputs(): {[key: string]: string} {
   return {
-    TOKEN: core.getInput(Inputs.TOKEN),
-    USERNAME: core.getInput(Inputs.USERNAME, {required: true}),
-    CONFIG_URL: core.getInput(Inputs.CONFIG_URL),
-    CONFIG_FILE: core.getInput(Inputs.CONFIG_FILE),
-    REPO: core.getInput(Inputs.REPO, {required: true}),
-    OUTPUT_TYPE: core.getInput(Inputs.OUTPUT_TYPE, {required: true}),
-    OUTPUT_NAME: core.getInput(Inputs.OUTPUT_NAME, {required: true}),
-    LABEL_NAME: core.getInput(Inputs.LABEL_NAME, {required: true}),
-    LABEL_COLOR: core.getInput(Inputs.LABEL_COLOR, {required: true})
+    TOKEN: core.getInput(ActionInputs.TOKEN),
+    USERNAME: core.getInput(ActionInputs.USERNAME, {required: true}),
+    CONFIG_URL: core.getInput(ActionInputs.CONFIG_URL),
+    CONFIG_FILE: core.getInput(ActionInputs.CONFIG_FILE),
+    REPO: core.getInput(ActionInputs.REPO, {required: true}),
+    OUTPUT_TYPE: core.getInput(ActionInputs.OUTPUT_TYPE, {required: true}),
+    OUTPUT_NAME: core.getInput(ActionInputs.OUTPUT_NAME, {required: true}),
+    LABEL_NAME: core.getInput(ActionInputs.LABEL_NAME, {required: true}),
+    LABEL_COLOR: core.getInput(ActionInputs.LABEL_COLOR, {required: true})
   }
 }
 
@@ -105,17 +105,17 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       process.exitCode = 0
     }
     // set the outputs for this action
-    core.setOutput(Outputs.ERRORED, result.errored)
-    core.setOutput(Outputs.PASSED, result.passed)
+    core.setOutput(ActionOutputs.ERRORED, result.errored)
+    core.setOutput(ActionOutputs.PASSED, result.passed)
     core.setOutput(
-      Outputs.JSON_OUTPUT,
+      ActionOutputs.JSON_OUTPUT,
       jsonFormatter.formatOutput(result, true)
     )
   } catch (error) {
     // set the outputs for this action
     core.endGroup()
-    core.setOutput(Outputs.ERRORED, true)
-    core.setOutput(Outputs.PASSED, false)
+    core.setOutput(ActionOutputs.ERRORED, true)
+    core.setOutput(ActionOutputs.PASSED, false)
     core.setFailed('A fatal error was thrown.')
     if (error.name === 'HttpError') {
       const requestError = error as RequestError
