@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/prototypicalpro/repolinter/master/rulesets/schema.json",
+    "version": 2,
+    "axioms": {},
+    "rules": {
+        "readme-file-exists": {
+            "level": "error",
+            "rule": {
+                "type": "file-existence",
+                "options": {
+                    "globsAny": ["README*"],
+                    "nocase": true
+                }
+            }
+        }
+    }
+}

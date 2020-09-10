@@ -1,4 +1,5 @@
 export const enum ActionInputs {
+  DIRECTORY = 'directory',
   TOKEN = 'token',
   USERNAME = 'username',
   CONFIG_URL = 'config_url',

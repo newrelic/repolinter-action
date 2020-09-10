@@ -13,6 +13,12 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
 ```yaml
 - uses: repolinter-action@v1
   with:
+    # The directory Repolinter should run against. Accepts an absolute path
+    # or a path relative to $GITHUB_WORKSPACE.
+    #  
+    # Defaults to $GITHUB_WORKSPACE.
+    directory: ''
+
     # A path to the JSON/YAML Repolinter ruleset to use, relative to the workflow
     # working directory (i.e. under `$GITHUB_WORKSPACE`).
     # 

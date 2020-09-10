@@ -2,6 +2,14 @@ name: 'Repolinter Action'
 description: 'Runs Repolinter against a repository, then uses the results to open an issue.'
 author: 'New Relic Opensource'
 inputs:
+  directory:
+    required: false
+    description: >
+      The directory Repolinter should run against. Accepts an absolute path
+      or a path relative to $GITHUB_WORKSPACE.
+      
+      Defaults to $GITHUB_WORKSPACE.
+    default: ${{ github.workspace }}
   token:
     required: false
     description: >
@@ -29,7 +37,7 @@ inputs:
   config_file:
     required: false
     description: >
-      A path to the JSON or YAML Repolinter ruleset to use, relative to the workflow
+      A path to the JSON or YAML Repolinter ruleset to use, relative to the 
       working directory (i.e. under `$GITHUB_WORKSPACE`). 
       
       This option is mutually exclusive with config_url. If this option and 

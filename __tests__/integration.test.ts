@@ -33,6 +33,7 @@ function getInputName(input: string): string {
 
 function getBaseEnv(): NodeJS.ProcessEnv {
   const ret: NodeJS.ProcessEnv = {}
+  ret[getInputName(ActionInputs.DIRECTORY)] = '.'
   ret[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
   ret[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
   ret[getInputName(ActionInputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
@@ -95,6 +96,19 @@ describe('integration', () => {
 
     expect(code).toEqual(0)
     expect(out).toContain('passingtestconfig.json')
+    expect(out).not.toContain('undefined')
+  })
+
+  test('runs a config in a custom directory', async () => {
+    const baseEnv = getBaseEnv()
+    baseEnv[getInputName(ActionInputs.DIRECTORY)] = './__tests__/testfolder'
+    baseEnv[getInputName(ActionInputs.CONFIG_FILE)] =
+      './__tests__/testfolder/nestedtestconfig.json'
+
+    const {out, code} = await runAction(Object.assign({}, process.env, baseEnv))
+
+    expect(code).toEqual(0)
+    expect(out).toContain('nestedtestconfig.json')
     expect(out).not.toContain('undefined')
   })
 })

@@ -30,6 +30,7 @@ describe('main', () => {
     // reset process.env
     process.env = {}
     // reset inputs
+    process.env[getInputName(ActionInputs.DIRECTORY)] = '.'
     process.env[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
     process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
     process.env[getInputName(ActionInputs.OUTPUT_NAME)] =
@@ -46,6 +47,18 @@ describe('main', () => {
       else spooledStdout.push(str)
       return true
     })
+  })
+
+  test('throws when no directory is supplied', async () => {
+    delete process.env[getInputName(ActionInputs.DIRECTORY)]
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    // console.debug(out)
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no token is supplied and output-type is not off', async () => {
@@ -284,6 +297,45 @@ describe('main', () => {
     const outputs = getOutputs(spooledStdout)
 
     expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
+  })
+
+  test('runs in a custom directory', async () => {
+    process.env[getInputName(ActionInputs.DIRECTORY)] = './__tests__/testfolder'
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] =
+      './__tests__/testfolder/nestedtestconfig.json'
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('false')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('true')
+    expect(process.exitCode).toEqual(0)
+  })
+
+  test('throws when given an invalid directory', async () => {
+    process.env[getInputName(ActionInputs.DIRECTORY)] = 'notafolder'
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] =
+      './__tests__/testfolder/nestedtestconfig.json'
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
+  })
+
+  test('throws when given an file instead of a directory', async () => {
+    process.env[getInputName(ActionInputs.DIRECTORY)] = 'action.yml'
+    process.env[getInputName(ActionInputs.CONFIG_FILE)] =
+      './__tests__/testfolder/nestedtestconfig.json'
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
     expect(outputs[ActionOutputs.PASSED]).toEqual('false')
     expect(process.exitCode).not.toEqual(0)
   })

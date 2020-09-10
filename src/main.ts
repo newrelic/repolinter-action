@@ -8,11 +8,13 @@ import {
   markdownFormatter,
   jsonFormatter
 } from 'repolinter'
+import * as fs from 'fs'
 import getConfig from './getConfig'
 import createOrUpdateIssue from './createorUpdateIssue'
 
 function getInputs(): {[key: string]: string} {
   return {
+    DIRECTORY: core.getInput(ActionInputs.DIRECTORY, {required: true}),
     TOKEN: core.getInput(ActionInputs.TOKEN),
     USERNAME: core.getInput(ActionInputs.USERNAME, {required: true}),
     CONFIG_URL: core.getInput(ActionInputs.CONFIG_URL),
@@ -30,6 +32,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
   try {
     // get all inputs
     const {
+      DIRECTORY,
       TOKEN,
       USERNAME,
       CONFIG_FILE,
@@ -40,6 +43,16 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       LABEL_NAME,
       LABEL_COLOR
     } = getInputs()
+    // verify the directory exists and is a directory
+    try {
+      const stat = await fs.promises.stat(DIRECTORY)
+      if (!stat.isDirectory())
+        throw new Error(
+          `Supplied input directory ${DIRECTORY} is not a directory`
+        )
+    } catch (e) {
+      throw e
+    }
     // verify the output type is correct
     if (OUTPUT_TYPE !== 'exit-code' && OUTPUT_TYPE !== 'issue')
       throw new Error(`Invalid output paramter value ${OUTPUT_TYPE}`)
@@ -59,7 +72,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       configUrl: CONFIG_URL
     })
     // run the linter!
-    const result = await lint('.', undefined, config, true)
+    const result = await lint(DIRECTORY, undefined, config, true)
     core.debug(JSON.stringify(result))
     // print the formatted result
     core.startGroup('Repolinter Output')
