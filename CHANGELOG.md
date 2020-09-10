@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/newrelic/repolinter-action/compare/v1.4.0...v1.5.0) (2020-09-10)
+
+
+### Features
+
+* add directory input to specify a custom working directory ([8e0b796](https://github.com/newrelic/repolinter-action/commit/8e0b796b2165641d046c0d58e4769d4baa0676fc))
+
 # [1.4.0](https://github.com/newrelic/repolinter-action/compare/v1.3.2...v1.4.0) (2020-09-04)
 
 
