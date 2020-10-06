@@ -1,3 +1,11 @@
+## [1.5.1](https://github.com/newrelic/repolinter-action/compare/v1.5.0...v1.5.1) (2020-10-06)
+
+
+### Bug Fixes
+
+* fix duplicate github token environment varible causing auth to fail ([c9110ba](https://github.com/newrelic/repolinter-action/commit/c9110ba1f0fc5b5ee99640d08a9b5c7e384b4c73))
+* update dependencies (including @actions/core) ([9567d76](https://github.com/newrelic/repolinter-action/commit/9567d7675b7a6548696d8695030e220e66faa4ea))
+
 # [1.5.0](https://github.com/newrelic/repolinter-action/compare/v1.4.0...v1.5.0) (2020-09-10)
 
 
