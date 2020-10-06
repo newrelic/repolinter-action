@@ -47,7 +47,7 @@ code, the source code can be found at [https://github.com/newrelic/repolinter-ac
 
 ### @actions/core
 
-This product includes source derived from [@actions/core](https://github.com/actions/toolkit) ([v1.2.5](https://github.com/actions/toolkit/tree/v1.2.5)), distributed under the [MIT License](https://github.com/actions/toolkit/blob/v1.2.5/LICENSE.md):
+This product includes source derived from [@actions/core](https://github.com/actions/toolkit) ([v1.2.6](https://github.com/actions/toolkit/tree/v1.2.6)), distributed under the [MIT License](https://github.com/actions/toolkit/blob/v1.2.6/LICENSE.md):
 
 ```
 The MIT License (MIT)
@@ -63,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### @octokit/action
 
-This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.0.7](https://github.com/octokit/action.js/tree/v3.0.7)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.0.7/LICENSE):
+This product includes source derived from [@octokit/action](https://github.com/octokit/action.js) ([v3.1.1](https://github.com/octokit/action.js/tree/v3.1.1)), distributed under the [MIT License](https://github.com/octokit/action.js/blob/v3.1.1/LICENSE):
 
 ```
 MIT License
@@ -121,7 +121,7 @@ SOFTWARE.
 
 ### @octokit/rest
 
-This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.5](https://github.com/octokit/rest.js/tree/v18.0.5)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.5/LICENSE):
+This product includes source derived from [@octokit/rest](https://github.com/octokit/rest.js) ([v18.0.6](https://github.com/octokit/rest.js/tree/v18.0.6)), distributed under the [MIT License](https://github.com/octokit/rest.js/blob/v18.0.6/LICENSE):
 
 ```
 The MIT License
@@ -151,7 +151,7 @@ THE SOFTWARE.
 
 ### @octokit/types
 
-This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v5.4.1](https://github.com/octokit/types.ts/tree/v5.4.1)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v5.4.1/LICENSE):
+This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v5.5.0](https://github.com/octokit/types.ts/tree/v5.5.0)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v5.5.0/LICENSE):
 
 ```
 MIT License Copyright (c) 2019 Octokit contributors
@@ -224,7 +224,7 @@ This product includes source derived from [@types/node-fetch](https://github.com
 
 ### node-fetch
 
-This product includes source derived from [node-fetch](https://github.com/bitinn/node-fetch) ([v2.6.0](https://github.com/bitinn/node-fetch/tree/v2.6.0)), distributed under the [MIT License](https://github.com/bitinn/node-fetch/blob/v2.6.0/LICENSE.md):
+This product includes source derived from [node-fetch](https://github.com/bitinn/node-fetch) ([v2.6.1](https://github.com/bitinn/node-fetch/tree/v2.6.1)), distributed under the [MIT License](https://github.com/bitinn/node-fetch/blob/v2.6.1/LICENSE.md):
 
 ```
 The MIT License (MIT)
@@ -286,7 +286,7 @@ THE SOFTWARE.
 
 ### @types/jest
 
-This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.13](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.13)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.13/LICENSE):
+This product includes source derived from [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v26.0.14](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.14)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.14/LICENSE):
 
 ```
     MIT License
@@ -315,7 +315,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.6.4](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.4)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.4/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.11.5](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.11.5)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.11.5/LICENSE):
 
 ```
     MIT License
@@ -344,7 +344,7 @@ This product includes source derived from [@types/node](https://github.com/Defin
 
 ### @typescript-eslint/eslint-plugin
 
-This product includes source derived from [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) ([v4.0.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1)), distributed under the [MIT License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE):
+This product includes source derived from [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) ([v4.4.0](https://github.com/typescript-eslint/typescript-eslint/tree/v4.4.0)), distributed under the [MIT License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.4.0/LICENSE):
 
 ```
 MIT License
@@ -373,7 +373,7 @@ SOFTWARE.
 
 ### @typescript-eslint/parser
 
-This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v4.0.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE):
+This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v4.4.0](https://github.com/typescript-eslint/typescript-eslint/tree/v4.4.0)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.4.0/LICENSE):
 
 ```
 TypeScript ESLint Parser
@@ -403,7 +403,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### @vercel/ncc
 
-This product includes source derived from [@vercel/ncc](https://github.com/vercel/ncc) ([v0.24.0](https://github.com/vercel/ncc/tree/v0.24.0)), distributed under the [MIT License](https://github.com/vercel/ncc/blob/v0.24.0/LICENSE):
+This product includes source derived from [@vercel/ncc](https://github.com/vercel/ncc) ([v0.24.1](https://github.com/vercel/ncc/tree/v0.24.1)), distributed under the [MIT License](https://github.com/vercel/ncc/blob/v0.24.1/LICENSE):
 
 ```
 Copyright 2018 ZEIT, Inc.
@@ -445,7 +445,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### eslint-plugin-jest
 
-This product includes source derived from [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) ([v24.0.0](https://github.com/jest-community/eslint-plugin-jest/tree/v24.0.0)), distributed under the [MIT License](https://github.com/jest-community/eslint-plugin-jest/blob/v24.0.0/LICENSE):
+This product includes source derived from [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) ([v24.1.0](https://github.com/jest-community/eslint-plugin-jest/tree/v24.1.0)), distributed under the [MIT License](https://github.com/jest-community/eslint-plugin-jest/blob/v24.1.0/LICENSE):
 
 ```
 MIT License
@@ -474,7 +474,7 @@ SOFTWARE.
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.8.1](https://github.com/eslint/eslint/tree/v7.8.1)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.8.1/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.10.0](https://github.com/eslint/eslint/tree/v7.10.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.10.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
@@ -501,7 +501,7 @@ THE SOFTWARE.
 
 ### jest-circus
 
-This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.4.2](https://github.com/facebook/jest/tree/v26.4.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.2/LICENSE):
+This product includes source derived from [jest-circus](https://github.com/facebook/jest) ([v26.5.2](https://github.com/facebook/jest/tree/v26.5.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.5.2/LICENSE):
 
 ```
 MIT License
@@ -530,7 +530,7 @@ SOFTWARE.
 
 ### jest
 
-This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.4.2](https://github.com/facebook/jest/tree/v26.4.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.4.2/LICENSE):
+This product includes source derived from [jest](https://github.com/facebook/jest) ([v26.5.2](https://github.com/facebook/jest/tree/v26.5.2)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v26.5.2/LICENSE):
 
 ```
 MIT License
@@ -617,7 +617,7 @@ SOFTWARE.
 
 ### prettier
 
-This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v2.1.1](https://github.com/prettier/prettier/tree/v2.1.1)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v2.1.1/LICENSE):
+This product includes source derived from [prettier](https://github.com/prettier/prettier) ([v2.1.2](https://github.com/prettier/prettier/tree/v2.1.2)), distributed under the [MIT License](https://github.com/prettier/prettier/blob/v2.1.2/LICENSE):
 
 ```
 Copyright © James Long and contributors
@@ -632,7 +632,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### ts-jest
 
-This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.3.0](https://github.com/kulshekhar/ts-jest/tree/v26.3.0)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.3.0/LICENSE.md):
+This product includes source derived from [ts-jest](https://github.com/kulshekhar/ts-jest) ([v26.4.1](https://github.com/kulshekhar/ts-jest/tree/v26.4.1)), distributed under the [MIT License](https://github.com/kulshekhar/ts-jest/blob/v26.4.1/LICENSE.md):
 
 ```
 MIT License
@@ -661,7 +661,7 @@ SOFTWARE.
 
 ### typescript
 
-This product includes source derived from [typescript](https://github.com/Microsoft/TypeScript) ([v4.0.2](https://github.com/Microsoft/TypeScript/tree/v4.0.2)), distributed under the [Apache-2.0 License](https://github.com/Microsoft/TypeScript/blob/v4.0.2/LICENSE.txt):
+This product includes source derived from [typescript](https://github.com/Microsoft/TypeScript) ([v4.0.3](https://github.com/Microsoft/TypeScript/tree/v4.0.3)), distributed under the [Apache-2.0 License](https://github.com/Microsoft/TypeScript/blob/v4.0.3/LICENSE.txt):
 
 ```
 Apache License

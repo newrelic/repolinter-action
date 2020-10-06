@@ -1,29 +1,29 @@
 {
-  "lastUpdated": "Thu Sep 10 2020 17:03:37 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Tue Oct 06 2020 16:30:42 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
   "dependencies": {
-    "@actions/core@1.2.5": {
+    "@actions/core@1.2.6": {
       "name": "@actions/core",
-      "version": "1.2.5",
-      "range": "^1.2.5",
+      "version": "1.2.6",
+      "range": "^1.2.6",
       "licenses": "MIT",
       "repoUrl": "https://github.com/actions/toolkit",
-      "versionedRepoUrl": "https://github.com/actions/toolkit/tree/v1.2.5",
+      "versionedRepoUrl": "https://github.com/actions/toolkit/tree/v1.2.6",
       "licenseFile": "node_modules/@actions/core/LICENSE.md",
-      "licenseUrl": "https://github.com/actions/toolkit/blob/v1.2.5/LICENSE.md",
+      "licenseUrl": "https://github.com/actions/toolkit/blob/v1.2.6/LICENSE.md",
       "licenseTextSource": "file"
     },
-    "@octokit/action@3.0.7": {
+    "@octokit/action@3.1.1": {
       "name": "@octokit/action",
-      "version": "3.0.7",
-      "range": "^3.0.7",
+      "version": "3.1.1",
+      "range": "^3.1.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/action.js",
-      "versionedRepoUrl": "https://github.com/octokit/action.js/tree/v3.0.7",
+      "versionedRepoUrl": "https://github.com/octokit/action.js/tree/v3.1.1",
       "licenseFile": "node_modules/@octokit/action/LICENSE",
-      "licenseUrl": "https://github.com/octokit/action.js/blob/v3.0.7/LICENSE",
+      "licenseUrl": "https://github.com/octokit/action.js/blob/v3.1.1/LICENSE",
       "licenseTextSource": "file"
     },
     "@octokit/plugin-retry@3.0.3": {
@@ -37,26 +37,26 @@
       "licenseUrl": "https://github.com/octokit/plugin-retry.js/blob/v3.0.3/LICENSE",
       "licenseTextSource": "file"
     },
-    "@octokit/rest@18.0.5": {
+    "@octokit/rest@18.0.6": {
       "name": "@octokit/rest",
-      "version": "18.0.5",
-      "range": "^18.0.5",
+      "version": "18.0.6",
+      "range": "^18.0.6",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/rest.js",
-      "versionedRepoUrl": "https://github.com/octokit/rest.js/tree/v18.0.5",
+      "versionedRepoUrl": "https://github.com/octokit/rest.js/tree/v18.0.6",
       "licenseFile": "node_modules/@octokit/rest/LICENSE",
-      "licenseUrl": "https://github.com/octokit/rest.js/blob/v18.0.5/LICENSE",
+      "licenseUrl": "https://github.com/octokit/rest.js/blob/v18.0.6/LICENSE",
       "licenseTextSource": "file"
     },
-    "@octokit/types@5.4.1": {
+    "@octokit/types@5.5.0": {
       "name": "@octokit/types",
-      "version": "5.4.1",
-      "range": "^5.4.1",
+      "version": "5.5.0",
+      "range": "^5.5.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/types.ts",
-      "versionedRepoUrl": "https://github.com/octokit/types.ts/tree/v5.4.1",
+      "versionedRepoUrl": "https://github.com/octokit/types.ts/tree/v5.5.0",
       "licenseFile": "node_modules/@octokit/types/LICENSE",
-      "licenseUrl": "https://github.com/octokit/types.ts/blob/v5.4.1/LICENSE",
+      "licenseUrl": "https://github.com/octokit/types.ts/blob/v5.5.0/LICENSE",
       "licenseTextSource": "file"
     },
     "@types/js-yaml@3.12.5": {
@@ -81,15 +81,15 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v2.5.7/LICENSE",
       "licenseTextSource": "file"
     },
-    "node-fetch@2.6.0": {
+    "node-fetch@2.6.1": {
       "name": "node-fetch",
-      "version": "2.6.0",
-      "range": "^2.6.0",
+      "version": "2.6.1",
+      "range": "^2.6.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/bitinn/node-fetch",
-      "versionedRepoUrl": "https://github.com/bitinn/node-fetch/tree/v2.6.0",
+      "versionedRepoUrl": "https://github.com/bitinn/node-fetch/tree/v2.6.1",
       "licenseFile": "node_modules/node-fetch/LICENSE.md",
-      "licenseUrl": "https://github.com/bitinn/node-fetch/blob/v2.6.0/LICENSE.md",
+      "licenseUrl": "https://github.com/bitinn/node-fetch/blob/v2.6.1/LICENSE.md",
       "licenseTextSource": "file",
       "publisher": "David Frank"
     }
@@ -106,59 +106,59 @@
       "licenseUrl": "https://github.com/octokit/request-error.js/blob/v2.0.2/LICENSE",
       "licenseTextSource": "file"
     },
-    "@types/jest@26.0.13": {
+    "@types/jest@26.0.14": {
       "name": "@types/jest",
-      "version": "26.0.13",
-      "range": "^26.0.13",
+      "version": "26.0.14",
+      "range": "^26.0.14",
       "licenses": "MIT",
       "repoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.13",
+      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v26.0.14",
       "licenseFile": "node_modules/@types/jest/LICENSE",
-      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.13/LICENSE",
+      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.14/LICENSE",
       "licenseTextSource": "file"
     },
-    "@types/node@14.6.4": {
+    "@types/node@14.11.5": {
       "name": "@types/node",
-      "version": "14.6.4",
-      "range": "^14.6.4",
+      "version": "14.11.5",
+      "range": "^14.11.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.6.4",
+      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.11.5",
       "licenseFile": "node_modules/@types/node/LICENSE",
-      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.6.4/LICENSE",
+      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.11.5/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/eslint-plugin@4.0.1": {
+    "@typescript-eslint/eslint-plugin@4.4.0": {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "4.0.1",
-      "range": "^4.0.1",
+      "version": "4.4.0",
+      "range": "^4.4.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.4.0",
       "licenseFile": "node_modules/@typescript-eslint/eslint-plugin/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.4.0/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/parser@4.0.1": {
+    "@typescript-eslint/parser@4.4.0": {
       "name": "@typescript-eslint/parser",
-      "version": "4.0.1",
-      "range": "^4.0.1",
+      "version": "4.4.0",
+      "range": "^4.4.0",
       "licenses": "BSD-2-Clause",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.0.1",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.4.0",
       "licenseFile": "node_modules/@typescript-eslint/parser/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.0.1/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.4.0/LICENSE",
       "licenseTextSource": "file"
     },
-    "@vercel/ncc@0.24.0": {
+    "@vercel/ncc@0.24.1": {
       "name": "@vercel/ncc",
-      "version": "0.24.0",
-      "range": "^0.24.0",
+      "version": "0.24.1",
+      "range": "^0.24.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/vercel/ncc",
-      "versionedRepoUrl": "https://github.com/vercel/ncc/tree/v0.24.0",
+      "versionedRepoUrl": "https://github.com/vercel/ncc/tree/v0.24.1",
       "licenseFile": "node_modules/@vercel/ncc/LICENSE",
-      "licenseUrl": "https://github.com/vercel/ncc/blob/v0.24.0/LICENSE",
+      "licenseUrl": "https://github.com/vercel/ncc/blob/v0.24.1/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-plugin-github@4.1.1": {
@@ -173,53 +173,53 @@
       "licenseTextSource": "file",
       "publisher": "GitHub, Inc."
     },
-    "eslint-plugin-jest@24.0.0": {
+    "eslint-plugin-jest@24.1.0": {
       "name": "eslint-plugin-jest",
-      "version": "24.0.0",
-      "range": "^24.0.0",
+      "version": "24.1.0",
+      "range": "^24.1.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/jest-community/eslint-plugin-jest",
-      "versionedRepoUrl": "https://github.com/jest-community/eslint-plugin-jest/tree/v24.0.0",
+      "versionedRepoUrl": "https://github.com/jest-community/eslint-plugin-jest/tree/v24.1.0",
       "licenseFile": "node_modules/eslint-plugin-jest/LICENSE",
-      "licenseUrl": "https://github.com/jest-community/eslint-plugin-jest/blob/v24.0.0/LICENSE",
+      "licenseUrl": "https://github.com/jest-community/eslint-plugin-jest/blob/v24.1.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Jonathan Kim",
       "email": "hello@jkimbo.com",
       "url": "jkimbo.com"
     },
-    "eslint@7.8.1": {
+    "eslint@7.10.0": {
       "name": "eslint",
-      "version": "7.8.1",
-      "range": "^7.8.1",
+      "version": "7.10.0",
+      "range": "^7.10.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
-      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v7.8.1",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v7.10.0",
       "licenseFile": "node_modules/eslint/LICENSE",
-      "licenseUrl": "https://github.com/eslint/eslint/blob/v7.8.1/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v7.10.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"
     },
-    "jest-circus@26.4.2": {
+    "jest-circus@26.5.2": {
       "name": "jest-circus",
-      "version": "26.4.2",
-      "range": "^26.4.2",
+      "version": "26.5.2",
+      "range": "^26.5.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/jest",
-      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.4.2",
+      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.5.2",
       "licenseFile": "node_modules/jest-circus/LICENSE",
-      "licenseUrl": "https://github.com/facebook/jest/blob/v26.4.2/LICENSE",
+      "licenseUrl": "https://github.com/facebook/jest/blob/v26.5.2/LICENSE",
       "licenseTextSource": "file"
     },
-    "jest@26.4.2": {
+    "jest@26.5.2": {
       "name": "jest",
-      "version": "26.4.2",
-      "range": "^26.4.2",
+      "version": "26.5.2",
+      "range": "^26.5.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/jest",
-      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.4.2",
+      "versionedRepoUrl": "https://github.com/facebook/jest/tree/v26.5.2",
       "licenseFile": "node_modules/jest/LICENSE",
-      "licenseUrl": "https://github.com/facebook/jest/blob/v26.4.2/LICENSE",
+      "licenseUrl": "https://github.com/facebook/jest/blob/v26.5.2/LICENSE",
       "licenseTextSource": "file"
     },
     "js-yaml@3.14.0": {
@@ -248,41 +248,41 @@
       "publisher": "Pedro Teixeira",
       "email": "pedro.teixeira@gmail.com"
     },
-    "prettier@2.1.1": {
+    "prettier@2.1.2": {
       "name": "prettier",
-      "version": "2.1.1",
-      "range": "2.1.1",
+      "version": "2.1.2",
+      "range": "2.1.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/prettier",
-      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v2.1.1",
+      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v2.1.2",
       "licenseFile": "node_modules/prettier/LICENSE",
-      "licenseUrl": "https://github.com/prettier/prettier/blob/v2.1.1/LICENSE",
+      "licenseUrl": "https://github.com/prettier/prettier/blob/v2.1.2/LICENSE",
       "licenseTextSource": "file",
       "publisher": "James Long"
     },
-    "ts-jest@26.3.0": {
+    "ts-jest@26.4.1": {
       "name": "ts-jest",
-      "version": "26.3.0",
-      "range": "^26.3.0",
+      "version": "26.4.1",
+      "range": "^26.4.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/kulshekhar/ts-jest",
-      "versionedRepoUrl": "https://github.com/kulshekhar/ts-jest/tree/v26.3.0",
+      "versionedRepoUrl": "https://github.com/kulshekhar/ts-jest/tree/v26.4.1",
       "licenseFile": "node_modules/ts-jest/LICENSE.md",
-      "licenseUrl": "https://github.com/kulshekhar/ts-jest/blob/v26.3.0/LICENSE.md",
+      "licenseUrl": "https://github.com/kulshekhar/ts-jest/blob/v26.4.1/LICENSE.md",
       "licenseTextSource": "file",
       "publisher": "Kulshekhar Kabra",
       "email": "kulshekhar@users.noreply.github.com",
       "url": "https://github.com/kulshekhar"
     },
-    "typescript@4.0.2": {
+    "typescript@4.0.3": {
       "name": "typescript",
-      "version": "4.0.2",
-      "range": "^4.0.2",
+      "version": "4.0.3",
+      "range": "^4.0.3",
       "licenses": "Apache-2.0",
       "repoUrl": "https://github.com/Microsoft/TypeScript",
-      "versionedRepoUrl": "https://github.com/Microsoft/TypeScript/tree/v4.0.2",
+      "versionedRepoUrl": "https://github.com/Microsoft/TypeScript/tree/v4.0.3",
       "licenseFile": "node_modules/typescript/LICENSE.txt",
-      "licenseUrl": "https://github.com/Microsoft/TypeScript/blob/v4.0.2/LICENSE.txt",
+      "licenseUrl": "https://github.com/Microsoft/TypeScript/blob/v4.0.3/LICENSE.txt",
       "licenseTextSource": "file",
       "publisher": "Microsoft Corp."
     }
