@@ -61,8 +61,9 @@ export default async function run(disableRetry?: boolean): Promise<void> {
     // verify the label color is a color
     if (!/[0-9a-fA-F]{6}/.test(LABEL_COLOR))
       throw new Error(`Invalid label color ${LABEL_COLOR}`)
-    // override GITHUB_TOKEN and INPUT_GITHUB_TOKEN if TOKEN is present
+    // override GITHUB_TOKEN and INPUT_GITHUB_TOKEN if INPUT_TOKEN is present
     if (TOKEN) {
+      delete process.env['INPUT_TOKEN']
       delete process.env['INPUT_GITHUB_TOKEN']
       process.env['GITHUB_TOKEN'] = TOKEN
     }
