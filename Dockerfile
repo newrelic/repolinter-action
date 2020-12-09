@@ -48,9 +48,9 @@ RUN npm install --production
 # move the rest of the project over
 COPY dist dist
 
-WORKDIR $GITHUB_WORKSPACE
-
 # Test licensee
+WORKDIR /
 RUN bundle exec licensee version
 
+# Working directory will automagically be set to github workspace when the container is executed
 ENTRYPOINT ["bundle", "exec", "node /app/dist/index.js"]
