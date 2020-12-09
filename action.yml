@@ -123,6 +123,7 @@ runs:
     INPUT_OUTPUT_NAME: ${{ inputs.output_name }}
     INPUT_LABEL_NAME: ${{ inputs.label_name }}
     INPUT_LABEL_COLOR: ${{ inputs.label_color }}
+    BUNDLE_GEMFILE: /app/Gemfile
 branding:
   color: green
   icon: refresh-cw
