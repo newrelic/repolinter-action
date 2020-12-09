@@ -39,9 +39,14 @@ COPY --from=python-deps / /
 COPY package*.json ./
 RUN npm install --production
 
-RUN bundle platform && bundle list
+# Create binstubs and add them to the path
+RUN bundle binstubs --all --path bin && bundle platform && bundle list
+ENV PATH="${GITHUB_WORKSPACE}/bin:${PATH}"
+
+# Test licensee
+RUN licensee version
 
 # move the rest of the project over
 COPY dist ./dist
 
-ENTRYPOINT ["bundle", "exec", "node", "dist/index.js"]
+ENTRYPOINT ["node", "dist/index.js"]

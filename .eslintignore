@@ -2,3 +2,5 @@ dist/
 lib/
 node_modules/
 vendor/
+bin/
+.bundle/
