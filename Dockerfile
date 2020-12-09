@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 # Install ruby gems
 WORKDIR /app
-COPY Gemfile* .
+COPY Gemfile* ./
 RUN bundle config path vendor/bundle && \
     bundle install --jobs 4 --retry 3
 
@@ -38,7 +38,7 @@ COPY --from=python-deps / /
 
 # Install node_modules
 WORKDIR /app
-COPY package*.json /app/
+COPY package*.json ./
 RUN npm install --production
 
 # Create binstubs and add them to the path
