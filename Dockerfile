@@ -42,4 +42,4 @@ RUN npm install --production
 # move the rest of the project over
 COPY dist dist
 
-ENTRYPOINT ["bundle", "exec", "dist/index.js"]
+ENTRYPOINT ["bundle", "exec", "node", "dist/index.js"]
