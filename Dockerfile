@@ -32,14 +32,14 @@ RUN python -m pip install --upgrade pip && \
 FROM node:lts-slim
 
 # Copy Ruby dependencies
-COPY --from=ruby-deps . .
-COPY --from=python-deps . .
+COPY --from=ruby-deps / /
+COPY --from=python-deps / /
 
 # Install node_modules
 COPY package*.json ./
 RUN npm install --production
 
 # move the rest of the project over
-COPY dist dist
+COPY dist ./
 
-ENTRYPOINT ["bundle", "exec", "node", "dist/index.js"]
+ENTRYPOINT ["bundle", "exec", "node", "index.js"]
