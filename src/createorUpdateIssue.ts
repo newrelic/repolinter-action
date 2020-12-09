@@ -1,9 +1,5 @@
 import * as core from '@actions/core'
-import {
-  IssuesListForRepoResponseData,
-  IssuesCreateResponseData,
-  IssuesUpdateResponseData
-} from '@octokit/types'
+import {Endpoints} from '@octokit/types'
 import {RequestError} from '@octokit/request-error'
 import Octokit from './getOctokit'
 
@@ -125,7 +121,10 @@ export interface FindRepolinterIssueOpts {
 export async function findRepolinterIssue(
   client: Octo,
   options: FindRepolinterIssueOpts
-): Promise<IssuesListForRepoResponseData[number] | null> {
+): Promise<
+  | Endpoints['GET /repos/{owner}/{repo}/issues']['response']['data'][number]
+  | null
+> {
   // get the list of open issues on this repository
   const issues = await client.issues.listForRepo({
     owner: options.owner,
@@ -176,7 +175,7 @@ export interface CreateRepolinterIssueOpts {
 export async function createRepolinterIssue(
   client: Octo,
   options: CreateRepolinterIssueOpts
-): Promise<IssuesCreateResponseData> {
+): Promise<Endpoints['POST /repos/{owner}/{repo}/issues']['response']['data']> {
   // create the label, if it doesn't exist
   try {
     await client.issues.getLabel({
@@ -254,7 +253,9 @@ export interface UpdateReplolinterIssueOpts {
 export async function updateRepolinterIssue(
   client: Octo,
   options: UpdateReplolinterIssueOpts
-): Promise<IssuesUpdateResponseData> {
+): Promise<
+  Endpoints['PATCH /repos/{owner}/{repo}/issues/{issue_number}']['response']['data']
+> {
   core.debug(`Updating issue ${options.issueNumber}`)
   if (options.shouldClose) core.debug(`Closing it!`)
   else core.debug(`Updating it with content "${options.issueContent}"`)
