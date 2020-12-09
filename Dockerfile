@@ -40,6 +40,6 @@ COPY package*.json ./
 RUN npm install --production
 
 # move the rest of the project over
-COPY dist ./
+COPY dist ./dist
 
-ENTRYPOINT ["bundle", "exec", "node", "index.js"]
+ENTRYPOINT ["bundle", "exec", "node", "dist/index.js"]
