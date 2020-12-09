@@ -14,7 +14,8 @@ RUN apt-get update && \
     gem update --system --silent
 
 # Install ruby gems
-COPY Gemfile* /app/
+WORKDIR /app
+COPY Gemfile* .
 RUN bundle config path vendor/bundle && \
     bundle install --jobs 4 --retry 3
 
@@ -36,17 +37,20 @@ COPY --from=ruby-deps / /
 COPY --from=python-deps / /
 
 # Install node_modules
+WORKDIR /app
 COPY package*.json /app/
 RUN npm install --production
 
 # Create binstubs and add them to the path
-RUN bundle binstubs --all --path /app/bin && bundle platform && bundle list
-ENV PATH="/app/bin:${PATH}"
-
-# Test licensee
-RUN licensee version
+# RUN bundle binstubs --all --path /app/bin && bundle platform && bundle list
+# ENV PATH="/app/bin:${PATH}"
 
 # move the rest of the project over
-COPY dist /app/dist
+COPY dist dist
 
-ENTRYPOINT ["node", "/app/dist/index.js"]
+WORKDIR $GITHUB_WORKSPACE
+
+# Test licensee
+RUN bundle exec licensee version
+
+ENTRYPOINT ["bundle", "exec", "node /app/dist/index.js"]
