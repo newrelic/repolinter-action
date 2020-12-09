@@ -50,6 +50,7 @@ COPY dist dist
 
 # Test licensee
 WORKDIR /
+ENV BUNDLE_GEMFILE=/app/Gemfile
 RUN bundle exec licensee version
 
 # Working directory will automagically be set to github workspace when the container is executed
