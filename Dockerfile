@@ -13,17 +13,26 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y $RUNTIME_DEPS $BUILD_DEPS && \
     gem update --system --silent
 
+# Create a dedicated user for running the application
+RUN adduser -D docker-user
+USER docker-user
+
 # Install ruby gems
-COPY Gemfile* ./
+COPY --chown=docker-user Gemfile* ./
 RUN bundle config path vendor/bundle && \
     bundle install --jobs 4 --retry 3
 
 # cleanup
+USER root
 RUN apt-get remove -y $BUILD_DEPS && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
 FROM python:2.7-slim as python-deps
+
+# Create a dedicated user for running the application
+RUN adduser -D docker-user
+USER docker-user
 
 # docutils for github-markup
 RUN python -m pip install --upgrade pip && \
@@ -31,15 +40,19 @@ RUN python -m pip install --upgrade pip && \
 
 FROM node:lts-slim
 
+# Create a dedicated user for running the application
+RUN adduser -D docker-user
+USER docker-user
+
 # Copy Ruby dependencies
 COPY --from=ruby-deps / /
 COPY --from=python-deps / /
 
 # Install node_modules
-COPY package*.json ./
+COPY --chown=docker-user package*.json ./
 RUN npm install --production
 
 # move the rest of the project over
-COPY dist ./dist
+COPY --chown=docker-user dist ./dist
 
 ENTRYPOINT ["bundle", "exec", "node", "dist/index.js"]
