@@ -41,15 +41,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --production
 
-# Create binstubs and add them to the path
-# RUN bundle binstubs --all --path /app/bin && bundle platform && bundle list
-# ENV PATH="/app/bin:${PATH}"
-
 # move the rest of the project over
 COPY dist dist
 
-# Test licensee
-RUN bundle config path /app/vendor/bundle 
+# Configure bundler
 ENV BUNDLE_GEMFILE=/app/Gemfile
 ENV BUNDLE_PATH=/app/vendor/bundle
 
