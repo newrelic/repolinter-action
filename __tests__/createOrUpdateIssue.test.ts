@@ -79,6 +79,7 @@ describe('createOrUpdateIssue', () => {
           atLeastObject({
             labels: config.labelName,
             creator: config.selfUsername,
+            state: 'all',
             sort: 'created'
           })
         )

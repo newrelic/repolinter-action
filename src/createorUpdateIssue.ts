@@ -158,6 +158,7 @@ export async function findRepolinterIssue(
     repo: options.repo,
     creator: options.selfUsername,
     labels: options.labelName,
+    state: 'all',
     sort: 'created',
     direction: 'desc'
   })
