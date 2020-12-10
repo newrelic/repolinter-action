@@ -51,6 +51,7 @@ COPY dist dist
 # Test licensee
 RUN bundle config path /app/vendor/bundle 
 ENV BUNDLE_GEMFILE=/app/Gemfile
+ENV BUNDLE_PATH=/app/vendor/bundle
 
 # Working directory will automagically be set to github workspace when the container is executed
 ENTRYPOINT ["bundle", "exec", "node /app/dist/index.js"]
