@@ -30,6 +30,10 @@ type Octo = InstanceType<typeof Octokit>
  * user this action is impersonating (usually github-actions-bot), and that the
  * issue has not been updated by an action run number greater than the current one.
  *
+ * Note: options.labelName should be a label that is unique to the repolinter
+ * action, otherwise there is a small chance this function may attempt to edit
+ * other people's issues.
+ *
  * @param options.owner The owner of the repository to create an issue on
  * @param options.repo The repository to create the issue on
  * @param options.username The username associated with the octokit instance
@@ -49,17 +53,6 @@ type Octo = InstanceType<typeof Octokit>
  * @param options.forceCreateIssue Set to truthy to always create a new issue,
  *     instead of editing the old one. The old issue will automatically be
  *     closed if found.
- * @note options.labelName should be a label that is unique to the
- *     repolinter
- *
- *
- *
- *           action, otherwise there is a small chance this
- *     function may
- *     attempt
- *     to
- *
- *        edit other people's issues.
  * @returns The issue number of the created issue, or null if no issue was created.
  */
 export default async function createOrUpdateIssue(
@@ -141,8 +134,8 @@ export interface FindRepolinterIssueOpts {
  * issue that was created soonest will be returned.
  *
  * This function uses the GitHub REST API to perform a search that can be
- * described with the following search query: ``` type:issue repo:<the current
- * repo> creator:<username> label:<label-name> sort:author-date-desc\ ```
+ * described with the following search query: `type:issue repo:<the current
+ * repo> creator:<username> label:<label-name> sort:author-date-desc\`
  *
  * @param client The authenticated octokit client to use
  * @param options.owner The owner of the repository to search
