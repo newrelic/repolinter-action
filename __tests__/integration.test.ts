@@ -40,6 +40,7 @@ function getBaseEnv(): NodeJS.ProcessEnv {
   ret[getInputName(ActionInputs.LABEL_NAME)] = 'repolinter'
   ret[getInputName(ActionInputs.LABEL_COLOR)] = 'fbca04'
   ret[getInputName(ActionInputs.USERNAME)] = 'github-actions'
+  ret['GITHUB_RUN_NUMBER'] = '1'
   ret['GITHUB_ACTION'] = 'true'
   return ret
 }

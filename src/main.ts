@@ -27,6 +27,15 @@ function getInputs(): {[key: string]: string} {
   }
 }
 
+function getRunNumber(): number {
+  const runNum = parseInt(process.env['GITHUB_RUN_NUMBER'] as string)
+  if (!runNum || isNaN(runNum))
+    throw new Error(
+      `Found invalid GITHUB_RUN_NUMBER "${process.env['GITHUB_RUN_NUMBER']}"`
+    )
+  return runNum
+}
+
 export default async function run(disableRetry?: boolean): Promise<void> {
   // load the configuration from file or url, depending on which one is configured
   try {
@@ -43,6 +52,7 @@ export default async function run(disableRetry?: boolean): Promise<void> {
       LABEL_NAME,
       LABEL_COLOR
     } = getInputs()
+    const RUN_NUMBER = getRunNumber()
     // verify the directory exists and is a directory
     try {
       const stat = await fs.promises.stat(DIRECTORY)
@@ -113,7 +123,8 @@ export default async function run(disableRetry?: boolean): Promise<void> {
         issueContent,
         labelName: LABEL_NAME,
         labelColor: LABEL_COLOR,
-        shouldClose: result.passed === true
+        shouldClose: result.passed === true,
+        runNumber: RUN_NUMBER
       })
       core.endGroup()
       process.exitCode = 0
