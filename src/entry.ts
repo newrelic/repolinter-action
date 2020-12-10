@@ -9,14 +9,20 @@ import run from './main'
  * "main" function.
  */
 
+function debugCmd(cmd: string): void {
+  const [cmd_val, ...args] = cmd.split(' ')
+  const output = spawnSync(cmd_val, args)
+  core.debug(`${cmd}: ${output.error || ''}`)
+  core.debug(JSON.stringify(output.stdout?.toString?.()))
+  core.debug(JSON.stringify(output.stderr?.toString?.()))
+}
+
 // debugging
 core.debug(JSON.stringify(process.env))
-const output = spawnSync('licensee', ['version'])
-core.debug(JSON.stringify(output.stdout?.toString?.()))
-core.debug(JSON.stringify(output.stderr?.toString?.()))
-const output2 = spawnSync('github-linguist', ['--help'])
-core.debug(JSON.stringify(output2.stdout?.toString?.()))
-core.debug(JSON.stringify(output2.stderr?.toString?.()))
-
+debugCmd('licensee version')
+debugCmd('github-linguist --help')
+debugCmd('ls -lah /usr/local/lib/ruby/gems/2.6.0/bin')
+debugCmd('bundle platform')
+debugCmd('bundle list')
 
 run()
