@@ -49,6 +49,7 @@ RUN npm install --production
 COPY dist dist
 
 # Test licensee
+RUN bundle config path /app/vendor/bundle 
 ENV BUNDLE_GEMFILE=/app/Gemfile
 
 # Working directory will automagically be set to github workspace when the container is executed
