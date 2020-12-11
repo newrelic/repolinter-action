@@ -4,7 +4,7 @@
 
 [![GitHub Marketplace version](https://img.shields.io/github/release/newrelic/repolinter-action.svg?label=Marketplace&logo=github)](https://github.com/marketplace/actions/repolinter-action) ![CI](https://github.com/newrelic/repolinter-action/workflows/CI/badge.svg?event=push) [![codecov](https://codecov.io/gh/newrelic/repolinter-action/branch/main/graph/badge.svg?token=EWYZ7C6RSL)](https://codecov.io/gh/newrelic/repolinter-action) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/newrelic/repolinter-action.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/newrelic/repolinter-action/context:javascript)
 
-This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
+This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Repolinter's optional external dependencies (licensee, linguist, github-markup) are installed using a docker build step. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
 
 Currently this action uses the [newrelic-forks/repolinter](https://github.com/newrelic-forks/repolinter) fork, which includes a number of changes needed for issue creation support. A [PR](https://github.com/todogroup/repolinter/pull/174) to merge this fork into Repolinter is underway.
 
@@ -233,9 +233,14 @@ If `output_type` is set to `issue`, repolinter-action will create a GitHub issue
 
 To prevent unnecessary noise, repolinter-action will first attempt to edit an existing open issue before creating a new one. This check is performed every workflow run, and can be emulated using the following [GitHub search](https://docs.github.com/en/github/searching-for-information-on-github) query:
 ```
-type:issue repo:<the current repo> state:open creator:<username> label:<label-name> sort:author-date-desc
+type:issue repo:<the current repo> creator:<username> label:<label-name> sort:author-date-desc
 ```
 If no issues are returned by this query, repolinter-action will create a new one. If more than one issue is returned by this query, repolinter-action will edit the first one (most recently created) and ignore the others.
+
+To prevent out-of-order action runs from generating issue noise, repolinter-action will search the body of the selected issue for a magic string containing the [`GITHUB_RUN_NUMBER`](https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables#about-environment-variables) of the last job that updated the issue; if the run number present in the issue is greater than the current run number, repolinter-action will assume that its results are out of date, and will not modify the issue. If the magic string is invalid, not present, or contains a lower run number, repolinter-action will assume its data is up to date and perform its modifications. At the moment, this magic string is encoded as follows:
+```md
+<!-- repolinter-action-workflow-number:<GITHUB_RUN_NUMBER> -->
+```
 
 ## Contributing
 

@@ -38,6 +38,7 @@ describe('main', () => {
     process.env[getInputName(ActionInputs.LABEL_NAME)] = 'repolinter'
     process.env[getInputName(ActionInputs.LABEL_COLOR)] = 'fbca04'
     process.env[getInputName(ActionInputs.USERNAME)] = 'my-user'
+    process.env['GITHUB_RUN_NUMBER'] = '1'
     process.env['GITHUB_ACTION'] = 'true'
     // disable STDOUT printing for now
     spooledStdout = []
@@ -47,6 +48,30 @@ describe('main', () => {
       else spooledStdout.push(str)
       return true
     })
+  })
+
+  test('throws when no run number is supplied', async () => {
+    delete process.env['GITHUB_RUN_NUMBER']
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    // console.debug(out)
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
+  })
+
+  test('throws when an invalid run number is supplied', async () => {
+    process.env['GITHUB_RUN_NUMBER'] = 'cheese'
+
+    await run()
+    const outputs = getOutputs(spooledStdout)
+
+    // console.debug(out)
+    expect(outputs[ActionOutputs.ERRORED]).toEqual('true')
+    expect(outputs[ActionOutputs.PASSED]).toEqual('false')
+    expect(process.exitCode).not.toEqual(0)
   })
 
   test('throws when no directory is supplied', async () => {

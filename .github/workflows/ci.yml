@@ -11,10 +11,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - windows-latest
           - ubuntu-latest
           - ubuntu-16.04
-          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -25,8 +23,21 @@ jobs:
         with:
           node-version: '12'
       
+      - name: Get NPM Cache Directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm ci
       
       - name: Lint
         run: npm run lint
@@ -49,10 +60,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - windows-latest
           - ubuntu-latest
           - ubuntu-16.04
-          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -99,17 +108,19 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Download Cached Deps
-        id: cache-node-modules
-        uses: actions/cache@v1
-        env:
-          cache-name: node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.cache-name }}-
+      - name: Get NPM Cache Directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
       
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm ci
 
@@ -156,16 +167,18 @@ jobs:
         with:
           node-version: 12.x
       
-      - name: Download Cached Deps
-        id: cache-node-modules
-        uses: actions/cache@v1
-        env:
-          cache-name: node-modules
+      - name: Get NPM Cache Directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      
+      - name: Cache NPM
+        uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.cache-name }}-
+            ${{ runner.os }}-node-
       
       - name: Install Dependencies
         run: npm ci

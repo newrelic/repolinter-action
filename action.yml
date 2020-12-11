@@ -110,8 +110,19 @@ outputs:
   json_output:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    INPUT_DIRECTORY: ${{ inputs.directory }}
+    INPUT_TOKEN: ${{ inputs.token }}
+    INPUT_USERNAME: ${{ inputs.username }}
+    INPUT_CONFIG_FILE: ${{ inputs.config_file }}
+    INPUT_CONFIG_URL: ${{ inputs.config_url }}
+    INPUT_REPOSITORY: ${{ inputs.repository }}
+    INPUT_OUTPUT_TYPE: ${{ inputs.output_type }}
+    INPUT_OUTPUT_NAME: ${{ inputs.output_name }}
+    INPUT_LABEL_NAME: ${{ inputs.label_name }}
+    INPUT_LABEL_COLOR: ${{ inputs.label_color }}
 branding:
   color: green
   icon: refresh-cw

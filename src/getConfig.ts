@@ -5,11 +5,16 @@ import * as yaml from 'js-yaml'
 import {validateConfig} from 'repolinter'
 
 /**
- * Load a repolinter configuration from either a file or URL,
- * return the validated deserialized configuration.
- * @param where.configFile The file path to the config, relative to the current working directory. Mutually exclusive with where.configUrl.
- * @param where.configUrl The URL to load fhe config from. Mutually exclusive with where.configFile
- * @returns A deserialized JSON or YAML configuration object if one was found. If the configuration does not exist or does not pass validation this function will throw an error.
+ * Load a repolinter configuration from either a file or URL, return the
+ * validated deserialized configuration.
+ *
+ * @param where.configFile The file path to the config, relative to the current
+ *     working directory. Mutually exclusive with where.configUrl.
+ * @param where.configUrl The URL to load fhe config from. Mutually exclusive
+ *     with where.configFile
+ * @returns A deserialized JSON or YAML configuration object if one was found.
+ *     If the configuration does not exist or does not pass validation this
+ *     function will throw an error.
  */
 export default async function getConfig(where: {
   configFile?: string
