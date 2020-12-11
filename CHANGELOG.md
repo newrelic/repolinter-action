@@ -1,3 +1,38 @@
+# [1.6.0](https://github.com/newrelic/repolinter-action/compare/v1.5.1...v1.6.0) (2020-12-11)
+
+
+### Bug Fixes
+
+* add binstub generation to dockerfile ([f7d5e46](https://github.com/newrelic/repolinter-action/commit/f7d5e46ab7ab37c7ea6e51d357d6e9cc5a1b7b52))
+* add bundle config path command ([5124fc4](https://github.com/newrelic/repolinter-action/commit/5124fc4bc2000b4da75548a952ddd1c2af6e3abe))
+* add bundle gemfile env? ([4c5a16b](https://github.com/newrelic/repolinter-action/commit/4c5a16b180d1ddbac73156129373df4088aa70d4))
+* add bundle gemfile to env ([9cdd62b](https://github.com/newrelic/repolinter-action/commit/9cdd62b96761f24d9b8f67bdf267222446337fcd))
+* add bundle path configuration ([421866b](https://github.com/newrelic/repolinter-action/commit/421866b07511448ff914f4d73706d23aa75d49e4))
+* add debugging to test licensee and linguist not being detected ([c4b6fcc](https://github.com/newrelic/repolinter-action/commit/c4b6fcc56c3f7913749f3f745243e466a7ca11ee))
+* add more octokit debugging ([0c8803b](https://github.com/newrelic/repolinter-action/commit/0c8803bda87d1aebb9d7101f54c73c36a4470cf6))
+* add user specifiers to dockerfile ([64d022c](https://github.com/newrelic/repolinter-action/commit/64d022cffae3547f1e47eb55d55af2bcc52097cb))
+* change copy to global copy ([b72376e](https://github.com/newrelic/repolinter-action/commit/b72376ebff56f1be60a4e42555f34164c28d7296))
+* fix docker working directory ([2a85c51](https://github.com/newrelic/repolinter-action/commit/2a85c51b90f0ccdff2b1036db3bb3bb596264a2e))
+* fix dockerfile syntax errors ([2a1b262](https://github.com/newrelic/repolinter-action/commit/2a1b2626ad56f031ed67237b8d34496d535499f7))
+* fix repolinter issue search only finding open issues ([8753b7d](https://github.com/newrelic/repolinter-action/commit/8753b7d55ab3076b9623ae47588f02df8ea620cd))
+* fix type errors and upgrade ncc ([1cfa4f7](https://github.com/newrelic/repolinter-action/commit/1cfa4f73ea6446299b06be2fa7dd78fbd4d4e138))
+* fix useradd commands ([25e729f](https://github.com/newrelic/repolinter-action/commit/25e729ff45c858be4ca0c362d3168c63d1897d49))
+* fix working directory command ([5ef6734](https://github.com/newrelic/repolinter-action/commit/5ef67347d723cb02d48fd98342952f59206a3d4a))
+* more debugging logs ([4a47f59](https://github.com/newrelic/repolinter-action/commit/4a47f59c4633195297f3cb2793953c7cae643167))
+* move dockerfile build artifacts out of github workspace ([eabccdb](https://github.com/newrelic/repolinter-action/commit/eabccdba9547da9f7937a27f4301f6c4ecc0036f))
+* remove debugging and finalize changes ([cab36b6](https://github.com/newrelic/repolinter-action/commit/cab36b66dec4fe2a13b61177b51644e694366c9e))
+* switch to copying dist folder into dist folder ([a0bde37](https://github.com/newrelic/repolinter-action/commit/a0bde376b1662a58b0a821977c58aab435851e0e))
+* update entrypoint ([e15c5fa](https://github.com/newrelic/repolinter-action/commit/e15c5fac7b055593f4667c0118cae1b4af8266ad))
+* update lockfile ([325e39f](https://github.com/newrelic/repolinter-action/commit/325e39fffde39636cd8cdf021a715d197ddbe4c2))
+* upgrade repolinter ([8df50c7](https://github.com/newrelic/repolinter-action/commit/8df50c767759d8882939130ce1f6e2c068da8d06))
+* upgrade repolinter ([878b017](https://github.com/newrelic/repolinter-action/commit/878b017b78ef382f8997eadf2e00383e04c72f7e))
+
+
+### Features
+
+* add magic string to prevent out-of-order modifications ([2e58f1c](https://github.com/newrelic/repolinter-action/commit/2e58f1c812da8a968b99ebd7fe58ffef2d86a2c7))
+* switch to docker action to install ruby and python dependencies ([2fb67f0](https://github.com/newrelic/repolinter-action/commit/2fb67f002ef82e2677fab3ed3a300c156bea94eb))
+
 ## [1.5.1](https://github.com/newrelic/repolinter-action/compare/v1.5.0...v1.5.1) (2020-10-06)
 
 
