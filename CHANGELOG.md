@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/newrelic/repolinter-action/compare/v1.6.0...v1.6.1) (2020-12-18)
+
+
+### Bug Fixes
+
+* upgrade dependencies ([672d1ac](https://github.com/newrelic/repolinter-action/commit/672d1ac522eec69756285eaae5332ccc38d6359a))
+
 # [1.6.0](https://github.com/newrelic/repolinter-action/compare/v1.5.1...v1.6.0) (2020-12-11)
 
 
