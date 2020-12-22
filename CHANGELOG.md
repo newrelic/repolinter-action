@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.3...v1.6.4) (2020-12-22)
+
+
+### Bug Fixes
+
+* minor CI typo ([d189e22](https://github.com/prototypicalpro/repolinter-action/commit/d189e220f7751b4cadaf0118139bf15a5c38b25d))
+
 ## [1.6.3](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-22)
 
 
