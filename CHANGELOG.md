@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-22)
+
+
+### Bug Fixes
+
+* update package.json ([a2c93e9](https://github.com/prototypicalpro/repolinter-action/commit/a2c93e92bbd2345788bd3d5021491cbea9d07574))
+
 ## [1.6.1](https://github.com/newrelic/repolinter-action/compare/v1.6.0...v1.6.1) (2020-12-18)
 
 
