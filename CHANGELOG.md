@@ -1,3 +1,10 @@
+## [1.6.5](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.4...v1.6.5) (2020-12-22)
+
+
+### Bug Fixes
+
+* update action.yml to pull from github packages ([5e25af9](https://github.com/prototypicalpro/repolinter-action/commit/5e25af91c6d32210b08a7ff5aa8fc529ed75d862))
+
 ## [1.6.4](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.3...v1.6.4) (2020-12-22)
 
 
