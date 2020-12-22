@@ -1,6 +1,6 @@
 {
   "name": "repolinter-action",
-  "version": "1.6.5",
+  "version": "1.6.1",
   "private": true,
   "description": "GitHub action to automatically enforce open source policies using Repolinter",
   "main": "lib/entry.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prototypicalpro/repolinter-action.git"
+    "url": "https://github.com/newrelic/repolinter-action.git"
   },
   "keywords": [
     "actions",

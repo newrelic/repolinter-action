@@ -1,31 +1,3 @@
-## [1.6.5](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.4...v1.6.5) (2020-12-22)
-
-
-### Bug Fixes
-
-* update action.yml to pull from github packages ([5e25af9](https://github.com/prototypicalpro/repolinter-action/commit/5e25af91c6d32210b08a7ff5aa8fc529ed75d862))
-
-## [1.6.4](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.3...v1.6.4) (2020-12-22)
-
-
-### Bug Fixes
-
-* minor CI typo ([d189e22](https://github.com/prototypicalpro/repolinter-action/commit/d189e220f7751b4cadaf0118139bf15a5c38b25d))
-
-## [1.6.3](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-22)
-
-
-### Bug Fixes
-
-* fix ghcr tagging ([103317c](https://github.com/prototypicalpro/repolinter-action/commit/103317c5d4d712539ea62b99b7b7826494fe708a))
-
-## [1.6.2](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-22)
-
-
-### Bug Fixes
-
-* update package.json ([a2c93e9](https://github.com/prototypicalpro/repolinter-action/commit/a2c93e92bbd2345788bd3d5021491cbea9d07574))
-
 ## [1.6.1](https://github.com/newrelic/repolinter-action/compare/v1.6.0...v1.6.1) (2020-12-18)
 
 
