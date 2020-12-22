@@ -90,8 +90,8 @@ jobs:
         id: repolinter-json
         run: >
           docker run -t 
-          -v ${{ github.workspace }}:/src -w /src
-          -e INPUT_DIRECTORY=/src
+          -v ${{ github.workspace }}:/github/workspace -w /github/workspace
+          -e INPUT_DIRECTORY=/github/workspace
           -e INPUT_TOKEN=${{ github.token }}
           -e INPUT_USERNAME=app/github-actions
           -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.json
@@ -115,8 +115,8 @@ jobs:
         id: repolinter-yaml
         run: >
           docker run -t 
-          -v ${{ github.workspace }}:/src -w /src
-          -e INPUT_DIRECTORY=/src
+          -v ${{ github.workspace }}:/github/workspace -w /github/workspace
+          -e INPUT_DIRECTORY=/github/workspace
           -e INPUT_TOKEN=${{ github.token }}
           -e INPUT_USERNAME=app/github-actions
           -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.yaml
