@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-22)
+
+
+### Bug Fixes
+
+* fix ghcr tagging ([103317c](https://github.com/prototypicalpro/repolinter-action/commit/103317c5d4d712539ea62b99b7b7826494fe708a))
+
 ## [1.6.2](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-22)
 
 
