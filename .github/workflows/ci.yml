@@ -90,19 +90,19 @@ jobs:
         id: repolinter-json
         run: >
           docker run -t 
-            -v ${{ github.workspace }}:/src -w /src
-            -e INPUT_DIRECTORY=/src
-            -e INPUT_TOKEN=${{ github.token }}
-            -e INPUT_USERNAME=app/github-actions
-            -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.json
-            -e INPUT_REPOSITORY=${{ github.repository }}
-            -e INPUT_OUTPUT_TYPE=exit-code
-            -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
-            -e INPUT_LABEL_NAME=repolinter
-            -e INPUT_LABEL_COLOR=fbca04
-            -e GITHUB_RUN_NUMBER=${{ github.run_number }}
-            -e GITHUB_ACTION=true
-            ${{ github.repository }}:latest
+          -v ${{ github.workspace }}:/src -w /src
+          -e INPUT_DIRECTORY=/src
+          -e INPUT_TOKEN=${{ github.token }}
+          -e INPUT_USERNAME=app/github-actions
+          -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.json
+          -e INPUT_REPOSITORY=${{ github.repository }}
+          -e INPUT_OUTPUT_TYPE=exit-code
+          -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
+          -e INPUT_LABEL_NAME=repolinter
+          -e INPUT_LABEL_COLOR=fbca04
+          -e GITHUB_RUN_NUMBER=${{ github.run_number }}
+          -e GITHUB_ACTION=true
+          ${{ github.repository }}:latest
       
       - name: Verify Outputs
         env:
@@ -115,19 +115,19 @@ jobs:
         id: repolinter-yaml
         run: >
           docker run -t 
-            -v ${{ github.workspace }}:/src -w /src
-            -e INPUT_DIRECTORY=/src
-            -e INPUT_TOKEN=${{ github.token }}
-            -e INPUT_USERNAME=app/github-actions
-            -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.yaml
-            -e INPUT_REPOSITORY=${{ github.repository }}
-            -e INPUT_OUTPUT_TYPE=exit-code
-            -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
-            -e INPUT_LABEL_NAME=repolinter
-            -e INPUT_LABEL_COLOR=fbca04
-            -e GITHUB_RUN_NUMBER=${{ github.run_number }}
-            -e GITHUB_ACTION=true
-            ${{ github.repository }}:latest
+          -v ${{ github.workspace }}:/src -w /src
+          -e INPUT_DIRECTORY=/src
+          -e INPUT_TOKEN=${{ github.token }}
+          -e INPUT_USERNAME=app/github-actions
+          -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.yaml
+          -e INPUT_REPOSITORY=${{ github.repository }}
+          -e INPUT_OUTPUT_TYPE=exit-code
+          -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
+          -e INPUT_LABEL_NAME=repolinter
+          -e INPUT_LABEL_COLOR=fbca04
+          -e GITHUB_RUN_NUMBER=${{ github.run_number }}
+          -e GITHUB_ACTION=true
+          ${{ github.repository }}:latest
       
       - name: Verify Outputs
         env:
