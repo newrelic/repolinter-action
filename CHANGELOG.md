@@ -1,3 +1,13 @@
+## [1.6.2](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-28)
+
+
+### Bug Fixes
+
+* test adding automatic release tagging in action yml ([41c8a70](https://github.com/prototypicalpro/repolinter-action/commit/41c8a70972ff97bb0a7c6056cf318a798f993933))
+* update CI workflow to publish to GHCR ([702a654](https://github.com/prototypicalpro/repolinter-action/commit/702a654c4ef5596c04ad9ce8a603e792014f9e32))
+* update package json ([0131e9e](https://github.com/prototypicalpro/repolinter-action/commit/0131e9e98de15c1f9cdb897c164ab0a1ae18d2c4))
+* upgrade dependencies, and release docker image to GHCR ([cc37be3](https://github.com/prototypicalpro/repolinter-action/commit/cc37be3d9756efbab0e59d70236f7ade0f8057de))
+
 ## [1.6.3](https://github.com/newrelic/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-28)
 
 
