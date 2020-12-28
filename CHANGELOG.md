@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/newrelic/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-28)
+
+
+### Bug Fixes
+
+* update CI workflow to publish to GHCR ([702a654](https://github.com/newrelic/repolinter-action/commit/702a654c4ef5596c04ad9ce8a603e792014f9e32))
+
 ## [1.6.2](https://github.com/newrelic/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-28)
 
 
