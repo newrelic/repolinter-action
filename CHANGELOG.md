@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/newrelic/repolinter-action/compare/v1.6.1...v1.6.2) (2020-12-28)
+
+
+### Bug Fixes
+
+* upgrade dependencies, and release docker image to GHCR ([cc37be3](https://github.com/newrelic/repolinter-action/commit/cc37be3d9756efbab0e59d70236f7ade0f8057de))
+
 ## [1.6.1](https://github.com/newrelic/repolinter-action/compare/v1.6.0...v1.6.1) (2020-12-18)
 
 
