@@ -67,11 +67,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Docker Build
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ github.repository }}:latest
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
       - name: Run Action (JSON)
         id: repolinter-json
-        uses: ./
-        with:
-          config_file: ./.github/workflows/test-rulesets/repolinter-test.json
+        run: >
+          docker run -t 
+          -v ${{ github.workspace }}:/github/workspace -w /github/workspace
+          -e INPUT_DIRECTORY=/github/workspace
+          -e INPUT_TOKEN=${{ github.token }}
+          -e INPUT_USERNAME=app/github-actions
+          -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.json
+          -e INPUT_REPOSITORY=${{ github.repository }}
+          -e INPUT_OUTPUT_TYPE=exit-code
+          -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
+          -e INPUT_LABEL_NAME=repolinter
+          -e INPUT_LABEL_COLOR=fbca04
+          -e GITHUB_RUN_NUMBER=${{ github.run_number }}
+          -e GITHUB_ACTION=true
+          ${{ github.repository }}:latest
       
       - name: Verify Outputs
         env:
@@ -82,9 +113,21 @@ jobs:
       
       - name: Run Action (YAML)
         id: repolinter-yaml
-        uses: ./
-        with:
-          config_file: ./.github/workflows/test-rulesets/repolinter-test.yaml
+        run: >
+          docker run -t 
+          -v ${{ github.workspace }}:/github/workspace -w /github/workspace
+          -e INPUT_DIRECTORY=/github/workspace
+          -e INPUT_TOKEN=${{ github.token }}
+          -e INPUT_USERNAME=app/github-actions
+          -e INPUT_CONFIG_FILE=./.github/workflows/test-rulesets/repolinter-test.yaml
+          -e INPUT_REPOSITORY=${{ github.repository }}
+          -e INPUT_OUTPUT_TYPE=exit-code
+          -e INPUT_OUTPUT_NAME="[Repolinter] Open Source Policy Issues"
+          -e INPUT_LABEL_NAME=repolinter
+          -e INPUT_LABEL_COLOR=fbca04
+          -e GITHUB_RUN_NUMBER=${{ github.run_number }}
+          -e GITHUB_ACTION=true
+          ${{ github.repository }}:latest
       
       - name: Verify Outputs
         env:
@@ -204,3 +247,56 @@ jobs:
         run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v${{steps.semantic.outputs.new_release_major_version}}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Cache Docker layers
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      
+      - name: Set up Docker Buildx
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Generate Docker Tags
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: tags
+        shell: python
+        env:
+          NEW_RELEASE_MAJOR_VERSION: ${{ steps.semantic.outputs.new_release_major_version }}
+          NEW_RELEASE_MINOR_VERSION: ${{ steps.semantic.outputs.new_release_minor_version }}
+          NEW_RELEASE_PATCH_VERSION: ${{ steps.semantic.outputs.new_release_patch_version }}
+        run: |
+          import os
+          major, minor, patch, repo = os.environ["NEW_RELEASE_MAJOR_VERSION"], os.environ["NEW_RELEASE_MINOR_VERSION"], os.environ["NEW_RELEASE_PATCH_VERSION"], os.environ["GITHUB_REPOSITORY"]
+          tags = f"ghcr.io/{repo}:latest,ghcr.io/{repo}:{major}.{minor},ghcr.io/{repo}:{major}.{minor}.{patch}"
+          print(f"::set-output name=tags::{tags}")
+
+      - name: Gather Docker Labels
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@55d3462 #v1.9.1
+        with:
+          images: ghcr.io/${{ github.repository }}
+
+      - name: Build and Push to GitHub Container Registry
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
