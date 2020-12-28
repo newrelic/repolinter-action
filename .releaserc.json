@@ -13,6 +13,9 @@
         ["@semantic-release/git", {
             "assets": ["dist/*", "CHANGELOG.md", "package.json", "package-lock.json"],
             "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+        }],
+        ["@semantic-release/exec", {
+            "prepareCmd": "sed -i \"s\/image:\\s*[\\\"\\']\\?[^\\\"\\'[:space:]]\\+[\\\"\\']\\?\/image: docker://ghcr.io/newrelic/repolinter-action:${nextRelease.gitTag}/\/\""
         }]
     ],
     "dryRun": false,
