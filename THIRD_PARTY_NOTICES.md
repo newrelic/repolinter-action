@@ -152,7 +152,7 @@ THE SOFTWARE.
 
 ### @octokit/types
 
-This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v6.1.1](https://github.com/octokit/types.ts/tree/v6.1.1)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v6.1.1/LICENSE):
+This product includes source derived from [@octokit/types](https://github.com/octokit/types.ts) ([v6.1.2](https://github.com/octokit/types.ts/tree/v6.1.2)), distributed under the [MIT License](https://github.com/octokit/types.ts/blob/v6.1.2/LICENSE):
 
 ```
 MIT License Copyright (c) 2019 Octokit contributors
@@ -316,7 +316,7 @@ This product includes source derived from [@types/jest](https://github.com/Defin
 
 ### @types/node
 
-This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.14.14](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.14.14)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.14.14/LICENSE):
+This product includes source derived from [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) ([v14.14.16](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.14.16)), distributed under the [MIT License](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.14.16/LICENSE):
 
 ```
     MIT License
@@ -345,7 +345,7 @@ This product includes source derived from [@types/node](https://github.com/Defin
 
 ### @typescript-eslint/eslint-plugin
 
-This product includes source derived from [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) ([v4.10.0](https://github.com/typescript-eslint/typescript-eslint/tree/v4.10.0)), distributed under the [MIT License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.10.0/LICENSE):
+This product includes source derived from [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) ([v4.11.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.11.1)), distributed under the [MIT License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.11.1/LICENSE):
 
 ```
 MIT License
@@ -374,7 +374,7 @@ SOFTWARE.
 
 ### @typescript-eslint/parser
 
-This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v4.10.0](https://github.com/typescript-eslint/typescript-eslint/tree/v4.10.0)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.10.0/LICENSE):
+This product includes source derived from [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) ([v4.11.1](https://github.com/typescript-eslint/typescript-eslint/tree/v4.11.1)), distributed under the [BSD-2-Clause License](https://github.com/typescript-eslint/typescript-eslint/blob/v4.11.1/LICENSE):
 
 ```
 TypeScript ESLint Parser
@@ -404,7 +404,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### @vercel/ncc
 
-This product includes source derived from [@vercel/ncc](https://github.com/vercel/ncc) ([v0.26.0](https://github.com/vercel/ncc/tree/v0.26.0)), distributed under the [MIT License](https://github.com/vercel/ncc/blob/v0.26.0/LICENSE):
+This product includes source derived from [@vercel/ncc](https://github.com/vercel/ncc) ([v0.26.1](https://github.com/vercel/ncc/tree/v0.26.1)), distributed under the [MIT License](https://github.com/vercel/ncc/blob/v0.26.1/LICENSE):
 
 ```
 Copyright 2018 ZEIT, Inc.
@@ -475,7 +475,7 @@ SOFTWARE.
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.15.0](https://github.com/eslint/eslint/tree/v7.15.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.15.0/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.16.0](https://github.com/eslint/eslint/tree/v7.16.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.16.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
@@ -618,7 +618,7 @@ SOFTWARE.
 
 ### prettier-plugin-jsdoc
 
-This product includes source derived from [prettier-plugin-jsdoc](https://github.com/hosseinmd/prettier-plugin-jsdoc) ([v0.2.7](https://github.com/hosseinmd/prettier-plugin-jsdoc/tree/v0.2.7)), distributed under the [ISC License](https://github.com/hosseinmd/prettier-plugin-jsdoc/blob/v0.2.7/LICENSE):
+This product includes source derived from [prettier-plugin-jsdoc](https://github.com/hosseinmd/prettier-plugin-jsdoc) ([v0.2.12](https://github.com/hosseinmd/prettier-plugin-jsdoc/tree/v0.2.12)), distributed under the [ISC License](https://github.com/hosseinmd/prettier-plugin-jsdoc/blob/v0.2.12/LICENSE):
 
 ```
 MIT License

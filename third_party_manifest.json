@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Mon Dec 28 2020 18:03:31 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Mon Dec 28 2020 18:12:55 GMT+0000 (Coordinated Universal Time)",
   "projectName": "repolinter-action",
   "projectUrl": "https://github.com/newrelic/repolinter-action",
   "includeDev": true,
@@ -48,15 +48,15 @@
       "licenseUrl": "https://github.com/octokit/rest.js/blob/v18.0.12/LICENSE",
       "licenseTextSource": "file"
     },
-    "@octokit/types@6.1.1": {
+    "@octokit/types@6.1.2": {
       "name": "@octokit/types",
-      "version": "6.1.1",
-      "range": "^6.1.1",
+      "version": "6.1.2",
+      "range": "^6.1.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/octokit/types.ts",
-      "versionedRepoUrl": "https://github.com/octokit/types.ts/tree/v6.1.1",
-      "licenseFile": "node_modules/@octokit/auth-token/node_modules/@octokit/types/LICENSE",
-      "licenseUrl": "https://github.com/octokit/types.ts/blob/v6.1.1/LICENSE",
+      "versionedRepoUrl": "https://github.com/octokit/types.ts/tree/v6.1.2",
+      "licenseFile": "node_modules/@octokit/types/LICENSE",
+      "licenseUrl": "https://github.com/octokit/types.ts/blob/v6.1.2/LICENSE",
       "licenseTextSource": "file"
     },
     "@types/js-yaml@3.12.5": {
@@ -117,48 +117,48 @@
       "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v26.0.19/LICENSE",
       "licenseTextSource": "file"
     },
-    "@types/node@14.14.14": {
+    "@types/node@14.14.16": {
       "name": "@types/node",
-      "version": "14.14.14",
-      "range": "^14.14.14",
+      "version": "14.14.16",
+      "range": "^14.14.16",
       "licenses": "MIT",
       "repoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.14.14",
+      "versionedRepoUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/v14.14.16",
       "licenseFile": "node_modules/@types/node/LICENSE",
-      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.14.14/LICENSE",
+      "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/blob/v14.14.16/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/eslint-plugin@4.10.0": {
+    "@typescript-eslint/eslint-plugin@4.11.1": {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "4.10.0",
-      "range": "^4.10.0",
+      "version": "4.11.1",
+      "range": "^4.11.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.10.0",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.11.1",
       "licenseFile": "node_modules/@typescript-eslint/eslint-plugin/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.10.0/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.11.1/LICENSE",
       "licenseTextSource": "file"
     },
-    "@typescript-eslint/parser@4.10.0": {
+    "@typescript-eslint/parser@4.11.1": {
       "name": "@typescript-eslint/parser",
-      "version": "4.10.0",
-      "range": "^4.10.0",
+      "version": "4.11.1",
+      "range": "^4.11.1",
       "licenses": "BSD-2-Clause",
       "repoUrl": "https://github.com/typescript-eslint/typescript-eslint",
-      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.10.0",
+      "versionedRepoUrl": "https://github.com/typescript-eslint/typescript-eslint/tree/v4.11.1",
       "licenseFile": "node_modules/@typescript-eslint/parser/LICENSE",
-      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.10.0/LICENSE",
+      "licenseUrl": "https://github.com/typescript-eslint/typescript-eslint/blob/v4.11.1/LICENSE",
       "licenseTextSource": "file"
     },
-    "@vercel/ncc@0.26.0": {
+    "@vercel/ncc@0.26.1": {
       "name": "@vercel/ncc",
-      "version": "0.26.0",
-      "range": "^0.26.0",
+      "version": "0.26.1",
+      "range": "^0.26.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/vercel/ncc",
-      "versionedRepoUrl": "https://github.com/vercel/ncc/tree/v0.26.0",
+      "versionedRepoUrl": "https://github.com/vercel/ncc/tree/v0.26.1",
       "licenseFile": "node_modules/@vercel/ncc/LICENSE",
-      "licenseUrl": "https://github.com/vercel/ncc/blob/v0.26.0/LICENSE",
+      "licenseUrl": "https://github.com/vercel/ncc/blob/v0.26.1/LICENSE",
       "licenseTextSource": "file"
     },
     "eslint-plugin-github@4.1.1": {
@@ -187,15 +187,15 @@
       "email": "hello@jkimbo.com",
       "url": "jkimbo.com"
     },
-    "eslint@7.15.0": {
+    "eslint@7.16.0": {
       "name": "eslint",
-      "version": "7.15.0",
-      "range": "^7.15.0",
+      "version": "7.16.0",
+      "range": "^7.16.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
-      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v7.15.0",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v7.16.0",
       "licenseFile": "node_modules/eslint/LICENSE",
-      "licenseUrl": "https://github.com/eslint/eslint/blob/v7.15.0/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v7.16.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"
@@ -248,15 +248,15 @@
       "publisher": "Pedro Teixeira",
       "email": "pedro.teixeira@gmail.com"
     },
-    "prettier-plugin-jsdoc@0.2.7": {
+    "prettier-plugin-jsdoc@0.2.12": {
       "name": "prettier-plugin-jsdoc",
-      "version": "0.2.7",
-      "range": "^0.2.7",
+      "version": "0.2.12",
+      "range": "^0.2.12",
       "licenses": "ISC",
       "repoUrl": "https://github.com/hosseinmd/prettier-plugin-jsdoc",
-      "versionedRepoUrl": "https://github.com/hosseinmd/prettier-plugin-jsdoc/tree/v0.2.7",
+      "versionedRepoUrl": "https://github.com/hosseinmd/prettier-plugin-jsdoc/tree/v0.2.12",
       "licenseFile": "node_modules/prettier-plugin-jsdoc/LICENSE",
-      "licenseUrl": "https://github.com/hosseinmd/prettier-plugin-jsdoc/blob/v0.2.7/LICENSE",
+      "licenseUrl": "https://github.com/hosseinmd/prettier-plugin-jsdoc/blob/v0.2.12/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Hossein mohammadi",
       "url": "hosseinm.developer@gmail.com"
