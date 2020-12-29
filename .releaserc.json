@@ -15,7 +15,7 @@
             "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
         }],
         ["@semantic-release/exec", {
-            "prepareCmd": "sed -i \"s\/image:\\s*[\\\"\\']\\?[^\\\"\\'[:space:]]\\+[\\\"\\']\\?\/image: docker://ghcr.io/newrelic/repolinter-action:${nextRelease.gitTag}/\/\""
+            "prepareCmd": "sed -i \"s\/image:\\s*[\\\"\\']\\?[^\\\"\\'[:space:]]\\+[\\\"\\']\\?\/image: docker:\\\/\\\/ghcr.io\\\/newrelic\\\/repolinter-action:${nextRelease.gitTag}\/\" action.yml"
         }]
     ],
     "dryRun": false,
