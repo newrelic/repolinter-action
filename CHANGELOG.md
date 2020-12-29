@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/newrelic/repolinter-action/compare/v1.6.3...v1.6.4) (2020-12-29)
+
+
+### Bug Fixes
+
+* add automatic tagging to action metadata for GHCR ([#9](https://github.com/newrelic/repolinter-action/issues/9)) ([9237b83](https://github.com/newrelic/repolinter-action/commit/9237b83797f8c15c186384d06f5d856a1f150d12))
+
 ## [1.6.3](https://github.com/newrelic/repolinter-action/compare/v1.6.2...v1.6.3) (2020-12-28)
 
 
