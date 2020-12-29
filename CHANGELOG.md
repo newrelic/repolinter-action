@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/prototypicalpro/repolinter-action/compare/v1.8.0...v1.8.1) (2020-12-29)
+
+
+### Bug Fixes
+
+* update order of release steps ([ea86568](https://github.com/prototypicalpro/repolinter-action/commit/ea8656849e9fd880cec5b9a46c90d1d2c3b953d7))
+
 # [1.8.0](https://github.com/prototypicalpro/repolinter-action/compare/v1.7.0...v1.8.0) (2020-12-29)
 
 
