@@ -239,12 +239,7 @@ jobs:
           extra_plugins: |
             @semantic-release/git
             @semantic-release/changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Update Major Version Tag
-        if: steps.semantic.outputs.new_release_published == 'true'
-        run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v${{steps.semantic.outputs.new_release_major_version}}"
+            @semantic-release/exec
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -287,5 +282,11 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: >-
             ghcr.io/${{ github.repository }}:latest,
-            ghcr.io/${{ github.repository }}:${{ steps.semantic.outputs.new_release_major_version }}.${{ steps.semantic.outputs.new_release_minor_version }},
-            ghcr.io/${{ github.repository }}:${{ steps.semantic.outputs.new_release_major_version }}.${{ steps.semantic.outputs.new_release_minor_version }}.${{ steps.semantic.outputs.new_release_patch_version }}
+            ghcr.io/${{ github.repository }}:v${{ steps.semantic.outputs.new_release_major_version }}.${{ steps.semantic.outputs.new_release_minor_version }},
+            ghcr.io/${{ github.repository }}:v${{ steps.semantic.outputs.new_release_major_version }}.${{ steps.semantic.outputs.new_release_minor_version }}.${{ steps.semantic.outputs.new_release_patch_version }}
+
+      - name: Update Major Version Tag
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:refs/heads/v${{steps.semantic.outputs.new_release_major_version}}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
