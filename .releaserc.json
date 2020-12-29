@@ -11,7 +11,7 @@
             "npmPublish": false
         }],
         ["@semantic-release/git", {
-            "assets": ["dist/*", "CHANGELOG.md", "package.json", "package-lock.json"],
+            "assets": ["dist/*", "CHANGELOG.md", "package.json", "package-lock.json", "action.yml"],
             "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
         }],
         ["@semantic-release/exec", {
