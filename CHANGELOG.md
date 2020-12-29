@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/prototypicalpro/repolinter-action/compare/v1.7.0...v1.8.0) (2020-12-29)
+
+
+### Features
+
+* add action.yml to releaserc ([698c3ed](https://github.com/prototypicalpro/repolinter-action/commit/698c3ed0788d34bc9793bd2c771f5e80f0f8b26d))
+
 # [1.7.0](https://github.com/prototypicalpro/repolinter-action/compare/v1.6.1...v1.7.0) (2020-12-29)
 
 
