@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/prototypicalpro/repolinter/master/rulesets/schema.json",
+    "$schema": "https://raw.githubusercontent.com/todogroup/repolinter/master/rulesets/schema.json",
     "version": 2,
     "axioms": {},
     "rules": {
