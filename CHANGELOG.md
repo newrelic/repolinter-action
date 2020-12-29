@@ -1,3 +1,10 @@
+## [1.6.5](https://github.com/newrelic/repolinter-action/compare/v1.6.4...v1.6.5) (2020-12-29)
+
+
+### Bug Fixes
+
+* update sed command in releaserc ([2b7a8f4](https://github.com/newrelic/repolinter-action/commit/2b7a8f421557cfc88c66ab255fe11a8626451842))
+
 ## [1.6.4](https://github.com/newrelic/repolinter-action/compare/v1.6.3...v1.6.4) (2020-12-29)
 
 
