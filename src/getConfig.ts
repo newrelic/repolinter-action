@@ -65,7 +65,7 @@ export default async function getConfig(where: {
   }
   if (!ret) {
     try {
-      ret = yaml.safeLoad(contents)
+      ret = yaml.load(contents, {schema: yaml.JSON_SCHEMA})
     } catch (e) {
       yamlError = e
     }
