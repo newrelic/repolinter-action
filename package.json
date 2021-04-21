@@ -9,7 +9,7 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts --fix",
-    "package": "rm -rf dist && ncc build --source-map --minify",
+    "package": "ncc build --source-map --minify",
     "test": "jest",
     "release": "semantic-release",
     "all": "npm run format && npm run lint && npm run build && npm run package && npm test"

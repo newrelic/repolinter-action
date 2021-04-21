@@ -9,12 +9,12 @@ import {validateConfig} from 'repolinter'
  * validated deserialized configuration.
  *
  * @param where.configFile The file path to the config, relative to the current
- *     working directory. Mutually exclusive with where.configUrl.
+ *   working directory. Mutually exclusive with where.configUrl.
  * @param where.configUrl The URL to load fhe config from. Mutually exclusive
- *     with where.configFile
+ *   with where.configFile
  * @returns A deserialized JSON or YAML configuration object if one was found.
- *     If the configuration does not exist or does not pass validation this
- *     function will throw an error.
+ *   If the configuration does not exist or does not pass validation this
+ *   function will throw an error.
  */
 export default async function getConfig(where: {
   configFile?: string
