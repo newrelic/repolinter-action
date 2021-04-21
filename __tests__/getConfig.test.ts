@@ -21,7 +21,7 @@ describe('getConfig', () => {
 
   test('getConfig returns a config from a YAML', async () => {
     const filepath = path.resolve(__dirname, 'testconfig.yaml')
-    const expected = yaml.safeLoad(
+    const expected = yaml.load(
       await fs.promises.readFile(filepath, 'utf8')
     ) as Record<string, unknown>
     const res = await getConfig({configFile: filepath})
@@ -53,7 +53,7 @@ describe('getConfig', () => {
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.yaml'
     const filepath = path.resolve(__dirname, 'testconfig.yaml')
-    const expected = yaml.safeLoad(
+    const expected = yaml.load(
       await fs.promises.readFile(filepath, 'utf8')
     ) as Record<string, unknown>
     const scope = nock('https://raw.githubusercontent.com')
