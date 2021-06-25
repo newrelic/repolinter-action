@@ -31,7 +31,7 @@ describe('main', () => {
     process.env = {}
     // reset inputs
     process.env[getInputName(ActionInputs.DIRECTORY)] = '.'
-    process.env[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
+    process.env[getInputName(ActionInputs.REPO)] = 'todogroup/repolinter-action'
     process.env[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
     process.env[getInputName(ActionInputs.OUTPUT_NAME)] =
       'Open Source Policy Issues'
@@ -406,7 +406,7 @@ describe('main', () => {
 
   test('exits 0 when repolinter.passes is false if issue output is enables', async () => {
     const config = {
-      owner: 'newrelic',
+      owner: 'todogroup',
       repo: 'repolinter-action'
     }
     // mock stolen from createOrUpdateIssue.ts

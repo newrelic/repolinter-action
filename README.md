@@ -1,12 +1,8 @@
-[![New Relic Experimental header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Experimental.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
-
 # Repolinter Action v1
 
-[![GitHub Marketplace version](https://img.shields.io/github/release/newrelic/repolinter-action.svg?label=Marketplace&logo=github)](https://github.com/marketplace/actions/repolinter-action) ![CI](https://github.com/newrelic/repolinter-action/workflows/CI/badge.svg?event=push) [![codecov](https://codecov.io/gh/newrelic/repolinter-action/branch/main/graph/badge.svg?token=EWYZ7C6RSL)](https://codecov.io/gh/newrelic/repolinter-action) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/newrelic/repolinter-action.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/newrelic/repolinter-action/context:javascript)
+![CI](https://github.com/todogroup/repolinter-action/workflows/CI/badge.svg?event=push)
 
 This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Repolinter's optional external dependencies (licensee, linguist, github-markup) are installed using a docker build step. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
-
-Currently this action uses the [newrelic-forks/repolinter](https://github.com/newrelic-forks/repolinter) fork, which includes a number of changes needed for issue creation support. A [PR](https://github.com/todogroup/repolinter/pull/174) to merge this fork into Repolinter is underway.
 
 ## Inputs
 
@@ -137,7 +133,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: 'Run Repolinter'
-        uses: newrelic/repolinter-action@v1
+        uses: todogroup/repolinter-action@v1
 
 ```
 
@@ -161,7 +157,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: 'Run Repolinter'
-        uses: newrelic/repolinter-action@v1
+        uses: todogroup/repolinter-action@v1
         with:
           config_url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
 
@@ -187,7 +183,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: 'Run Repolinter'
-        uses: newrelic/repolinter-action@v1
+        uses: todogroup/repolinter-action@v1
         with:
           config_url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
           output_type: issue
@@ -219,7 +215,7 @@ jobs:
           repository: aperture-science-incorporated/companion-cube
       
       - name: Run Repolinter
-        uses: newrelic/repolinter-action@develop
+        uses: todogroup/repolinter-action@v1
         with:
           output_type: issue
           repository: aperture-science-incorporated/companion-cube
@@ -243,14 +239,3 @@ As GitHub Actions can run many workflows in parallel, repolinter-action runs may
 ```md
 <!-- repolinter-action-workflow-number:<GITHUB_RUN_NUMBER> -->
 ```
-
-## Contributing
-
-We encourage your contributions to improve Repolinter Action! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
-If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company,  please drop us an email at opensource@newrelic.com.
-
-## License
-
-repolinter-action is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
-
-> This repo also uses source code from third-party libraries. You can find full details on which libraries are used and the terms under which they are licensed in the [third-party-notices](./THIRD_PARTY_NOTICES.md) document.

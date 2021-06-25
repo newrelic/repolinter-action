@@ -34,7 +34,7 @@ function getInputName(input: string): string {
 function getBaseEnv(): NodeJS.ProcessEnv {
   const ret: NodeJS.ProcessEnv = {}
   ret[getInputName(ActionInputs.DIRECTORY)] = '.'
-  ret[getInputName(ActionInputs.REPO)] = 'newrelic/repolinter-action'
+  ret[getInputName(ActionInputs.REPO)] = 'todogroup/repolinter-action'
   ret[getInputName(ActionInputs.OUTPUT_TYPE)] = 'exit-code'
   ret[getInputName(ActionInputs.OUTPUT_NAME)] = 'Open Source Policy Issues'
   ret[getInputName(ActionInputs.LABEL_NAME)] = 'repolinter'

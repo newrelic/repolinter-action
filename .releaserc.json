@@ -7,7 +7,7 @@
             "changelogFile": "CHANGELOG.md"
         }],
         ["@semantic-release/exec", {
-            "prepareCmd": "sed -i -E \"s/image:\\s*[\\\"\\']?[^\\\"\\'[:space:]]+[\\\"\\']?/image: docker:\\/\\/ghcr.io\\/newrelic\\/repolinter-action:${nextRelease.gitTag}/\" action.yml"
+            "prepareCmd": "sed -i -E \"s/image:\\s*[\\\"\\']?[^\\\"\\'[:space:]]+[\\\"\\']?/image: docker:\\/\\/ghcr.io\\/todogroup\\/repolinter-action:${nextRelease.gitTag}/\" action.yml"
         }],
         ["@semantic-release/npm", {
             "npmPublish": false

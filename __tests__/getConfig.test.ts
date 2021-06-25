@@ -30,7 +30,6 @@ describe('getConfig', () => {
   })
 
   test('getConfig returns a JSON config from a URL', async () => {
-    // TODO: change this to point to the new relic repo when it goes public
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.json'
     const filepath = path.resolve(__dirname, 'testconfig.json')
@@ -49,7 +48,6 @@ describe('getConfig', () => {
   })
 
   test('getConfig returns a YAML config from a URL', async () => {
-    // TODO: change this to point to the new relic repo when it goes public
     const url =
       'https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter.yaml'
     const filepath = path.resolve(__dirname, 'testconfig.yaml')

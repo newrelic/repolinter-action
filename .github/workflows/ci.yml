@@ -1,10 +1,6 @@
 name: CI
 on: [push, pull_request]
 
-env:
-  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+repolinter-action@newrelic.com
-  THIRD_PARTY_GIT_AUTHOR_NAME: Actionbot
-
 jobs:
   job-test-unit:
     strategy:
@@ -19,19 +15,14 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Setup Node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v2
         with:
-          node-version: '12'
-      
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
+          node-version: '15'
       
       - name: Cache NPM
         uses: actions/cache@v2
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -50,10 +41,6 @@ jobs:
       
       - name: Test
         run: npm run test
-      
-      - name: Coverage
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@v1
   
   job-test-system:
     strategy:
@@ -135,70 +122,11 @@ jobs:
           DID_PASS: ${{ steps.repolinter-yaml.outputs.passed }}
         shell: bash
         run: '[ "$DID_ERROR" = "false" ] && [ "$DID_PASS" = "true" ]'
-  
-  job-generate-third-party-notices:
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: [job-test-unit, job-test-system]
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      # Probably not necessary since the ubuntu-latest image would have latest Node LTS release
-      # and nothing in this job _needs_ older Node
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      
-      - name: Cache NPM
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Install OSS CLI
-        run: |
-          sudo npm install -g @newrelic/newrelic-oss-cli
-      
-      - name: Generate Third Party Notices
-        run: |
-          if [ ! -f "third_party_manifest.json" ]; then
-            echo "::error::third_party_manifest.json is missing. Must generate using the newrelic-oss-cli."
-            exit 1
-          fi
-          # latest commit
-          LATEST_COMMIT=$(git rev-parse HEAD)
-          # latest commit where package.json was changed
-          LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
-          if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ]; then
-            git config user.email "${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}"
-            git config user.name "${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}"
-            oss third-party manifest
-            oss third-party notices
-            git add third_party_manifest.json
-            git add THIRD_PARTY_NOTICES.md
-            
-            git commit -m 'chore: update third-party manifest and notices [skip ci]'
-            git push origin ${GITHUB_REF#/refs/heads/} 
-          else
-            echo "No change in package.json, not regenerating third-party notices"
-          fi
 
   job-generate-release:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: [job-test-unit, job-test-system, job-generate-third-party-notices]
+    needs: [job-test-unit, job-test-system]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -206,25 +134,20 @@ jobs:
           ref: main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
-      
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
+          node-version: '15'
       
       - name: Cache NPM
         uses: actions/cache@v2
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       
       - name: Install Dependencies
-        run: npm ci
+        run: ci
       
       - name: Build
         run: npm run build
@@ -261,8 +184,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PAT }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Gather Docker Labels
         if: steps.semantic.outputs.new_release_published == 'true'

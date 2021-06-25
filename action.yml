@@ -1,6 +1,6 @@
 name: 'Repolinter Action'
 description: 'Runs Repolinter against a repository, then uses the results to open an issue.'
-author: 'New Relic Opensource'
+author: 'TODOGroup'
 inputs:
   directory:
     required: false
@@ -111,7 +111,7 @@ outputs:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
   using: 'docker'
-  image: docker://ghcr.io/newrelic/repolinter-action:v1.6.5
+  image: docker://ghcr.io/todogroup/repolinter-action:v1.6.5
   env:
     INPUT_DIRECTORY: ${{ inputs.directory }}
     INPUT_TOKEN: ${{ inputs.token }}
