@@ -94,7 +94,7 @@ typings/
 .dynamodb/
 
 # OS metadata
-.DS_Store
+./DS_Store
 Thumbs.db
 
 # Ignore built ts files
