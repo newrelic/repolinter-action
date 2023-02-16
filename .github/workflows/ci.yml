@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -130,7 +130,7 @@ jobs:
     needs: [job-test-unit, job-test-system]
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Probably not necessary since the ubuntu-latest image would have latest Node LTS release
       # and nothing in this job _needs_ older Node
@@ -189,7 +189,7 @@ jobs:
     needs: [job-test-unit, job-test-system, job-generate-third-party-notices]
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main
 
