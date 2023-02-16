@@ -34,7 +34,7 @@
     "@types/js-yaml": "^3.12.5",
     "@types/node-fetch": "^2.5.7",
     "node-fetch": "^2.6.1",
-    "repolinter": "github:newrelic-forks/repolinter#master"
+    "repolinter": "git+https://github.com/newrelic-forks/repolinter#chore/sync-upstream"
   },
   "devDependencies": {
     "@octokit/request-error": "^2.0.4",
