@@ -30,6 +30,10 @@ FROM python:2.7-slim as python-deps
 RUN python -m pip install --upgrade pip && \
     pip install docutils
 
+# Remvoe this file because it causes the next stage to fail
+# when copying the python deps into final image
+RUN rm /usr/share/doc/perl-base
+
 FROM node:lts-slim
 
 # Copy Ruby dependencies
