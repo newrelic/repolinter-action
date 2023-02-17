@@ -1,9 +1,12 @@
-name: CI
-on: [push, pull_request]
+name: Release
+on:
+  push:
+    branches:
+      - main
 
 env:
-  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+repolinter-action@newrelic.com
-  THIRD_PARTY_GIT_AUTHOR_NAME: Actionbot
+  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
+  THIRD_PARTY_GIT_AUTHOR_NAME: nr-opensource-bot
 
 jobs:
   job-test-unit:
@@ -15,20 +18,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: 16
 
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache NPM
+      - name: Cache node_modules
+        id: cache-node-modules
         uses: actions/cache@v2
+        env:
+          cache-name: node-modules
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: Install Dependencies
         run: npm ci
@@ -46,7 +47,6 @@ jobs:
         run: npm run test
 
       - name: Coverage
-        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
 
   job-test-system:
@@ -126,31 +126,30 @@ jobs:
 
   job-generate-third-party-notices:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: [job-test-unit, job-test-system]
     steps:
+      # Checkout fetch-depth: 2 because there's a check to see if package.json
+      # was updated, and need at least 2 commits for the check to function properly
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
-      # Probably not necessary since the ubuntu-latest image would have latest Node LTS release
-      # and nothing in this job _needs_ older Node
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: 16
 
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache NPM
+      - name: Download Cached Deps
+        id: cache-node-modules
         uses: actions/cache@v2
+        env:
+          cache-name: node-modules
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: Install Dependencies
         run: npm ci
@@ -165,15 +164,20 @@ jobs:
             echo "::error::third_party_manifest.json is missing. Must generate using the newrelic-oss-cli."
             exit 1
           fi
+
           # latest commit
           LATEST_COMMIT=$(git rev-parse HEAD)
+
           # latest commit where package.json was changed
           LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
+
           if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ]; then
             git config user.email "${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}"
             git config user.name "${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}"
+
             oss third-party manifest
             oss third-party notices
+
             git add third_party_manifest.json
             git add THIRD_PARTY_NOTICES.md
 
@@ -185,31 +189,30 @@ jobs:
 
   job-generate-release:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: [job-test-unit, job-test-system, job-generate-third-party-notices]
     steps:
+      # Checkout ref: main because previous job committed third_party_notices and
+      # we need to checkout main to pick up that commit
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
           ref: main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: 16
 
-      - name: Get NPM Cache Directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Cache NPM
+      - name: Download Cached Deps
+        id: cache-node-modules
         uses: actions/cache@v2
+        env:
+          cache-name: node-modules
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: Install Dependencies
         run: npm ci
@@ -222,13 +225,19 @@ jobs:
 
       - name: Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         with:
           extra_plugins: |
             @semantic-release/git
             @semantic-release/changelog
             @semantic-release/exec
         env:
+          # Use nr-opensource-bot for authoring commits done by
+          # semantic-release (rather than using @semantic-release-bot)
+          GIT_AUTHOR_NAME: ${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}
+          GIT_AUTHOR_EMAIL: ${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Docker layers
@@ -255,7 +264,7 @@ jobs:
       - name: Gather Docker Labels
         if: steps.semantic.outputs.new_release_published == 'true'
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@55d3462 #v1.9.1
+        uses: crazy-max/ghaction-docker-meta@v2
         with:
           images: ghcr.io/${{ github.repository }}
 
