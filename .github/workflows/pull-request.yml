@@ -1,8 +1,11 @@
-name: CI
+name: Pull Request
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
+  push:
+    branches:
+      - fix/build
 
 env:
   THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
