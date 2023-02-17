@@ -123,3 +123,79 @@ jobs:
           DID_PASS: ${{ steps.repolinter-yaml.outputs.passed }}
         shell: bash
         run: '[ "$DID_ERROR" = "false" ] && [ "$DID_PASS" = "true" ]'
+
+  job-generate-release:
+    runs-on: ubuntu-latest
+    needs: [job-test-unit, job-test-system]
+    steps:
+      # Checkout ref: main because previous job committed third_party_notices and
+      # we need to checkout main to pick up that commit
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Download Cached Deps
+        id: cache-node-modules
+        uses: actions/cache@v2
+        env:
+          cache-name: node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Package
+        run: npm run package
+
+      - name: Cache Docker layers
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Set up Docker Buildx
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Gather Docker Labels
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: ghcr.io/${{ github.repository }}
+
+      - name: Build and Push to GitHub Container Registry
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: >-
+            ghcr.io/${{ github.repository }}:v1.7.0-pre

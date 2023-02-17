@@ -7,7 +7,7 @@ inputs:
     description: >
       The directory Repolinter should run against. Accepts an absolute path
       or a path relative to $GITHUB_WORKSPACE.
-      
+
       Defaults to $GITHUB_WORKSPACE.
     default: ${{ github.workspace }}
   token:
@@ -20,27 +20,27 @@ inputs:
 
       If you set this field to a custom token, you will also need to change
       `username` to the username associated with the token provided.
-    
+
       [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     default: ${{ github.token }}
   username:
     required: false
     description: >
-      The username associated with the `token` field. Repolinter-action uses 
+      The username associated with the `token` field. Repolinter-action uses
       this value to determine which issues have been created by itself. Prefix
       this value with `app/` if `token` is generated from a GitHub app instead
       of a normal user (see https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-author).
-      
+
       Defaults to the username associated with the `GITHUB_TOKEN` provided by Github
       Actions.
     default: app/github-actions
   config_file:
     required: false
     description: >
-      A path to the JSON or YAML Repolinter ruleset to use, relative to the 
-      working directory (i.e. under `$GITHUB_WORKSPACE`). 
-      
-      This option is mutually exclusive with config_url. If this option and 
+      A path to the JSON or YAML Repolinter ruleset to use, relative to the
+      working directory (i.e. under `$GITHUB_WORKSPACE`).
+
+      This option is mutually exclusive with config_url. If this option and
       config-url are not specified, Repolinter's default ruleset will be used.
   config_url:
     required: false
@@ -51,7 +51,7 @@ inputs:
       This option can be used to pull a ruleset from GitHub using the
       raw.githubusercontent.com URL (ex. https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json).
 
-      This option is mutually exclusive with config_url. If this option and 
+      This option is mutually exclusive with config_url. If this option and
       config-url are not specified, Repolinter's default ruleset will be used.
   repository:
     required: false
@@ -72,13 +72,13 @@ inputs:
         PR status checks.
       * "issue": repolinter-action will create a GitHub issue on the current
         repository with the repolinter output and always exit 0. See the README for
-        more details on issue outputting behavior. This output type is ideal for 
+        more details on issue outputting behavior. This output type is ideal for
         non-intrusive notification.
     default: 'exit-code'
   output_name:
     required: false
     description: >
-      The title to use for the issue created by repolinter-action. This title 
+      The title to use for the issue created by repolinter-action. This title
       should indicate the purpose of the issue, as well as that it was created by
       a bot.
 
@@ -111,7 +111,7 @@ outputs:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
   using: 'docker'
-  image: docker://ghcr.io/newrelic/repolinter-action:v1.6.5
+  image: docker://ghcr.io/newrelic/repolinter-action:v1.7.0-pre
   env:
     INPUT_DIRECTORY: ${{ inputs.directory }}
     INPUT_TOKEN: ${{ inputs.token }}
