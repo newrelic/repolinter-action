@@ -38,21 +38,20 @@ type Octo = InstanceType<typeof Octokit>
  * @param options.repo The repository to create the issue on
  * @param options.username The username associated with the octokit instance
  * @param options.issueContent The text content to use for the issue body (ex.
- *     the markdown output of repolinter).
+ *   the markdown output of repolinter).
  * @param options.issueName The name to use for this issue
  * @param options.issueAssignee The username to assign this issue to, falsey for no one.
  * @param options.labelName The name of the label to use to track issues opened
- *     by this bot.
+ *   by this bot.
  * @param options.labelColor The color to use when creating this label (this
- *     value will be ignored if the label already exists). Should be a hex
- *     string with no prefix (ex. "ff2a63").
+ *   value will be ignored if the label already exists). Should be a hex string
+ *   with no prefix (ex. "ff2a63").
  * @param options.runNumber The current GITHUB_RUN_NUMBER, used to determine if
- *     the issue should be updated or not.
+ *   the issue should be updated or not.
  * @param options.shouldClose Set this to true to close the issue. If this value
- *     is true and no issue exists, this function will do nothing.
+ *   is true and no issue exists, this function will do nothing.
  * @param options.forceCreateIssue Set to truthy to always create a new issue,
- *     instead of editing the old one. The old issue will automatically be
- *     closed if found.
+ *   instead of editing the old one. The old issue will automatically be closed if found.
  * @returns The issue number of the created issue, or null if no issue was created.
  */
 export default async function createOrUpdateIssue(
@@ -142,7 +141,7 @@ export interface FindRepolinterIssueOpts {
  * @param options.repo The name of the repository to search
  * @param labelName The label to filter repolinter issues by
  * @param selfUsername The current username of this octokit client. Only issues
- *     created by this username will be enumerated.
+ *   created by this username will be enumerated.
  * @returns The issue data found, or null if no issue was found.
  */
 export async function findRepolinterIssue(
@@ -197,12 +196,12 @@ export interface CreateRepolinterIssueOpts {
  * @param options.issueName The title to use for the issue
  * @param options.issueContent The body of the issue, formatted as markdown (optional)
  * @param options.issueAssignee The username of the person to assign this issue
- *     to (optional)
+ *   to (optional)
  * @param options.labelName The name of the label to create/assign to this issue
  * @param options.labelColor The color to use when creating the label. This
- *     value will be ignored if the label already exists.
+ *   value will be ignored if the label already exists.
  * @param options.runNumber The current GITHUB_RUN_NUMBER, which will be encoded
- *     and appended to the bottom of the issue body.
+ *   and appended to the bottom of the issue body.
  */
 export async function createRepolinterIssue(
   client: Octo,
@@ -282,7 +281,7 @@ export interface UpdateReplolinterIssueOpts {
  * @param options.issueContent The body to update the issue with, formatted as markdown.
  * @param options.shouldClose Set this to true to close the issue, otherwise the issue
  * @param options.runNumber The current GITHUB_RUN_NUMBER, which will be
- *     inserted at the bottom of the issue.
+ *   inserted at the bottom of the issue.
  * @returns The data returned by the REST API.
  */
 export async function updateRepolinterIssue(
@@ -312,7 +311,7 @@ export async function updateRepolinterIssue(
  *
  * @param body The issue body, formatted as the source markdown
  * @returns The workflow number (GITHUB_RUN_NUMBER) from the issue body, or null
- *     if none was found
+ *   if none was found
  */
 function decodeWorkflowNumber(body: string): number | null {
   const match = /<!--\s*repolinter-action-workflow-number:(\d+)\s*-->/i.exec(
