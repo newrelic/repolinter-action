@@ -279,8 +279,7 @@ export interface UpdateReplolinterIssueOpts {
  * @param options.owner The owner of the repository to update the issue on
  * @param options.repo The name of the repository to update the issue on
  * @param options.issueNumber The issue number to update (ex. #2, different from the ID)
- * @param options.issueContent The body to update the issue with, formatted as
- *     markdown.
+ * @param options.issueContent The body to update the issue with, formatted as markdown.
  * @param options.shouldClose Set this to true to close the issue, otherwise the issue
  * @param options.runNumber The current GITHUB_RUN_NUMBER, which will be
  *     inserted at the bottom of the issue.
