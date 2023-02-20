@@ -1,4 +1,4 @@
-FROM ghcr.io/newrelic-forks/repolinter:v0.9.1
+FROM ghcr.io/newrelic-forks/repolinter:v0.9.2
 
 # copy repolinter-action
 WORKDIR /repolinter-action
