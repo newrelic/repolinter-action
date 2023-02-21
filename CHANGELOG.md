@@ -1,3 +1,24 @@
+# [1.7.0](https://github.com/newrelic/repolinter-action/compare/v1.6.5...v1.7.0) (2023-02-21)
+
+
+### Bug Fixes
+
+* **build:** use branch of repolinter and reinstall from npm ([05c28d2](https://github.com/newrelic/repolinter-action/commit/05c28d219b4634373f5c28b25ac61d57851be266))
+* check out from current branch ([120479b](https://github.com/newrelic/repolinter-action/commit/120479b37dd6a44128ca4faf3313e6236215784a))
+* only build on ubuntu latest with node 16 ([768c0e1](https://github.com/newrelic/repolinter-action/commit/768c0e1a6f78076e6b8197e8a3dd1c6ecf1ec4b9))
+* pick up latest from repolinter fork ([d05ba91](https://github.com/newrelic/repolinter-action/commit/d05ba918c56ac19553bfc75ea3847421257ca07e))
+* re-target the PR workflow to run on pull_request ([3fc17f0](https://github.com/newrelic/repolinter-action/commit/3fc17f0d8e25d2185fa6f81ac597a078a2360f14))
+* remove guards ([b7bd7b4](https://github.com/newrelic/repolinter-action/commit/b7bd7b49bcd4561adc7101f33e9cfaaf9cd2ee86))
+* remove perl-base file ([e714e4d](https://github.com/newrelic/repolinter-action/commit/e714e4d05bcb121f49c7e7efe332c67b6539c108))
+* simplify build ([f247153](https://github.com/newrelic/repolinter-action/commit/f2471538eeef5867e76c5c10004ee87ef2f6a755))
+* sync updates from upstream repolinter ([d779d1b](https://github.com/newrelic/repolinter-action/commit/d779d1be0564f9951e37e705b8083d316a15cf94))
+* use GITHUB_TOKEN to publish to ghcr ([5d9dae2](https://github.com/newrelic/repolinter-action/commit/5d9dae26194eac31c783f0c4a575556fc50a4188))
+
+
+### Features
+
+* split into separate PR/release workflows ([037f6e1](https://github.com/newrelic/repolinter-action/commit/037f6e1ff9ee06723d9ddd5c21cd25d2316f4666))
+
 ## [1.6.5](https://github.com/newrelic/repolinter-action/compare/v1.6.4...v1.6.5) (2020-12-29)
 
 

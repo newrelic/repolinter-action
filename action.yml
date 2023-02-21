@@ -111,7 +111,7 @@ outputs:
     description: 'The JSON output from the repolinter run, from repolinter.jsonFormatter.'
 runs:
   using: 'docker'
-  image: docker://ghcr.io/newrelic/repolinter-action:v1.6.5
+  image: docker://ghcr.io/newrelic/repolinter-action:v1.7.0
   env:
     INPUT_DIRECTORY: ${{ inputs.directory }}
     INPUT_TOKEN: ${{ inputs.token }}
