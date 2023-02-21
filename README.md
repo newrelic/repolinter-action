@@ -2,7 +2,7 @@
 
 # Repolinter Action v1
 
-[![GitHub Marketplace version](https://img.shields.io/github/release/newrelic/repolinter-action.svg?label=Marketplace&logo=github)](https://github.com/marketplace/actions/repolinter-action) ![CI](https://github.com/newrelic/repolinter-action/workflows/CI/badge.svg?event=push) [![codecov](https://codecov.io/gh/newrelic/repolinter-action/branch/main/graph/badge.svg?token=EWYZ7C6RSL)](https://codecov.io/gh/newrelic/repolinter-action) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/newrelic/repolinter-action.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/newrelic/repolinter-action/context:javascript)
+[![GitHub Marketplace version](https://img.shields.io/github/release/newrelic/repolinter-action.svg?label=Marketplace&logo=github)](https://github.com/marketplace/actions/repolinter-action) ![Release](https://github.com/newrelic/repolinter-action/workflows/Release/badge.svg?event=push) [![codecov](https://codecov.io/gh/newrelic/repolinter-action/branch/main/graph/badge.svg?token=EWYZ7C6RSL)](https://codecov.io/gh/newrelic/repolinter-action) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/newrelic/repolinter-action.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/newrelic/repolinter-action/context:javascript)
 
 This action runs [Repolinter](https://github.com/todogroup/repolinter) on your repository. Repolinter's optional external dependencies (licensee, linguist, github-markup) are installed using a docker build step. Optionally you can also configure this tool to create GitHub issues with the Repolinter output.
 
@@ -15,14 +15,14 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
   with:
     # The directory Repolinter should run against. Accepts an absolute path
     # or a path relative to $GITHUB_WORKSPACE.
-    #  
+    #
     # Defaults to $GITHUB_WORKSPACE.
     directory: ''
 
     # A path to the JSON/YAML Repolinter ruleset to use, relative to the workflow
     # working directory (i.e. under `$GITHUB_WORKSPACE`).
-    # 
-    # This option is mutually exclusive with config_url. If this option and 
+    #
+    # This option is mutually exclusive with config_url. If this option and
     # config_url are not specified, Repolinter's default ruleset will be used.
     config_file: ''
 
@@ -32,7 +32,7 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
     # This option can be used to pull a ruleset from GitHub using the
     # raw.githubusercontent.com URL (ex. https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json).
     #
-    # This option is mutually exclusive with config_file. If this option and 
+    # This option is mutually exclusive with config_file. If this option and
     # config_file are not specified, Repolinter's default ruleset will be used.
     config_url: ''
 
@@ -43,13 +43,13 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
     #   PR status checks.
     # * "issue": repolinter-action will create a GitHub issue on the current
     #   repository with the repolinter output and always exit 0. See the README for
-    #   more details on issue outputting behavior. This output type is ideal for 
+    #   more details on issue outputting behavior. This output type is ideal for
     #   non-intrusive notification.
-    # 
+    #
     # Default: "exit-code"
     output_type: ''
 
-    # The title to use for the issue created by repolinter-action. This title 
+    # The title to use for the issue created by repolinter-action. This title
     # should indicate the purpose of the issue, as well as that it was created by
     # a bot.
     #
@@ -86,12 +86,12 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
     # Default: ${{ github.token }}
     token: ''
 
-    # The username associated with the `token` field. Repolinter-action uses 
+    # The username associated with the `token` field. Repolinter-action uses
     # this value to determine which issues have been created by itself. Prefix
     # this value with `app/` if `token` is generated from a GitHub app instead
     # of a normal user (see https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-author).
-    #  
-    # Defaults to the username associated with the `GITHUB_TOKEN` provided by Github 
+    #
+    # Defaults to the username associated with the `GITHUB_TOKEN` provided by Github
     # Actions.
     #
     # Default: app/github-actions
@@ -102,7 +102,7 @@ Currently this action uses the [newrelic-forks/repolinter](https://github.com/ne
     # an issue on, if that functionality is enabled.
     #
     # It is recommended that this option is left as the default value.
-    # 
+    #
     # Default: ${{ github.repository }}
     repository: ''
 ```
@@ -217,7 +217,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: aperture-science-incorporated/companion-cube
-      
+
       - name: Run Repolinter
         uses: newrelic/repolinter-action@develop
         with:
@@ -229,7 +229,7 @@ jobs:
 
 ## Issue Creation Behavior
 
-If `output_type` is set to `issue`, repolinter-action will create a GitHub issue with the Repolinter output on the current repository. An example issue can be found here: https://github.com/aperture-science-incorporated/companion-cube/issues/44. 
+If `output_type` is set to `issue`, repolinter-action will create a GitHub issue with the Repolinter output on the current repository. An example issue can be found here: https://github.com/aperture-science-incorporated/companion-cube/issues/44.
 
 To prevent unnecessary noise, repolinter-action will first attempt to edit an existing open issue before creating a new one. This check is performed every workflow run, and can be emulated using the following [GitHub search](https://docs.github.com/en/github/searching-for-information-on-github) query:
 ```
